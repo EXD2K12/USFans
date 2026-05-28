@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>40% Off Shipping — Limited Time</title>
+  <meta name="description" content="Grab 40% off shipping. Limited time offer. Click anywhere on the banner to claim your exclusive registration offer.">
+  <meta name="author" content="USFans">
+  <meta property="og:title" content="40% Off Shipping | USFans">
+  <meta property="og:description" content="Click the banner to unlock 40% off shipping — exclusive registration link.">
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <!-- Preload & Fonts -->
+  <link rel="preload" as="image" href="images/usfans-wzr06cld.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* reset & base — inspired by original aesthetic but cleaned */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --font-sans: 'Inter', sans-serif;
+      --font-display: 'Cormorant Garamond', serif;
+      --background: oklch(13% 0.02 25);
+      --foreground: oklch(97% 0.01 20);
+      --muted-foreground: oklch(70% 0.03 25);
+      --ember: oklch(62% 0.26 25);
+      --ember-glow: oklch(70% 0.28 22);
+      --border-glow: oklch(62% 0.26 25 / 0.4);
+    }
+
+    body {
+      background-color: var(--background);
+      color: var(--foreground);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .relative {
+      position: relative;
+    }
+
+    .min-h-screen {
+      min-height: 100vh;
+    }
+
+    .overflow-hidden {
+      overflow: hidden;
+    }
+
+    /* ambient gradient layers */
+    .bg-radial-glow {
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 20% 20%, oklch(0.3 0.15 25 / 0.35), transparent 55%),
+                  radial-gradient(ellipse at 80% 80%, oklch(0.25 0.18 22 / 0.3), transparent 60%);
+    }
+
+    .noise-overlay {
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      opacity: 0.04;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' /%3E%3C/svg%3E");
+    }
+
+    /* snowflakes (preserved for atmosphere) */
+    .snowflakes-container {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .snowflake {
+      filter: blur(0.5px);
+      pointer-events: none;
+      background: radial-gradient(circle, #ff6266e6, #d4092400);
+      border-radius: 9999px;
+      animation: linear infinite snowfall;
+      position: absolute;
+      top: 0;
+    }
+
+    @keyframes snowfall {
+      0% {
+        opacity: 0;
+        transform: translateY(-10vh) translate(0);
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 0.8;
+      }
+      to {
+        transform: translateY(110vh) translate(var(--drift, 20px));
+        opacity: 0;
+      }
+    }
+
+    /* shimmer animation for discount text */
+    @keyframes shimmer {
+      0% {
+        background-position: -200%;
+      }
+      to {
+        background-position: 200%;
+      }
+    }
+
+    .shimmer-text {
+      -webkit-text-fill-color: transparent;
+      background: linear-gradient(90deg, #fa002a, #ff303c, #ff474c 12.5%, #ff7a75 25%, #ffb7b3, #ff7a75 75%, #ff474c 87.5%, #ff303c, #fa002a) 0 0 / 200%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      animation: 3s linear infinite shimmer;
+    }
+
+    /* MAIN BUTTON — the whole promo bar is one interactive element */
+    .promo-link-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1), filter 0.2s;
+      outline: none;
+    }
+
+    .promo-link-button:focus-visible {
+      outline: 2px solid oklch(0.7 0.28 22);
+      outline-offset: 4px;
+      border-radius: 60px;
+    }
+
+    .promo-link-button:hover {
+      transform: scale(1.02);
+    }
+
+    .promo-bar-inner {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem 2rem;
+      border-radius: 9999px;
+      padding: 0.9rem 2.2rem;
+      backdrop-filter: blur(28px);
+      background: linear-gradient(90deg, oklch(0.18 0.04 25 / 0.98), oklch(1 0 0 / 0.08), oklch(0.18 0.04 25 / 0.98));
+      box-shadow: 0 0 0 1px var(--border-glow), 0 0 18px oklch(0.62 0.26 25 / 0.25), 0 0 55px oklch(0.62 0.26 25 / 0.2);
+      transition: box-shadow 0.3s ease, background 0.2s;
+    }
+
+    .promo-link-button:hover .promo-bar-inner {
+      box-shadow: 0 0 0 1px oklch(0.7 0.28 22 / 0.7), 0 0 28px oklch(0.62 0.26 25 / 0.45), 0 0 75px oklch(0.62 0.26 25 / 0.3);
+      background: linear-gradient(90deg, oklch(0.2 0.05 25 / 1), oklch(1 0 0 / 0.1), oklch(0.2 0.05 25 / 1));
+    }
+
+    .glow-overlay {
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      border-radius: 9999px;
+      background: radial-gradient(circle, oklch(0.62 0.26 25 / 0.5), transparent 70%);
+      opacity: 0.6;
+      transition: opacity 0.4s;
+    }
+
+    .promo-link-button:hover .glow-overlay {
+      opacity: 0.9;
+    }
+
+    /* Text group inside button */
+    .promo-text-group {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.6rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--foreground);
+    }
+
+    .discount-text {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: normal;
+      background: linear-gradient(135deg, #ffb7b3, #ff7a75, #ff474c);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 6px rgba(255, 70, 70, 0.4);
+    }
+
+    .separator {
+      width: 1px;
+      height: 24px;
+      background-color: oklch(0.62 0.26 25 / 0.5);
+      margin: 0 6px;
+    }
+
+    .badge-limited {
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      color: var(--muted-foreground);
+      font-weight: 500;
+    }
+
+    .action-hint {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: oklch(0.62 0.26 25 / 0.22);
+      padding: 0.55rem 1.3rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ember-glow);
+      transition: background 0.2s, transform 0.2s;
+      backdrop-filter: blur(4px);
+    }
+
+    .promo-link-button:hover .action-hint {
+      background: oklch(0.62 0.26 25 / 0.38);
+    }
+
+    .arrow-icon {
+      display: inline-block;
+      font-size: 1.2rem;
+      transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+    }
+
+    .promo-link-button:hover .arrow-icon {
+      transform: translateX(6px);
+    }
+
+    /* Logo area */
+    .logo-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      padding: 3rem 1rem 2rem;
+    }
+
+    .logo-img {
+      width: 96px;
+      height: 96px;
+      border-radius: 1.5rem;
+      object-fit: contain;
+      filter: drop-shadow(0 0 24px oklch(0.62 0.26 25 / 0.5));
+      transition: filter 0.3s;
+    }
+
+    @media (min-width: 640px) {
+      .promo-text-group {
+        font-size: 1rem;
+      }
+      .discount-text {
+        font-size: 1.9rem;
+      }
+      .action-hint {
+        font-size: 0.85rem;
+        padding: 0.6rem 1.6rem;
+      }
+    }
+
+    /* utility */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+  </style>
+</head>
+<body>
+  <main class="relative min-h-screen overflow-hidden bg-background">
+    <!-- background layers -->
+    <div class="bg-radial-glow"></div>
+    <div class="noise-overlay"></div>
+
+    <!-- snowfall ambiance (reduced but festive) -->
+    <div class="snowflakes-container" aria-hidden="true">
+      <span class="snowflake" style="left:0.62%;width:1.9px;height:1.9px;animation-duration:10.3s;animation-delay:-2.4s;opacity:0.62;--drift:32px"></span>
+      <span class="snowflake" style="left:36.9%;width:2.15px;height:2.15px;animation-duration:8.38s;animation-delay:-0.38s;opacity:0.6;--drift:-17px"></span>
+      <span class="snowflake" style="left:33.36%;width:2.96px;height:2.96px;animation-duration:8.51s;animation-delay:-3.7s;opacity:0.45;--drift:10px"></span>
+      <span class="snowflake" style="left:80.26%;width:3.01px;height:3.01px;animation-duration:9.63s;animation-delay:-8.24s;opacity:0.87;--drift:12.8px"></span>
+      <span class="snowflake" style="left:92.7%;width:3.91px;height:3.91px;animation-duration:7.31s;animation-delay:-1.18s;opacity:0.63;--drift:13.9px"></span>
+      <span class="snowflake" style="left:66.09%;width:5.22px;height:5.22px;animation-duration:11.41s;animation-delay:-0.65s;opacity:0.65;--drift:38px"></span>
+      <span class="snowflake" style="left:66.84%;width:2.83px;height:2.83px;animation-duration:10.01s;animation-delay:-7.3s;opacity:0.64;--drift:48.8px"></span>
+      <span class="snowflake" style="left:4.36%;width:4.89px;height:4.89px;animation-duration:12.26s;animation-delay:-0.46s;opacity:0.78;--drift:27.3px"></span>
+      <span class="snowflake" style="left:62.55%;width:4.22px;height:4.22px;animation-duration:9.12s;animation-delay:-0.27s;opacity:0.55;--drift:-51.4px"></span>
+      <span class="snowflake" style="left:16.53%;width:2.2px;height:2.2px;animation-duration:10.6s;animation-delay:-3.51s;opacity:0.55;--drift:59.5px"></span>
+      <span class="snowflake" style="left:98.58%;width:4.89px;height:4.89px;animation-duration:13.78s;animation-delay:-9.15s;opacity:0.43;--drift:-57.9px"></span>
+      <span class="snowflake" style="left:71.34%;width:4.66px;height:4.66px;animation-duration:12.45s;animation-delay:-7.06s;opacity:0.67;--drift:-24.5px"></span>
+      <span class="snowflake" style="left:33.9%;width:4.28px;height:4.28px;animation-duration:11.37s;animation-delay:-2.57s;opacity:0.68;--drift:-13.9px"></span>
+      <span class="snowflake" style="left:55.93%;width:3.26px;height:3.26px;animation-duration:13.82s;animation-delay:-8.98s;opacity:0.89;--drift:34px"></span>
+    </div>
+
+    <h1 class="sr-only">40% Off Shipping — Limited Time. Click banner to register with exclusive offer.</h1>
+
+    <div class="logo-section">
+      <img src="images/usfans-wzr06cld.webp" alt="USFans" class="logo-img">
+      
+      <!-- 
+        ENTIRE PROMO BANNER AS A SINGLE BUTTON 
+        Opens the registration link: https://www.usfans.com/register?ref=2TQXNA
+        on click. "target=_blank" opens in new tab for better UX.
+      -->
+      <a href="https://www.usfans.com/register?ref=2TQXNA" 
+         id="exclusive-offer-button" 
+         class="promo-link-button" 
+         target="_blank" 
+         rel="noopener noreferrer"
+         aria-label="Claim 40% off shipping — register at USFans (opens new tab)">
+        <div class="promo-bar-inner">
+          <div class="glow-overlay" aria-hidden="true"></div>
+          <div class="promo-text-group">
+            <span>Grab your</span>
+            <span class="discount-text shimmer-text">40% OFF</span>
+            <span>shipping</span>
+            <div class="separator" aria-hidden="true"></div>
+            <span class="badge-limited">Limited time</span>
+          </div>
+          <div class="action-hint">
+            <span>Register now →</span>
+            <span class="arrow-icon" aria-hidden="true">→</span>
+          </div>
+        </div>
+      </a>
+      <!-- optional micro copy: whole line clickable, no leftover inline sign-up button -->
+    </div>
+
+    <!-- decorative spacer adds breathing room -->
+    <div style="height: 2rem;"></div>
+  </main>
+
+  <script>
+    (function() {
+      // -----------------------------------------------------------------
+      // 1. COMPLETELY REMOVE LOVABLE BADGE & ANY LOVABLE RESIDUALS
+      // -----------------------------------------------------------------
+      const removeLovableElements = () => {
+        const badge = document.getElementById('lovable-badge');
+        if (badge) badge.remove();
+        
+        const allBadges = document.querySelectorAll('[id*="lovable-badge"], .lovable-badge, [class*="lovable-badge"]');
+        allBadges.forEach(el => el.remove());
+        
+        // Also search for potential iframe or injected divs from lovable (sometimes they add overlays)
+        const possibleOverlays = document.querySelectorAll('[data-lovable]');
+        possibleOverlays.forEach(el => el.remove());
+        
+        // Remove lovable-specific style element if leftover
+        const styleEls = document.querySelectorAll('style');
+        styleEls.forEach(style => {
+          if (style.innerText.includes('lovable-badge') || style.innerText.includes('lovable-')) {
+            style.remove();
+          }
+        });
+      };
+      
+      removeLovableElements();
+      
+      // Watch for dynamic injection (paranoid but safe)
+      const observer = new MutationObserver((mutations) => {
+        let shouldClean = false;
+        mutations.forEach(mut => {
+          mut.addedNodes.forEach(node => {
+            if (node.nodeType === 1) {
+              if (node.id === 'lovable-badge' || (node.id && node.id.includes('lovable')) || 
+                  (node.classList && (node.classList.contains('lovable-badge') || node.className?.includes('lovable')))) {
+                shouldClean = true;
+              }
+              if (node.querySelectorAll) {
+                const nested = node.querySelectorAll('#lovable-badge, .lovable-badge, [id*="lovable-badge"]');
+                if (nested.length) shouldClean = true;
+              }
+            }
+          });
+        });
+        if (shouldClean) removeLovableElements();
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+      
+      // -----------------------------------------------------------------
+      // 2. EXTERNAL LINK CONFIGURATION: The button already points to the exact URL
+      //    but we ensure that any accidental default is overwritten.
+      //    The whole promo anchor now opens https://www.usfans.com/register?ref=2TQXNA
+      // -----------------------------------------------------------------
+      const mainButton = document.getElementById('exclusive-offer-button');
+      if (mainButton) {
+        // Ensure the href is exactly the required link (in case of any inline override)
+        const targetUrl = 'https://www.usfans.com/register?ref=2TQXNA';
+        mainButton.setAttribute('href', targetUrl);
+        mainButton.setAttribute('target', '_blank');
+        mainButton.setAttribute('rel', 'noopener noreferrer');
+        
+        // Optional: add a click tracking for analytics, but not required.
+        mainButton.addEventListener('click', (e) => {
+          // just to ensure if someone intercepts, we explicitly enforce opening
+          // The native behavior will open new tab because of target="_blank".
+          // No preventDefault, we want normal flow.
+          // For extra safety, we could log but not needed.
+        });
+      }
+      
+      // Also ensure any other interactive elements that used to be "sign up" inside banner are gone
+      // There is no separate button anymore; the entire line is the button.
+      
+      // -----------------------------------------------------------------
+      // 3. ADDITIONAL POLISH: if the user hovers or clicks, ensure animation feels smooth
+      //    and no lovable overlay pops up.
+      // -----------------------------------------------------------------
+      const styleReset = document.createElement('style');
+      styleReset.textContent = `
+        /* eliminate any lovable residue, iframes or tooltips from lovable */
+        #lovable-badge, .lovable-badge, [data-lovable-badge], [id*="lovable-badge"] {
+          display: none !important;
+          visibility: hidden !important;
+          opacity: 0 !important;
+          pointer-events: none !important;
+          width: 0 !important;
+          height: 0 !important;
+          position: absolute !important;
+        }
+        /* prevent any possible lovable floating cursor */
+        [class*="lovable-cursor"], [id*="lovable-cursor"] {
+          display: none !important;
+        }
+      `;
+      document.head.appendChild(styleReset);
+      
+      // Small enhancement: open external link but also keep user experience, banner stays same.
+      // The entire promo bar acts as a consistent call-to-action button.
+    })();
+  </script>
+</body>
+</html>
