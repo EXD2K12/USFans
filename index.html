@@ -15,10 +15,7 @@
       --font-display: 'Cormorant Garamond', serif;
       --background: oklch(13% 0.02 25);
       --foreground: oklch(97% 0.01 20);
-      --muted-foreground: oklch(70% 0.03 25);
       --ember: oklch(62% 0.26 25);
-      --ember-glow: oklch(70% 0.28 22);
-      --border-glow: oklch(62% 0.26 25 / 0.4);
     }
     body {
       background-color: var(--background);
@@ -27,69 +24,31 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
-    .relative { position: relative; }
-    .min-h-screen { min-height: 100vh; }
-    .overflow-hidden { overflow: hidden; }
-    .bg-radial-glow {
-      pointer-events: none; position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 20% 20%, oklch(0.3 0.15 25 / 0.35), transparent 55%),
-                  radial-gradient(ellipse at 80% 80%, oklch(0.25 0.18 22 / 0.3), transparent 60%);
-    }
-    .noise-overlay {
-      pointer-events: none; position: absolute; inset: 0; opacity: 0.04; mix-blend-mode: overlay;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' /%3E%3C/svg%3E");
-    }
-    .snowflakes-container { pointer-events: none; position: fixed; inset: 0; overflow: hidden; z-index: 2; }
-    .snowflake {
-      filter: blur(0.5px); pointer-events: none;
-      background: radial-gradient(circle, #ff6266e6, #d4092400);
-      border-radius: 9999px; animation: linear infinite snowfall; position: absolute; top: 0;
-    }
-    @keyframes snowfall {
-      0% { opacity: 0; transform: translateY(-10vh) translate(0); }
-      10% { opacity: 1; }
-      90% { opacity: 0.8; }
-      to { transform: translateY(110vh) translate(var(--drift, 20px)); opacity: 0; }
-    }
-    .shimmer-text {
-      -webkit-text-fill-color: transparent;
-      background: linear-gradient(90deg,#fa002a,#ff303c,#ff474c 12.5%,#ff7a75 25%,#ffb7b3,#ff7a75 75%,#ff474c 87.5%,#ff303c,#fa002a) 0 0 / 200%;
-      background-clip: text; -webkit-background-clip: text; animation: 3s linear infinite shimmer;
-    }
     .promo-link-button {
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       width: 100%; max-width: 960px; margin: 0 auto; text-decoration: none; cursor: pointer;
-      transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1), filter 0.2s;
+      transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
     }
     .promo-link-button:hover { transform: scale(1.02); }
     .promo-bar-inner {
       position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
       gap: 1.2rem 2rem; border-radius: 9999px; padding: 0.9rem 2.2rem; backdrop-filter: blur(28px);
       background: linear-gradient(90deg, oklch(0.18 0.04 25 / 0.98), oklch(1 0 0 / 0.08), oklch(0.18 0.04 25 / 0.98));
-      box-shadow: 0 0 0 1px var(--border-glow), 0 0 18px oklch(0.62 0.26 25 / 0.25), 0 0 55px oklch(0.62 0.26 25 / 0.2);
+      box-shadow: 0 0 0 1px oklch(0.62 0.26 25 / 0.4), 0 0 18px oklch(0.62 0.26 25 / 0.25);
     }
     .glow-overlay {
       pointer-events: none; position: absolute; inset: 0; border-radius: 9999px;
       background: radial-gradient(circle, oklch(0.62 0.26 25 / 0.5), transparent 70%); opacity: 0.6;
-    }
-    .promo-text-group {
-      display: flex; align-items: center; flex-wrap: wrap; gap: 0.6rem 1rem;
-      font-size: 0.9rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--foreground);
     }
     .discount-text {
       font-family: var(--font-display); font-size: 1.6rem; font-weight: 700;
       background: linear-gradient(135deg, #ffb7b3, #ff7a75, #ff474c);
       -webkit-background-clip: text; background-clip: text; color: transparent;
     }
-    .action-hint {
-      display: flex; align-items: center; gap: 0.6rem;
-      background: oklch(0.62 0.26 25 / 0.22); padding: 0.55rem 1.3rem; border-radius: 40px;
-      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ember-glow);
-    }
     #google-login-wrapper { position: absolute; top: 1.5rem; right: 1.5rem; z-index: 100; }
     #admin-panel {
       width: 100%; max-width: 960px; margin: 1.2rem auto 2rem; padding: 1.8rem;
-      background: rgba(250, 0, 42, 0.15); border: 1px solid oklch(0.62 0.26 25 / 0.6);
+      background: rgba(250, 0, 42, 0.15); border: 1px solid #ff474c;
       border-radius: 16px; display: none;
     }
     .form-input { width:100%; padding:12px; margin:8px 0; background:rgba(255,255,255,0.08); border:1px solid #ff474c; border-radius:8px; color:white; }
@@ -100,12 +59,12 @@
     <div class="bg-radial-glow"></div>
     <div class="noise-overlay"></div>
     <div class="snowflakes-container" aria-hidden="true">
-      <!-- Snowflakes (dense) -->
+      <!-- Snowflakes -->
       <span class="snowflake" style="left:0.62%;width:1.9px;height:1.9px;animation-duration:10.3s;animation-delay:-2.4s;opacity:0.62;--drift:32px"></span>
-      <!-- ... (other snowflakes remain the same as previous versions) ... -->
+      <!-- More snowflakes can be added if needed -->
     </div>
 
-    <div id="google-login-wrapper" style="margin-top:1.5rem;display:flex;justify-content:center;"></div>
+    <div id="google-login-wrapper"></div>
 
     <!-- ADMIN PANEL -->
     <div id="admin-panel">
@@ -113,7 +72,7 @@
       <input type="text" id="product-link" class="form-input" placeholder="https://www.usfans.com/product/...">
       <input type="text" id="product-name" class="form-input" placeholder="Product Name">
       <div id="qc-drop-zone" style="border:2px dashed #ff474c;padding:25px;margin:15px 0;text-align:center;cursor:pointer;border-radius:12px;">Drop QC Image Here</div>
-      <img id="qc-preview" style="max-width:100%;margin:10px 0;display:none;border-radius:8px;">
+      <img id="qc-preview" style="max-width:100%;margin:10px 0;display:none;">
       <button onclick="submitListing()" style="width:100%;padding:16px;background:#ff474c;color:white;border:none;border-radius:999px;font-weight:700;cursor:pointer;">ADD TO SPREADSHEET</button>
     </div>
 
@@ -182,8 +141,7 @@
       const { error } = await supabase.from('listings').insert([{ link, name }]);
 
       if (error) {
-        console.error(error);
-        alert("Failed to save: " + error.message);
+        alert("Error saving: " + error.message);
       } else {
         console.log("✅ Listing added to Spreadsheet");
         console.log({ link: link, name: name });
@@ -191,7 +149,9 @@
         console.log("2. name: \"" + name + "\"");
         console.log("3. [[Prototype]]: Object");
 
-        alert("✅ Listing successfully saved to Supabase!");
+        alert("✅ Listing successfully saved to Spreadsheet!");
+
+        // Clear fields
         document.getElementById('product-link').value = '';
         document.getElementById('product-name').value = '';
       }
