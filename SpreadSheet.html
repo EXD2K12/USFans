@@ -7,39 +7,77 @@
   <meta name="description" content="View and manage your product listings">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: oklch(13% 0.02 25);
-      color: oklch(97% 0.01 20);
-      min-height: 100vh;
+    
+    :root {
+      --font-sans: 'Inter', sans-serif;
+      --font-display: 'Cormorant Garamond', serif;
+      --background: oklch(13% 0.02 25);
+      --foreground: oklch(97% 0.01 20);
+      --muted-foreground: oklch(70% 0.03 25);
+      --ember: oklch(62% 0.26 25);
+      --ember-glow: oklch(70% 0.28 22);
+      --border-glow: oklch(62% 0.26 25 / 0.4);
     }
 
-    /* Background Effects */
+    body {
+      background-color: var(--background);
+      color: var(--foreground);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Background Effects - Same as main page */
     .bg-radial-glow {
+      pointer-events: none;
       position: fixed;
       inset: 0;
       background: radial-gradient(ellipse at 20% 20%, oklch(0.3 0.15 25 / 0.35), transparent 55%),
                   radial-gradient(ellipse at 80% 80%, oklch(0.25 0.18 22 / 0.3), transparent 60%);
-      pointer-events: none;
       z-index: 0;
     }
 
     .noise-overlay {
+      pointer-events: none;
       position: fixed;
       inset: 0;
       opacity: 0.04;
       mix-blend-mode: overlay;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' /%3E%3C/svg%3E");
-      pointer-events: none;
       z-index: 1;
+    }
+
+    /* Snowflakes */
+    .snowflakes-container {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    .snowflake {
+      filter: blur(0.5px);
+      pointer-events: none;
+      background: radial-gradient(circle, #ff6266e6, #d4092400);
+      border-radius: 9999px;
+      animation: linear infinite snowfall;
+      position: absolute;
+      top: 0;
+    }
+
+    @keyframes snowfall {
+      0% { opacity: 0; transform: translateY(-10vh) translate(0); }
+      10% { opacity: 1; }
+      90% { opacity: 0.8; }
+      to { transform: translateY(110vh) translate(var(--drift, 20px)); opacity: 0; }
     }
 
     /* Main Container */
@@ -48,19 +86,35 @@
       margin: 0 auto;
       padding: 2rem;
       position: relative;
-      z-index: 2;
+      z-index: 3;
     }
 
-    /* Header */
+    /* Header with Promo Bar Style */
     .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
       margin-bottom: 2rem;
-      padding-bottom: 1rem;
-      border-bottom: 2px solid rgba(255, 71, 76, 0.3);
+    }
+
+    .promo-bar-inner {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.2rem 2rem;
+      border-radius: 9999px;
+      padding: 0.9rem 2.2rem;
+      backdrop-filter: blur(28px);
+      background: linear-gradient(90deg, oklch(0.18 0.04 25 / 0.98), oklch(1 0 0 / 0.08), oklch(0.18 0.04 25 / 0.98));
+      box-shadow: 0 0 0 1px var(--border-glow), 0 0 18px oklch(0.62 0.26 25 / 0.25);
+    }
+
+    .glow-overlay {
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      border-radius: 9999px;
+      background: radial-gradient(circle, oklch(0.62 0.26 25 / 0.5), transparent 70%);
+      opacity: 0.6;
     }
 
     .logo-area {
@@ -75,29 +129,68 @@
       border-radius: 12px;
     }
 
-    h1 {
-      font-size: 1.8rem;
-      background: linear-gradient(135deg, #ffb7b3, #ff474c);
+    .title-group h1 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ffb7b3, #ff7a75, #ff474c);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
     }
 
-    .subtitle {
-      color: oklch(70% 0.03 25);
-      font-size: 0.9rem;
-      margin-top: 0.25rem;
+    .title-group p {
+      font-size: 0.8rem;
+      color: var(--muted-foreground);
     }
 
-    /* User Section */
-    .user-section {
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .spreadsheet-btn, .back-btn {
+      background: oklch(0.62 0.26 25 / 0.22);
+      border: 1px solid var(--ember-glow);
+      padding: 0.6rem 1.3rem;
+      border-radius: 40px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--ember-glow);
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .spreadsheet-btn:hover, .back-btn:hover {
+      background: oklch(0.62 0.26 25 / 0.4);
+      transform: scale(1.02);
+    }
+
+    /* Google Login Button Area */
+    .google-login-area {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      z-index: 100;
+    }
+
+    .user-profile {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      z-index: 100;
       display: flex;
       align-items: center;
       gap: 1rem;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
       padding: 0.5rem 1rem;
       border-radius: 60px;
-      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-glow);
     }
 
     .user-avatar {
@@ -112,45 +205,37 @@
     }
 
     .user-name {
+      font-size: 0.85rem;
       font-weight: 600;
-      font-size: 0.9rem;
     }
 
     .user-email {
-      font-size: 0.75rem;
-      color: #ffb7b3;
+      font-size: 0.7rem;
+      color: var(--muted-foreground);
     }
 
-    .logout-btn, .back-btn {
+    .logout-btn {
       background: rgba(255, 71, 76, 0.2);
       border: 1px solid #ff474c;
       color: #ffb7b3;
-      padding: 0.5rem 1rem;
+      padding: 0.4rem 0.8rem;
       border-radius: 40px;
       cursor: pointer;
-      font-size: 0.8rem;
-      transition: all 0.2s;
-      text-decoration: none;
-      display: inline-block;
+      font-size: 0.7rem;
     }
 
-    .logout-btn:hover, .back-btn:hover {
-      background: rgba(255, 71, 76, 0.4);
-      transform: translateY(-1px);
-    }
-
-    /* Stats Bar */
+    /* Stats Cards */
     .stats-bar {
       display: flex;
       gap: 1.5rem;
-      margin-bottom: 2rem;
+      margin: 2rem 0;
       flex-wrap: wrap;
     }
 
     .stat-card {
       background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 71, 76, 0.3);
+      border: 1px solid var(--border-glow);
       border-radius: 20px;
       padding: 1rem 1.5rem;
       flex: 1;
@@ -158,16 +243,17 @@
     }
 
     .stat-label {
-      font-size: 0.8rem;
-      color: #ffb7b3;
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.1em;
     }
 
     .stat-value {
       font-size: 2rem;
       font-weight: 700;
       color: #ff474c;
+      font-family: var(--font-display);
     }
 
     /* Controls */
@@ -189,10 +275,10 @@
       width: 100%;
       padding: 0.75rem 1rem;
       background: rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(255, 71, 76, 0.5);
+      border: 1px solid var(--border-glow);
       border-radius: 40px;
       color: white;
-      font-family: 'Inter', sans-serif;
+      font-family: var(--font-sans);
     }
 
     .search-input:focus {
@@ -207,7 +293,7 @@
 
     .filter-btn {
       background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 71, 76, 0.3);
+      border: 1px solid var(--border-glow);
       padding: 0.5rem 1rem;
       border-radius: 40px;
       cursor: pointer;
@@ -236,7 +322,7 @@
       backdrop-filter: blur(10px);
       border-radius: 20px;
       overflow-x: auto;
-      border: 1px solid rgba(255, 71, 76, 0.2);
+      border: 1px solid var(--border-glow);
     }
 
     table {
@@ -264,7 +350,7 @@
 
     td {
       padding: 1rem;
-      border-bottom: 1px solid rgba(255, 71, 76, 0.1);
+      border-bottom: 1px solid var(--border-glow);
     }
 
     tr:hover {
@@ -298,8 +384,8 @@
       color: white;
     }
 
-    /* Loading State */
-    .loading {
+    /* Loading & Empty States */
+    .loading, .empty-state {
       text-align: center;
       padding: 3rem;
     }
@@ -316,13 +402,6 @@
 
     @keyframes spin {
       to { transform: rotate(360deg); }
-    }
-
-    /* Empty State */
-    .empty-state {
-      text-align: center;
-      padding: 3rem;
-      color: #666;
     }
 
     /* Toast */
@@ -354,32 +433,54 @@
       .stats-bar {
         flex-direction: column;
       }
+      .promo-bar-inner {
+        flex-direction: column;
+        text-align: center;
+      }
     }
   </style>
 </head>
 <body>
   <div class="bg-radial-glow"></div>
   <div class="noise-overlay"></div>
+  <div class="snowflakes-container" aria-hidden="true">
+    <span class="snowflake" style="left:0.62%;width:1.9px;height:1.9px;animation-duration:10.3s;--drift:32px"></span>
+    <span class="snowflake" style="left:36.9%;width:2.15px;animation-duration:8.38s;--drift:-17px"></span>
+    <span class="snowflake" style="left:33.36%;width:2.96px;animation-duration:8.51s;--drift:10px"></span>
+    <span class="snowflake" style="left:72.1%;width:2.2px;animation-duration:9.2s;--drift:-22px"></span>
+    <span class="snowflake" style="left:88%;width:1.6px;animation-duration:7.4s;--drift:18px"></span>
+  </div>
+
+  <!-- Google Login Area -->
+  <div id="google-login-wrapper" class="google-login-area">
+    <div id="google-login-button"></div>
+  </div>
+
+  <!-- User Profile (hidden until logged in) -->
+  <div id="user-profile" class="user-profile" style="display: none;">
+    <div class="user-info">
+      <div id="user-name" class="user-name"></div>
+      <div id="user-email" class="user-email"></div>
+    </div>
+    <img id="user-avatar" class="user-avatar" alt="avatar">
+    <button id="logout-btn" class="logout-btn">Sign Out</button>
+  </div>
 
   <div class="container">
-    <!-- Header -->
+    <!-- Header with Promo Style -->
     <div class="header">
-      <div class="logo-area">
-        <img src="images/usfans-wzr06cld.webp" alt="USFans" class="logo-img">
-        <div>
-          <h1>📊 My Listings Spreadsheet</h1>
-          <div class="subtitle">Manage your products - all listings are saved to Supabase</div>
-        </div>
-      </div>
-      <div style="display: flex; gap: 0.5rem;">
-        <a href="index.html" class="back-btn">← Back to Home</a>
-        <div id="user-section" style="display: none;" class="user-section">
-          <div class="user-info">
-            <div id="user-name" class="user-name"></div>
-            <div id="user-email" class="user-email"></div>
+      <div class="promo-bar-inner">
+        <div class="glow-overlay"></div>
+        <div class="logo-area">
+          <img src="images/usfans-wzr06cld.webp" alt="USFans" class="logo-img">
+          <div class="title-group">
+            <h1>📊 My Spreadsheet</h1>
+            <p>Your personal product listings</p>
           </div>
-          <img id="user-avatar" class="user-avatar" alt="avatar">
-          <button id="logout-btn" class="logout-btn">Sign Out</button>
+        </div>
+        <div class="action-buttons">
+          <a href="index.html" class="back-btn">← Back to Home</a>
+          <button id="refresh-btn" class="spreadsheet-btn">🔄 Refresh</button>
         </div>
       </div>
     </div>
@@ -391,7 +492,7 @@
         <div class="stat-value" id="total-count">0</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Total Products</div>
+        <div class="stat-label">Active Products</div>
         <div class="stat-value" id="product-count">0</div>
       </div>
     </div>
@@ -405,7 +506,6 @@
         <button class="filter-btn active" data-filter="all">All</button>
         <button class="filter-btn" data-filter="recent">Recent (7d)</button>
       </div>
-      <button id="refresh-btn" class="refresh-btn">🔄 Refresh</button>
     </div>
 
     <!-- Table -->
@@ -429,7 +529,7 @@
         </table>
       </div>
       <div id="empty-state" class="empty-state" style="display: none;">
-        <p>📭 No listings found</p>
+        <p>📭 No listings found yet</p>
         <p style="font-size: 0.9rem; margin-top: 0.5rem;">Go back to the home page and add your first product!</p>
       </div>
     </div>
@@ -438,6 +538,7 @@
   <div id="toast" class="toast"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script>
     // Supabase Configuration
     const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
@@ -450,7 +551,6 @@
     let currentSearch = '';
     let currentSort = { column: 'created_at', direction: 'desc' };
 
-    // Helper functions
     function showToast(message, isError = false) {
       const toast = document.getElementById('toast');
       toast.textContent = message;
@@ -462,40 +562,57 @@
       }, 3000);
     }
 
-    // Load user from localStorage
-    function loadUser() {
-      const savedUser = localStorage.getItem('usfans_user');
-      if (savedUser) {
-        try {
-          currentUser = JSON.parse(savedUser);
-          updateUserUI();
-          return true;
-        } catch (e) {
-          console.error('Failed to parse user', e);
-          return false;
-        }
+    // Google Sign-In callback
+    function handleCredentialResponse(response) {
+      try {
+        const decoded = JSON.parse(atob(response.credential.split('.')[1]));
+        currentUser = {
+          id: decoded.sub,
+          email: decoded.email,
+          name: decoded.name,
+          picture: decoded.picture
+        };
+        
+        localStorage.setItem('usfans_user', JSON.stringify(currentUser));
+        updateUIForUser();
+        fetchListings();
+        
+        // Hide Google button, show profile
+        document.getElementById('google-login-wrapper').style.display = 'none';
+        document.getElementById('user-profile').style.display = 'flex';
+        
+        showToast(`Welcome ${currentUser.name}!`);
+      } catch (e) {
+        console.error("Google auth error", e);
+        showToast("Login failed", true);
       }
-      return false;
     }
 
-    // Update user UI
-    function updateUserUI() {
+    function updateUIForUser() {
       if (currentUser) {
         document.getElementById('user-name').textContent = currentUser.name;
         document.getElementById('user-email').textContent = currentUser.email;
         document.getElementById('user-avatar').src = currentUser.picture;
-        document.getElementById('user-section').style.display = 'flex';
-      } else {
-        document.getElementById('user-section').style.display = 'none';
-        // Redirect to home if not logged in
-        showToast('Please sign in first', true);
-        setTimeout(() => {
-          window.location.href = 'index.html';
-        }, 2000);
       }
     }
 
-    // Fetch listings from Supabase (only current user's listings)
+    // Check for existing session
+    function checkExistingSession() {
+      const saved = localStorage.getItem('usfans_user');
+      if (saved) {
+        try {
+          currentUser = JSON.parse(saved);
+          updateUIForUser();
+          document.getElementById('google-login-wrapper').style.display = 'none';
+          document.getElementById('user-profile').style.display = 'flex';
+          fetchListings();
+          return true;
+        } catch(e) {}
+      }
+      return false;
+    }
+
+    // Fetch listings from Supabase
     async function fetchListings() {
       if (!currentUser) return;
 
@@ -520,8 +637,6 @@
           showEmptyState(false);
         }
         
-        showToast(`📋 Loaded ${allListings.length} listings`);
-        
       } catch (error) {
         console.error('Error fetching listings:', error);
         showToast('Failed to load listings: ' + error.message, true);
@@ -532,19 +647,19 @@
 
     // Delete a listing
     async function deleteListing(id, productName) {
-      if (!confirm(`Delete "${productName}"? This action cannot be undone.`)) return;
+      if (!confirm(`Delete "${productName}"? This cannot be undone.`)) return;
       
       try {
         const { error } = await supabase
           .from('listings')
           .delete()
           .eq('id', id)
-          .eq('user_id', currentUser.id); // Extra safety: only delete if belongs to user
+          .eq('user_id', currentUser.id);
 
         if (error) throw error;
 
         showToast(`✅ Deleted "${productName}"`);
-        await fetchListings(); // Refresh the list
+        await fetchListings();
         
       } catch (error) {
         console.error('Error deleting:', error);
@@ -552,18 +667,15 @@
       }
     }
 
-    // Update statistics
     function updateStats() {
       const total = allListings.length;
       document.getElementById('total-count').textContent = total;
       document.getElementById('product-count').textContent = total;
     }
 
-    // Filter and search listings
     function getFilteredListings() {
       let filtered = [...allListings];
       
-      // Apply search
       if (currentSearch) {
         const searchLower = currentSearch.toLowerCase();
         filtered = filtered.filter(item => 
@@ -572,7 +684,6 @@
         );
       }
       
-      // Apply filter
       if (currentFilter === 'recent') {
         const sevenDaysAgo = new Date();
         sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
@@ -582,7 +693,6 @@
         });
       }
       
-      // Apply sorting
       filtered.sort((a, b) => {
         let aVal = a[currentSort.column];
         let bVal = b[currentSort.column];
@@ -603,7 +713,6 @@
       return filtered;
     }
 
-    // Render table
     function renderTable() {
       const filtered = getFilteredListings();
       const tbody = document.getElementById('table-body');
@@ -639,7 +748,6 @@
       `).join('');
     }
 
-    // Helper functions for display
     function escapeHtml(str) {
       if (!str) return '';
       return str.replace(/[&<>]/g, function(m) {
@@ -670,7 +778,6 @@
       return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     }
 
-    // UI State management
     function showLoading(show) {
       document.getElementById('loading-state').style.display = show ? 'block' : 'none';
       document.getElementById('table-content').style.display = show ? 'none' : 'block';
@@ -678,31 +785,23 @@
     
     function showEmptyState(show) {
       document.getElementById('empty-state').style.display = show && allListings.length === 0 ? 'block' : 'none';
-      if (!show || allListings.length > 0) {
-        document.getElementById('empty-state').style.display = 'none';
-      }
     }
 
-    // Logout
     function logout() {
       localStorage.removeItem('usfans_user');
       currentUser = null;
+      document.getElementById('google-login-wrapper').style.display = 'block';
+      document.getElementById('user-profile').style.display = 'none';
+      document.getElementById('table-body').innerHTML = '';
       showToast('Signed out successfully');
-      setTimeout(() => {
-        window.location.href = 'index.html';
-      }, 1000);
     }
 
-    // Event Listeners
     function setupEventListeners() {
-      // Search
-      const searchInput = document.getElementById('search-input');
-      searchInput.addEventListener('input', (e) => {
+      document.getElementById('search-input').addEventListener('input', (e) => {
         currentSearch = e.target.value;
         renderTable();
       });
       
-      // Filter buttons
       document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -712,12 +811,10 @@
         });
       });
       
-      // Refresh
       document.getElementById('refresh-btn').addEventListener('click', () => {
         fetchListings();
       });
       
-      // Sort headers
       document.querySelectorAll('th[data-sort]').forEach(th => {
         th.addEventListener('click', () => {
           const column = th.dataset.sort;
@@ -731,37 +828,36 @@
         });
       });
       
-      // Logout button
       document.getElementById('logout-btn').addEventListener('click', logout);
     }
 
-    // Initialize
-    async function init() {
-      if (!loadUser()) {
-        // No user found, redirect to home
-        showToast('Please sign in to view your listings', true);
-        setTimeout(() => {
-          window.location.href = 'index.html';
-        }, 2000);
-        return;
+    // Initialize Google Sign-In
+    function initGoogleSignIn() {
+      if (window.google?.accounts?.id) {
+        google.accounts.id.initialize({
+          client_id: "215291464454-i5jmqnoalmhrsu89b13pa7gq2nksgkj3.apps.googleusercontent.com",
+          callback: handleCredentialResponse
+        });
+        google.accounts.id.renderButton(document.getElementById("google-login-button"), {
+          theme: "filled_black", size: "large", shape: "pill", width: 260
+        });
+        google.accounts.id.prompt();
       }
-      
-      setupEventListeners();
-      await fetchListings();
-      
-      // Auto-refresh every 30 seconds
-      setInterval(() => {
-        if (currentUser) {
-          fetchListings();
-        }
-      }, 30000);
     }
-    
-    // Make deleteListing available globally for onclick
+
+    // Make deleteListing global
     window.deleteListing = deleteListing;
-    
-    // Start
-    init();
+
+    // Initialize
+    window.addEventListener('load', () => {
+      initGoogleSignIn();
+      setupEventListeners();
+      
+      if (!checkExistingSession()) {
+        showLoading(false);
+        showEmptyState(true);
+      }
+    });
   </script>
 </body>
 </html>
