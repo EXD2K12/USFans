@@ -378,41 +378,24 @@
   const addListingPanel = document.getElementById('add-listing-panel');
   const loginWrapper = document.getElementById('google-login-wrapper');
 
-  // Remove any Lovable badges
   (function removeLovable() {
     const badge = document.getElementById('lovable-badge');
     if (badge) badge.remove();
     document.querySelectorAll('[id*="lovable-badge"], .lovable-badge').forEach(el => el.remove());
   })();
 
-  // ---------- Google Login ----------
   async function handleCredentialResponse(response) {
     const payload = JSON.parse(atob(response.credential.split('.')[1]));
-    const googleUser = {
-      email: payload.email,
-      name: payload.name,
-      picture: payload.picture
-    };
-
+    const googleUser = { email: payload.email, name: payload.name, picture: payload.picture };
     try {
       const { data: user, error } = await supabaseClient
         .from('users')
-        .upsert(
-          { email: googleUser.email, name: googleUser.name, picture: googleUser.picture },
-          { onConflict: 'email' }
-        )
+        .upsert({ email: googleUser.email, name: googleUser.name, picture: googleUser.picture }, { onConflict: 'email' })
         .select()
         .single();
-
       if (error) throw error;
-
-      const usfansUser = {
-        id: user.id,
-        name: user.name,
-        picture: user.picture
-      };
+      const usfansUser = { id: user.id, name: user.name, picture: user.picture };
       localStorage.setItem('usfans_user', JSON.stringify(usfansUser));
-
       showUserUI(usfansUser);
     } catch (err) {
       console.error('Supabase user upsert failed', err);
@@ -432,7 +415,6 @@
     setupDragDrop();
   }
 
-  // ---------- Sign Out ----------
   window.signOut = function() {
     localStorage.removeItem('usfans_user');
     loginWrapper.innerHTML = '<div id="google-login-button"></div>';
@@ -444,7 +426,6 @@
     google.accounts.id.prompt();
   };
 
-  // ---------- Multiple File Drag & Drop ----------
   function setupDragDrop() {
     const dropZone = document.getElementById('qc-drop-zone');
     const previewContainer = document.getElementById('qc-preview-container');
@@ -452,7 +433,6 @@
     input.type = 'file';
     input.accept = 'image/*';
     input.multiple = true;
-
     let selectedFiles = [];
 
     function updatePreview() {
@@ -475,12 +455,7 @@
     }
 
     dropZone.addEventListener('click', () => input.click());
-
-    input.addEventListener('change', () => {
-      selectedFiles = Array.from(input.files);
-      updatePreview();
-    });
-
+    input.addEventListener('change', () => { selectedFiles = Array.from(input.files); updatePreview(); });
     dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
     dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
     dropZone.addEventListener('drop', (e) => {
@@ -489,72 +464,47 @@
       selectedFiles = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
       updatePreview();
     });
-
     window._qcFiles = () => selectedFiles;
   }
 
-  // ---------- Submit Listing ----------
   window.submitListing = async function() {
     const user = JSON.parse(localStorage.getItem('usfans_user'));
-    if (!user) {
-      alert('Please login first');
-      return;
-    }
-
+    if (!user) { alert('Please login first'); return; }
     const link = document.getElementById('product-link').value.trim();
     const name = document.getElementById('product-name').value.trim();
     const files = window._qcFiles ? window._qcFiles() : [];
-
-    if (!link || !name) {
-      alert('Product link and name are required');
-      return;
-    }
-
+    if (!link || !name) { alert('Product link and name are required'); return; }
     let finalLink = link;
     if (!finalLink.includes('ref=2TQXNA')) {
       finalLink += (finalLink.includes('?') ? '&' : '?') + 'ref=2TQXNA';
     }
-
     let qcImageUrls = [];
     for (const file of files) {
       try {
         const fileName = `${user.id}/${Date.now()}-${file.name}`;
         const { data: uploadData, error: uploadError } = await supabaseClient.storage
           .from('qc-images')
-          .upload(fileName, file, {
-            cacheControl: '3600',
-            upsert: false
-          });
-
+          .upload(fileName, file, { cacheControl: '3600', upsert: false });
         if (uploadError) throw uploadError;
-
-        const { data: publicUrlData } = supabaseClient.storage
-          .from('qc-images')
-          .getPublicUrl(fileName);
+        const { data: publicUrlData } = supabaseClient.storage.from('qc-images').getPublicUrl(fileName);
         qcImageUrls.push(publicUrlData.publicUrl);
       } catch (err) {
         console.error('Image upload failed', err);
         alert('Failed to upload one or more images. Continuing without them.');
       }
     }
-
     try {
-      const { error } = await supabaseClient
-        .from('listings')
-        .insert({
-          user_id: user.id,
-          name: name,
-          link: finalLink,
-          qc_image_url: qcImageUrls
-        });
-
+      const { error } = await supabaseClient.from('listings').insert({
+        user_id: user.id,
+        name: name,
+        link: finalLink,
+        qc_image_url: qcImageUrls
+      });
       if (error) throw error;
-
       alert('Listing added successfully!');
       document.getElementById('product-link').value = '';
       document.getElementById('product-name').value = '';
-      // FIXED LINE:
-      document.getElementById('qc-preview-container').innerHTML = '';
+      document.getElementById('qc-preview-container').innerHTML = '';  // ✅ this is the only correct line
       window._qcFiles = null;
     } catch (err) {
       console.error('Insert failed', err);
@@ -562,7 +512,6 @@
     }
   };
 
-  // ---------- Init on load ----------
   window.addEventListener('load', () => {
     google.accounts.id.initialize({
       client_id: "215291464454-i5jmqnoalmhrsu89b13pa7gq2nksgkj3.apps.googleusercontent.com",
@@ -573,12 +522,8 @@
       { theme: "filled_black", size: "large", shape: "pill", width: 260 }
     );
     google.accounts.id.prompt();
-
     const saved = localStorage.getItem('usfans_user');
-    if (saved) {
-      const user = JSON.parse(saved);
-      showUserUI(user);
-    }
+    if (saved) { const user = JSON.parse(saved); showUserUI(user); }
   });
 </script>
 </body>
