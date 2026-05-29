@@ -368,220 +368,218 @@
   </main>
 
   <!-- Google & Supabase -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6Zmtyb3lza3J2eGtkdGZzZXlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwMTczNTMsImV4cCI6MjA5NTU5MzM1M30.jzvCdD3Phi_jS3L0PnCcK6gyeq2D8ZZBVpVfvQ7leKc";
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6Zmtyb3lza3J2eGtkdGZzZXlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwMTczNTMsImV4cCI6MjA5NTU5MzM1M30.jzvCdD3Phi_jS3L0PnCcK6gyeq2D8ZZBVpVfvQ7leKc";
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    const addListingPanel = document.getElementById('add-listing-panel');
-    const loginWrapper = document.getElementById('google-login-wrapper');
+  const addListingPanel = document.getElementById('add-listing-panel');
+  const loginWrapper = document.getElementById('google-login-wrapper');
 
-    // Remove any Lovable badges
-    (function removeLovable() {
-      const badge = document.getElementById('lovable-badge');
-      if (badge) badge.remove();
-      document.querySelectorAll('[id*="lovable-badge"], .lovable-badge').forEach(el => el.remove());
-    })();
+  // Remove any Lovable badges
+  (function removeLovable() {
+    const badge = document.getElementById('lovable-badge');
+    if (badge) badge.remove();
+    document.querySelectorAll('[id*="lovable-badge"], .lovable-badge').forEach(el => el.remove());
+  })();
 
-    // ---------- Google Login ----------
-    async function handleCredentialResponse(response) {
-      const payload = JSON.parse(atob(response.credential.split('.')[1]));
-      const googleUser = {
-        email: payload.email,
-        name: payload.name,
-        picture: payload.picture
-      };
-
-      try {
-        const { data: user, error } = await supabaseClient
-          .from('users')
-          .upsert(
-            { email: googleUser.email, name: googleUser.name, picture: googleUser.picture },
-            { onConflict: 'email' }
-          )
-          .select()
-          .single();
-
-        if (error) throw error;
-
-        const usfansUser = {
-          id: user.id,
-          name: user.name,
-          picture: user.picture
-        };
-        localStorage.setItem('usfans_user', JSON.stringify(usfansUser));
-
-        showUserUI(usfansUser);
-      } catch (err) {
-        console.error('Supabase user upsert failed', err);
-        alert('Login failed - could not save user. Check console.');
-      }
-    }
-
-    function showUserUI(user) {
-      loginWrapper.innerHTML = `
-        <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.06); padding:12px 18px; border-radius:999px; backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.08);">
-          <img src="${user.picture}" style="width:42px; height:42px; border-radius:50%;">
-          <span style="font-weight:700; color:white; font-size:14px;">${user.name}</span>
-          <button onclick="signOut()" class="sign-out-btn">Sign Out</button>
-        </div>
-      `;
-      addListingPanel.style.display = 'block';
-      setupDragDrop();
-    }
-
-    // ---------- Sign Out ----------
-    window.signOut = function() {
-      localStorage.removeItem('usfans_user');
-      loginWrapper.innerHTML = '<div id="google-login-button"></div>';
-      addListingPanel.style.display = 'none';
-      google.accounts.id.renderButton(
-        document.getElementById("google-login-button"),
-        { theme: "filled_black", size: "large", shape: "pill", width: 260 }
-      );
-      google.accounts.id.prompt();
+  // ---------- Google Login ----------
+  async function handleCredentialResponse(response) {
+    const payload = JSON.parse(atob(response.credential.split('.')[1]));
+    const googleUser = {
+      email: payload.email,
+      name: payload.name,
+      picture: payload.picture
     };
 
-    // ---------- Multiple File Drag & Drop ----------
-    function setupDragDrop() {
-      const dropZone = document.getElementById('qc-drop-zone');
-      const previewContainer = document.getElementById('qc-preview-container');
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'image/*';
-      input.multiple = true;
+    try {
+      const { data: user, error } = await supabaseClient
+        .from('users')
+        .upsert(
+          { email: googleUser.email, name: googleUser.name, picture: googleUser.picture },
+          { onConflict: 'email' }
+        )
+        .select()
+        .single();
 
-      let selectedFiles = [];
+      if (error) throw error;
 
-      function updatePreview() {
-        previewContainer.innerHTML = '';
-        selectedFiles.forEach((file) => {
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            img.style.width = '80px';
-            img.style.height = '80px';
-            img.style.objectFit = 'cover';
-            img.style.borderRadius = '8px';
-            img.style.margin = '4px';
-            previewContainer.appendChild(img);
-          };
-          reader.readAsDataURL(file);
-        });
-        previewContainer.style.display = selectedFiles.length ? 'flex' : 'none';
-      }
+      const usfansUser = {
+        id: user.id,
+        name: user.name,
+        picture: user.picture
+      };
+      localStorage.setItem('usfans_user', JSON.stringify(usfansUser));
 
-      dropZone.addEventListener('click', () => input.click());
+      showUserUI(usfansUser);
+    } catch (err) {
+      console.error('Supabase user upsert failed', err);
+      alert('Login failed - could not save user. Check console.');
+    }
+  }
 
-      input.addEventListener('change', () => {
-        selectedFiles = Array.from(input.files);
-        updatePreview();
+  function showUserUI(user) {
+    loginWrapper.innerHTML = `
+      <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.06); padding:12px 18px; border-radius:999px; backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.08);">
+        <img src="${user.picture}" style="width:42px; height:42px; border-radius:50%;">
+        <span style="font-weight:700; color:white; font-size:14px;">${user.name}</span>
+        <button onclick="signOut()" class="sign-out-btn">Sign Out</button>
+      </div>
+    `;
+    addListingPanel.style.display = 'block';
+    setupDragDrop();
+  }
+
+  // ---------- Sign Out ----------
+  window.signOut = function() {
+    localStorage.removeItem('usfans_user');
+    loginWrapper.innerHTML = '<div id="google-login-button"></div>';
+    addListingPanel.style.display = 'none';
+    google.accounts.id.renderButton(
+      document.getElementById("google-login-button"),
+      { theme: "filled_black", size: "large", shape: "pill", width: 260 }
+    );
+    google.accounts.id.prompt();
+  };
+
+  // ---------- Multiple File Drag & Drop ----------
+  function setupDragDrop() {
+    const dropZone = document.getElementById('qc-drop-zone');
+    const previewContainer = document.getElementById('qc-preview-container');
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.multiple = true;
+
+    let selectedFiles = [];
+
+    function updatePreview() {
+      previewContainer.innerHTML = '';
+      selectedFiles.forEach((file) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.style.width = '80px';
+          img.style.height = '80px';
+          img.style.objectFit = 'cover';
+          img.style.borderRadius = '8px';
+          img.style.margin = '4px';
+          previewContainer.appendChild(img);
+        };
+        reader.readAsDataURL(file);
       });
-
-      dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
-      dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-      dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('dragover');
-        selectedFiles = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
-        updatePreview();
-      });
-
-      // Expose files for submit
-      window._qcFiles = () => selectedFiles;
+      previewContainer.style.display = selectedFiles.length ? 'flex' : 'none';
     }
 
-    // ---------- Submit Listing ----------
-    window.submitListing = async function() {
-      const user = JSON.parse(localStorage.getItem('usfans_user'));
-      if (!user) {
-        alert('Please login first');
-        return;
-      }
+    dropZone.addEventListener('click', () => input.click());
 
-      const link = document.getElementById('product-link').value.trim();
-      const name = document.getElementById('product-name').value.trim();
-      const files = window._qcFiles ? window._qcFiles() : [];
+    input.addEventListener('change', () => {
+      selectedFiles = Array.from(input.files);
+      updatePreview();
+    });
 
-      if (!link || !name) {
-        alert('Product link and name are required');
-        return;
-      }
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      selectedFiles = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+      updatePreview();
+    });
 
-      let finalLink = link;
-      if (!finalLink.includes('ref=2TQXNA')) {
-        finalLink += (finalLink.includes('?') ? '&' : '?') + 'ref=2TQXNA';
-      }
+    window._qcFiles = () => selectedFiles;
+  }
 
-      // Upload all images
-      let qcImageUrls = [];
-      for (const file of files) {
-        try {
-          const fileName = `${user.id}/${Date.now()}-${file.name}`;
-          const { data: uploadData, error: uploadError } = await supabaseClient.storage
-            .from('qc-images')
-            .upload(fileName, file, {
-              cacheControl: '3600',
-              upsert: false
-            });
+  // ---------- Submit Listing ----------
+  window.submitListing = async function() {
+    const user = JSON.parse(localStorage.getItem('usfans_user'));
+    if (!user) {
+      alert('Please login first');
+      return;
+    }
 
-          if (uploadError) throw uploadError;
+    const link = document.getElementById('product-link').value.trim();
+    const name = document.getElementById('product-name').value.trim();
+    const files = window._qcFiles ? window._qcFiles() : [];
 
-          const { data: publicUrlData } = supabaseClient.storage
-            .from('qc-images')
-            .getPublicUrl(fileName);
-          qcImageUrls.push(publicUrlData.publicUrl);
-        } catch (err) {
-          console.error('Image upload failed', err);
-          alert('Failed to upload one or more images. Continuing without them.');
-        }
-      }
+    if (!link || !name) {
+      alert('Product link and name are required');
+      return;
+    }
 
+    let finalLink = link;
+    if (!finalLink.includes('ref=2TQXNA')) {
+      finalLink += (finalLink.includes('?') ? '&' : '?') + 'ref=2TQXNA';
+    }
+
+    let qcImageUrls = [];
+    for (const file of files) {
       try {
-        const { error } = await supabaseClient
-          .from('listings')
-          .insert({
-            user_id: user.id,
-            name: name,
-            link: finalLink,
-            qc_image_url: qcImageUrls  // array → jsonb
+        const fileName = `${user.id}/${Date.now()}-${file.name}`;
+        const { data: uploadData, error: uploadError } = await supabaseClient.storage
+          .from('qc-images')
+          .upload(fileName, file, {
+            cacheControl: '3600',
+            upsert: false
           });
 
-        if (error) throw error;
+        if (uploadError) throw uploadError;
 
-        alert('Listing added successfully!');
-        document.getElementById('product-link').value = '';
-        document.getElementById('product-name').value = '';
-        // Reset preview correctly
-        document.getElementById('qc-preview-container').innerHTML = '';
-        window._qcFiles = null;
+        const { data: publicUrlData } = supabaseClient.storage
+          .from('qc-images')
+          .getPublicUrl(fileName);
+        qcImageUrls.push(publicUrlData.publicUrl);
       } catch (err) {
-        console.error('Insert failed', err);
-        alert('Failed to add listing: ' + err.message);
+        console.error('Image upload failed', err);
+        alert('Failed to upload one or more images. Continuing without them.');
       }
-    };
+    }
 
-    // ---------- Init on load ----------
-    window.addEventListener('load', () => {
-      google.accounts.id.initialize({
-        client_id: "215291464454-i5jmqnoalmhrsu89b13pa7gq2nksgkj3.apps.googleusercontent.com",
-        callback: handleCredentialResponse
-      });
-      google.accounts.id.renderButton(
-        document.getElementById("google-login-button"),
-        { theme: "filled_black", size: "large", shape: "pill", width: 260 }
-      );
-      google.accounts.id.prompt();
+    try {
+      const { error } = await supabaseClient
+        .from('listings')
+        .insert({
+          user_id: user.id,
+          name: name,
+          link: finalLink,
+          qc_image_url: qcImageUrls
+        });
 
-      const saved = localStorage.getItem('usfans_user');
-      if (saved) {
-        const user = JSON.parse(saved);
-        showUserUI(user);
-      }
+      if (error) throw error;
+
+      alert('Listing added successfully!');
+      document.getElementById('product-link').value = '';
+      document.getElementById('product-name').value = '';
+      // FIXED LINE:
+      document.getElementById('qc-preview-container').innerHTML = '';
+      window._qcFiles = null;
+    } catch (err) {
+      console.error('Insert failed', err);
+      alert('Failed to add listing: ' + err.message);
+    }
+  };
+
+  // ---------- Init on load ----------
+  window.addEventListener('load', () => {
+    google.accounts.id.initialize({
+      client_id: "215291464454-i5jmqnoalmhrsu89b13pa7gq2nksgkj3.apps.googleusercontent.com",
+      callback: handleCredentialResponse
     });
-  </script>
+    google.accounts.id.renderButton(
+      document.getElementById("google-login-button"),
+      { theme: "filled_black", size: "large", shape: "pill", width: 260 }
+    );
+    google.accounts.id.prompt();
+
+    const saved = localStorage.getItem('usfans_user');
+    if (saved) {
+      const user = JSON.parse(saved);
+      showUserUI(user);
+    }
+  });
+</script>
 </body>
 </html>
