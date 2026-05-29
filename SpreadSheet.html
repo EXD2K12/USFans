@@ -1,399 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>USFans Spreadsheet — My Listings</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spreadsheet</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box;}
-
-    :root{
-      --font-sans:'Inter',sans-serif;
-      --font-display:'Cormorant Garamond',serif;
-      --background:#0f0f10;
-      --foreground:#ffffff;
-      --muted:#b3b3b3;
-      --accent:#ff474c;
-      --accent2:#ff7a75;
-    }
-
-    body{
-      background:var(--background);
-      color:var(--foreground);
-      font-family:var(--font-sans);
-      min-height:100vh;
-      overflow-x:hidden;
-    }
-
-    .bg-radial-glow{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(255,71,76,0.18), transparent 40%),
-        radial-gradient(circle at 80% 80%, rgba(255,71,76,0.14), transparent 40%);
-    }
-
-    .logo-section{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:2rem;
-      padding:2rem 1rem;
-      position:relative;
-      z-index:2;
-    }
-
-    .logo-img{
-      width:96px;
-      height:96px;
-      border-radius:24px;
-      object-fit:contain;
-    }
-
-    .promo-link-button{
-      width:100%;
-      max-width:900px;
-      text-decoration:none;
-      transition:.25s;
-    }
-
-    .promo-link-button:hover{transform:scale(1.02);}
-
-    .promo-bar-inner{
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      gap:1rem;
-      padding:1rem 2rem;
-      border-radius:999px;
-      background:rgba(255,255,255,0.05);
-      border:1px solid rgba(255,255,255,0.08);
-      backdrop-filter:blur(20px);
-    }
-
-    .promo-text-group{
-      display:flex;
-      align-items:center;
-      gap:0.7rem;
-      text-transform:uppercase;
-      letter-spacing:0.12em;
-      font-weight:700;
-    }
-
-    .discount-text{
-      font-family:var(--font-display);
-      font-size:1.6rem;
-      background:linear-gradient(90deg,#ffb7b3,#ff474c,#ff7a75);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-    }
-
-    .action-hint{
-      background:rgba(255,71,76,0.15);
-      padding:0.6rem 1.2rem;
-      border-radius:999px;
-      color:#ffb7b3;
-      font-size:0.8rem;
-      font-weight:700;
-      text-transform:uppercase;
-    }
-
-    .spreadsheet-container{
-      max-width:1400px;
-      margin:0 auto 4rem;
-      padding:0 1rem;
-      position:relative;
-      z-index:2;
-    }
-
-    .table-header{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      flex-wrap:wrap;
-      gap:1rem;
-      margin-bottom:1.5rem;
-    }
-
-    .table-title{
-      font-family:var(--font-display);
-      font-size:2rem;
-      background:linear-gradient(90deg,#ffb7b3,#ff474c);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-    }
-
-    .stats-badge{
-      background:rgba(255,71,76,0.15);
-      border:1px solid rgba(255,71,76,0.3);
-      padding:0.6rem 1rem;
-      border-radius:999px;
-    }
-
-    .search-input{
-      width:100%;
-      max-width:320px;
-      padding:0.9rem 1rem;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.05);
-      color:white;
-      margin-bottom:1.5rem;
-    }
-
-    .table-wrapper{
-      background:rgba(255,255,255,0.04);
-      border:1px solid rgba(255,255,255,0.08);
-      border-radius:24px;
-      overflow:hidden;
-      overflow-x:auto;
-      backdrop-filter:blur(20px);
-    }
-
-    table{width:100%;border-collapse:collapse;}
-
-    thead{background:rgba(255,71,76,0.08);}
-
-    th{
-      padding:1rem;
-      text-align:left;
-      color:#ffb7b3;
-      cursor:pointer;
-    }
-
-    td{
-      padding:1rem;
-      border-top:1px solid rgba(255,255,255,0.05);
-    }
-
-    tr:hover{background:rgba(255,71,76,0.05);}
-
-    .product-link{color:#ff7a75;text-decoration:none;}
-
-    .delete-btn{
-      background:rgba(255,71,76,0.15);
-      border:1px solid #ff474c;
-      color:#ff474c;
-      padding:0.4rem 0.8rem;
-      border-radius:999px;
-      cursor:pointer;
-    }
-
-    .delete-btn:hover{
-      background:#ff474c;
-      color:white;
-    }
-
-    .loading,.empty-state{
-      padding:3rem;
-      text-align:center;
-      color:var(--muted);
-    }
-
-    .spinner{
-      width:40px;
-      height:40px;
-      border:3px solid rgba(255,71,76,0.2);
-      border-top-color:#ff474c;
-      border-radius:50%;
-      margin:0 auto 1rem;
-      animation:spin .8s linear infinite;
-    }
-
-    @keyframes spin{
-      to{transform:rotate(360deg);}
-    }
-
-    .toast{
-      position:fixed;
-      bottom:2rem;
-      left:50%;
-      transform:translateX(-50%);
-      background:#18181b;
-      border-left:4px solid #ff474c;
-      padding:0.8rem 1.3rem;
-      border-radius:999px;
-      opacity:0;
-      transition:.3s;
-      z-index:9999;
-    }
-  </style>
+<style>
+body{background:#0f0f10;color:white;font-family:Inter;}
+table{width:100%;border-collapse:collapse;}
+td,th{padding:10px;border-bottom:1px solid #333;}
+img{width:60px;border-radius:8px;}
+button{background:red;color:white;border:none;padding:5px 10px;border-radius:6px;}
+</style>
 </head>
 
 <body>
 
-<div class="bg-radial-glow"></div>
+<h2>My Listings</h2>
 
-<div class="logo-section">
-  <img src="images/usfans-wzr06cld.webp" class="logo-img">
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Link</th>
+<th>Image</th>
+<th>Action</th>
+</tr>
+</thead>
 
-  <a href="index.html" class="promo-link-button">
-    <div class="promo-bar-inner">
-      <div class="promo-text-group">
-        <span>← Back To</span>
-        <span class="discount-text">HOME</span>
-      </div>
-      <div class="action-hint">Return</div>
-    </div>
-  </a>
-</div>
-
-<div class="spreadsheet-container">
-
-  <div class="table-header">
-    <h2 class="table-title">📋 My Product Listings</h2>
-    <div class="stats-badge" id="listing-count">Loading...</div>
-  </div>
-
-  <input type="text" id="search-input" class="search-input" placeholder="🔍 Search listings...">
-
-  <div class="table-wrapper">
-
-    <div id="loading-state" class="loading">
-      <div class="spinner"></div>
-      <p>Loading listings...</p>
-    </div>
-
-    <div id="table-content" style="display:none;">
-      <table>
-        <thead>
-          <tr>
-            <th onclick="sortTable('name')">Product ↕</th>
-            <th>Link</th>
-            <th onclick="sortTable('created_at')">Date ↕</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-
-        <tbody id="table-body"></tbody>
-      </table>
-    </div>
-
-    <div id="empty-state" class="empty-state" style="display:none;">
-      <p>📭 No listings found</p>
-    </div>
-
-  </div>
-</div>
-
-<div id="toast" class="toast"></div>
+<tbody id="body"></tbody>
+</table>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
-const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
+const SUPABASE_URL="https://fzfkroyskrvxkdtfseyl.supabase.co";
+const SUPABASE_KEY="YOUR_KEY_HERE";
 
-/* 🔥 FIX: put your REAL anon key here */
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6Zmtyb3lza3J2eGtkdGZzZXlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwMTczNTMsImV4cCI6MjA5NTU5MzM1M30.jzvCdD3Phi_jS3L0PnCcK6gyeq2D8ZZBVpVfvQ7leKc";
+const supabaseClient=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-const supabaseClient = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY
-);
+const ADMIN_EMAILS=["YOUR_EMAIL@gmail.com"];
 
-let currentUser=null;
-let allListings=[];
-let currentSort={column:"created_at",direction:"desc"};
-let currentSearch="";
+let user=JSON.parse(localStorage.getItem("user"));
 
-function showToast(msg,error=false){
-  const t=document.getElementById("toast");
-  t.textContent=msg;
-  t.style.borderLeftColor=error?"#ff474c":"#4dff88";
-  t.style.opacity="1";
-  setTimeout(()=>t.style.opacity="0",3000);
+async function load(){
+
+const {data}=await supabaseClient
+.from("listings")
+.select("*");
+
+document.getElementById("body").innerHTML=data.map(x=>`
+<tr>
+<td>${x.name}</td>
+<td><a href="${x.link}" target="_blank">link</a></td>
+<td>${x.image?`<img src="${x.image}">`:"-"}</td>
+<td>
+<button onclick="del('${x.id}','${x.user_email}')">Delete</button>
+</td>
+</tr>
+`).join("");
+
 }
 
-function loadUser(){
-  const saved=localStorage.getItem("usfans_user");
-  if(!saved) return false;
-  currentUser=JSON.parse(saved);
-  return true;
+window.del=async(id,email)=>{
+
+if(!user) return;
+
+if(user.email!==email && !ADMIN_EMAILS.includes(user.email)){
+alert("no permission");
+return;
 }
 
-async function fetchListings(){
-  if(!currentUser) return;
+await supabaseClient
+.from("listings")
+.delete()
+.eq("id",id);
 
-  const {data,error}=await supabaseClient
-    .from("listings")
-    .select("*")
-    .eq("user_id",currentUser.id)
-    .order("created_at",{ascending:false});
+load();
+};
 
-  if(error) return showToast(error.message,true);
-
-  allListings=data||[];
-
-  document.getElementById("listing-count").textContent=
-    `📊 ${allListings.length}`;
-
-  document.getElementById("loading-state").style.display="none";
-
-  renderTable();
-  document.getElementById("table-content").style.display="block";
-}
-
-async function deleteListing(id){
-  const {error}=await supabaseClient
-    .from("listings")
-    .delete()
-    .eq("id",id)
-    .eq("user_id",currentUser.id);
-
-  if(error) return showToast(error.message,true);
-
-  showToast("Deleted");
-  fetchListings();
-}
-
-function renderTable(){
-
-  let list=[...allListings];
-
-  if(currentSearch){
-    const s=currentSearch.toLowerCase();
-    list=list.filter(x=>
-      (x.name||"").toLowerCase().includes(s)||
-      (x.link||"").toLowerCase().includes(s)
-    );
-  }
-
-  document.getElementById("table-body").innerHTML=
-    list.map(item=>`
-      <tr>
-        <td><strong>${item.name||""}</strong></td>
-        <td><a href="${item.link}" target="_blank" class="product-link">link</a></td>
-        <td>${new Date(item.created_at).toLocaleDateString()}</td>
-        <td>
-          <button class="delete-btn" onclick="deleteListing('${item.id}')">
-            Delete
-          </button>
-        </td>
-      </tr>
-    `).join("");
-}
-
-document.getElementById("search-input").addEventListener("input",e=>{
-  currentSearch=e.target.value;
-  renderTable();
-});
-
-window.deleteListing=deleteListing;
-
-if(!loadUser()){
-  showToast("Login first",true);
-  setTimeout(()=>location.href="index.html",1500);
-}else{
-  fetchListings();
-}
+load();
 
 </script>
 
