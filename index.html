@@ -380,7 +380,9 @@
           <div class="action-hint"><span>Register now →</span></div>
         </div>
       </a>
-      <a href="/SpreadSheet" id="spreadsheet-button" class="promo-link-button" style="margin-top:1rem;" target="_blank" rel="noopener noreferrer">
+
+      <!-- CHANGED: removed target="_blank" so it opens in same tab -->
+      <a href="/SpreadSheet" id="spreadsheet-button" class="promo-link-button" style="margin-top:1rem;">
         <div class="promo-bar-inner">
           <div class="glow-overlay"></div>
           <div class="promo-text-group">
@@ -510,7 +512,6 @@
 
       if (!link || !name) { alert('Product link and name are required'); return; }
 
-      // Alert if no images were selected (optional but helpful)
       if (files.length === 0) {
         alert('No images selected. The listing will be added without QC pictures.');
       }
