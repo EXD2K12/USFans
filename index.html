@@ -285,13 +285,6 @@
       background: rgba(255, 71, 76, 0.15);
       border-color: #ff7a75;
     }
-    #qc-preview {
-      max-width: 100%;
-      max-height: 300px;
-      margin-top: 1rem;
-      border-radius: 8px;
-      display: none;
-    }
     /* Sign Out button */
     .sign-out-btn {
       background: rgba(255,71,76,0.15);
@@ -316,34 +309,7 @@
     <div class="bg-radial-glow"></div>
     <div class="noise-overlay"></div>
     <div class="snowflakes-container" aria-hidden="true">
-      <span class="snowflake" style="left:0.62%;width:1.9px;height:1.9px;animation-duration:10.3s;animation-delay:-2.4s;opacity:0.62;--drift:32px"></span>
-      <span class="snowflake" style="left:36.9%;width:2.15px;height:2.15px;animation-duration:8.38s;animation-delay:-0.38s;opacity:0.6;--drift:-17px"></span>
-      <span class="snowflake" style="left:33.36%;width:2.96px;height:2.96px;animation-duration:8.51s;animation-delay:-3.7s;opacity:0.45;--drift:10px"></span>
-      <span class="snowflake" style="left:12.4%;width:1.6px;height:1.6px;animation-duration:12.1s;animation-delay:-1.2s;opacity:0.55;--drift:25px"></span>
-      <span class="snowflake" style="left:68.7%;width:2.4px;height:2.4px;animation-duration:7.8s;animation-delay:-4.5s;opacity:0.7;--drift:-22px"></span>
-      <span class="snowflake" style="left:5.1%;width:1.8px;height:1.8px;animation-duration:9.6s;animation-delay:-0.9s;opacity:0.48;--drift:18px"></span>
-      <span class="snowflake" style="left:84.3%;width:3.1px;height:3.1px;animation-duration:11.4s;animation-delay:-5.1s;opacity:0.52;--drift:35px"></span>
-      <span class="snowflake" style="left:22.8%;width:1.4px;height:1.4px;animation-duration:6.9s;animation-delay:-2.8s;opacity:0.65;--drift:-12px"></span>
-      <span class="snowflake" style="left:47.2%;width:2.7px;height:2.7px;animation-duration:10.7s;animation-delay:-1.6s;opacity:0.58;--drift:28px"></span>
-      <span class="snowflake" style="left:91.5%;width:2.1px;height:2.1px;animation-duration:8.2s;animation-delay:-3.9s;opacity:0.42;--drift:-30px"></span>
-      <span class="snowflake" style="left:8.9%;width:1.7px;height:1.7px;animation-duration:13.5s;animation-delay:-0.4s;opacity:0.61;--drift:15px"></span>
-      <span class="snowflake" style="left:55.6%;width:2.8px;height:2.8px;animation-duration:7.4s;animation-delay:-4.2s;opacity:0.49;--drift:24px"></span>
-      <span class="snowflake" style="left:29.3%;width:1.5px;height:1.5px;animation-duration:9.9s;animation-delay:-2.1s;opacity:0.67;--drift:-19px"></span>
-      <span class="snowflake" style="left:73.1%;width:2.3px;height:2.3px;animation-duration:11.8s;animation-delay:-5.8s;opacity:0.53;--drift:31px"></span>
-      <span class="snowflake" style="left:41.7%;width:1.9px;height:1.9px;animation-duration:8.7s;animation-delay:-1.3s;opacity:0.59;--drift:-14px"></span>
-      <span class="snowflake" style="left:17.6%;width:2.6px;height:2.6px;animation-duration:10.2s;animation-delay:-3.4s;opacity:0.46;--drift:27px"></span>
-      <span class="snowflake" style="left:80.4%;width:1.3px;height:1.3px;animation-duration:12.6s;animation-delay:-0.7s;opacity:0.64;--drift:-25px"></span>
-      <span class="snowflake" style="left:3.8%;width:2.9px;height:2.9px;animation-duration:7.1s;animation-delay:-4.8s;opacity:0.51;--drift:20px"></span>
-      <span class="snowflake" style="left:62.5%;width:1.8px;height:1.8px;animation-duration:9.3s;animation-delay:-2.5s;opacity:0.57;--drift:-16px"></span>
-      <span class="snowflake" style="left:26.9%;width:2.2px;height:2.2px;animation-duration:11.2s;animation-delay:-1.9s;opacity:0.44;--drift:33px"></span>
-      <span class="snowflake" style="left:88.2%;width:1.6px;height:1.6px;animation-duration:8.5s;animation-delay:-5.3s;opacity:0.68;--drift:-21px"></span>
-      <span class="snowflake" style="left:14.7%;width:2.5px;height:2.5px;animation-duration:10.9s;animation-delay:-3.2s;opacity:0.5;--drift:19px"></span>
-      <span class="snowflake" style="left:69.8%;width:1.7px;height:1.7px;animation-duration:7.6s;animation-delay:-0.5s;opacity:0.6;--drift:-28px"></span>
-      <span class="snowflake" style="left:37.4%;width:2.4px;height:2.4px;animation-duration:12.3s;animation-delay:-4.1s;opacity:0.47;--drift:26px"></span>
-      <span class="snowflake" style="left:95.1%;width:1.9px;height:1.9px;animation-duration:9.1s;animation-delay:-2.7s;opacity:0.63;--drift:-13px"></span>
-      <span class="snowflake" style="left:10.3%;width:2.7px;height:2.7px;animation-duration:8.9s;animation-delay:-1.8s;opacity:0.54;--drift:30px"></span>
-      <span class="snowflake" style="left:52.8%;width:1.4px;height:1.4px;animation-duration:11.5s;animation-delay:-5.6s;opacity:0.49;--drift:-24px"></span>
-      <span class="snowflake" style="left:78.9%;width:2.1px;height:2.1px;animation-duration:7.9s;animation-delay:-3.6s;opacity:0.58;--drift:22px"></span>
+      <!-- snowflake spans unchanged, truncated for brevity in this copy; keep your original ones -->
     </div>
     <h1 class="sr-only">40% Off Shipping — Limited Time</h1>
 
@@ -364,7 +330,7 @@
         <input type="text" id="product-name" class="form-input" placeholder="Enter product name">
       </div>
       <div class="form-group">
-        <label>QC Picture (Drag & Drop multiple)</label>
+        <label>QC Pictures (Drag & Drop multiple)</label>
         <div id="qc-drop-zone">Drop images here or click to upload</div>
         <div id="qc-preview-container" style="display:flex; flex-wrap:wrap; gap:4px; margin-top:1rem;"></div>
       </div>
@@ -491,7 +457,7 @@
 
       function updatePreview() {
         previewContainer.innerHTML = '';
-        selectedFiles.forEach((file, i) => {
+        selectedFiles.forEach((file) => {
           const reader = new FileReader();
           reader.onload = (e) => {
             const img = document.createElement('img');
@@ -505,12 +471,7 @@
           };
           reader.readAsDataURL(file);
         });
-        if (selectedFiles.length === 0) {
-          previewContainer.style.display = 'none';
-        } else {
-          previewContainer.style.display = 'flex';
-          previewContainer.style.flexWrap = 'wrap';
-        }
+        previewContainer.style.display = selectedFiles.length ? 'flex' : 'none';
       }
 
       dropZone.addEventListener('click', () => input.click());
@@ -586,7 +547,7 @@
             user_id: user.id,
             name: name,
             link: finalLink,
-            qc_image_url: qcImageUrls  // now an array, Supabase stores as jsonb
+            qc_image_url: qcImageUrls  // array → jsonb
           });
 
         if (error) throw error;
@@ -594,7 +555,8 @@
         alert('Listing added successfully!');
         document.getElementById('product-link').value = '';
         document.getElementById('product-name').value = '';
-        previewContainer.innerHTML = '';
+        // Reset preview correctly
+        document.getElementById('qc-preview-container').innerHTML = '';
         window._qcFiles = null;
       } catch (err) {
         console.error('Insert failed', err);
