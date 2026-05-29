@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>40% Off Shipping — Limited Time</title>
-  <meta name="description" content="Grab 40% off shipping. Limited time offer.">
+  <title>40% Off Shipping — Limited Time | USFans Admin</title>
+  <meta name="description" content="Grab 40% off shipping. Limited time offer. Admin panel for product listings.">
   <meta name="author" content="USFans">
   <link rel="preload" as="image" href="images/usfans-wzr06cld.webp">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -95,21 +95,43 @@
     #google-login-wrapper { position: absolute; top: 1.5rem; right: 1.5rem; z-index: 100; }
     #admin-panel {
       width: 100%; max-width: 960px; margin: 1.2rem auto 2rem; padding: 1.8rem;
-      background: rgba(250, 0, 42, 0.15); border: 1px solid oklch(0.62 0.26 25 / 0.6);
-      border-radius: 16px; display: block; /* Forced visible */
+      background: rgba(250, 0, 42, 0.15); backdrop-filter: blur(4px);
+      border: 1px solid oklch(0.62 0.26 25 / 0.6);
+      border-radius: 32px;
+      display: block;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.3);
     }
-    .form-group { margin-bottom: 1rem; }
-    .form-group label { display: block; margin-bottom: 0.4rem; font-weight: 600; color: #ff7a75; }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #ff7a75; letter-spacing: -0.2px; }
     .form-input {
-      width: 100%; padding: 0.8rem; background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: white;
+      width: 100%; padding: 0.85rem 1rem; background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(255, 71, 76, 0.5); border-radius: 20px; color: white;
+      font-family: var(--font-sans); font-size: 0.95rem; transition: all 0.2s;
     }
+    .form-input:focus { outline: none; border-color: #ff7a75; box-shadow: 0 0 0 2px rgba(255, 71, 76, 0.3); }
     #qc-drop-zone {
-      border: 2px dashed #ff474c; padding: 2rem; text-align: center;
-      border-radius: 12px; cursor: pointer;
+      border: 2px dashed #ff474c; padding: 1.8rem; text-align: center;
+      border-radius: 24px; cursor: pointer; transition: all 0.2s; background: rgba(0,0,0,0.3);
     }
-    #qc-drop-zone.dragover { background: rgba(255, 71, 76, 0.15); border-color: #ff7a75; }
-    #qc-preview { max-width: 100%; max-height: 300px; margin-top: 1rem; border-radius: 8px; display: none; }
+    #qc-drop-zone.dragover { background: rgba(255, 71, 76, 0.2); border-color: #ff7a75; transform: scale(0.99); }
+    #qc-preview { max-width: 100%; max-height: 260px; margin-top: 1rem; border-radius: 20px; display: none; object-fit: contain; background: rgba(0,0,0,0.3); border: 1px solid #ff474c; }
+    .upload-hint { font-size: 0.75rem; color: #ffb7b3; margin-top: 8px; }
+    .btn-submit {
+      width:100%; padding: 1rem; background: linear-gradient(95deg, #ff474c, #e63e42); color:white; border:none;
+      border-radius: 60px; font-weight:800; cursor:pointer; font-size:1rem; letter-spacing:1px;
+      transition: 0.2s; box-shadow: 0 4px 12px rgba(255,71,76,0.3);
+    }
+    .btn-submit:hover { background: linear-gradient(95deg, #ff5a5e, #ff474c); transform: scale(0.98); box-shadow: 0 8px 18px rgba(255,71,76,0.4); }
+    .toast-msg {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: #1a1f2e; backdrop-filter: blur(20px); padding: 12px 28px;
+      border-radius: 60px; border-left: 6px solid #ff474c; color: #ffd9d9;
+      font-weight: 500; z-index: 999; opacity: 0; transition: opacity 0.2s; pointer-events: none;
+      font-size: 0.9rem; box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+    .admin-header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; margin-bottom: 1rem; }
+    .status-badge { background: #ff474c20; padding: 4px 12px; border-radius: 40px; font-size: 0.7rem; border: 1px solid #ff474c60; color: #ffb7b3; }
+    hr { border-color: #ff474c30; margin: 1rem 0; }
   </style>
 </head>
 <body>
@@ -120,33 +142,40 @@
       <span class="snowflake" style="left:0.62%;width:1.9px;height:1.9px;animation-duration:10.3s;animation-delay:-2.4s;opacity:0.62;--drift:32px"></span>
       <span class="snowflake" style="left:36.9%;width:2.15px;height:2.15px;animation-duration:8.38s;animation-delay:-0.38s;opacity:0.6;--drift:-17px"></span>
       <span class="snowflake" style="left:33.36%;width:2.96px;height:2.96px;animation-duration:8.51s;animation-delay:-3.7s;opacity:0.45;--drift:10px"></span>
-      <!-- Add more snowflakes if needed -->
+      <span class="snowflake" style="left:72.1%;width:2.2px;height:2.2px;animation-duration:9.2s;animation-delay:-1.1s;opacity:0.55;--drift:-22px"></span>
+      <span class="snowflake" style="left:88%;width:1.6px;height:1.6px;animation-duration:7.4s;animation-delay:-5s;opacity:0.7;--drift:18px"></span>
     </div>
 
     <h1 class="sr-only">40% Off Shipping — Limited Time</h1>
 
     <!-- Google Login -->
-    <div id="google-login-wrapper" style="margin-top:1.5rem;display:flex;justify-content:center;">
+    <div id="google-login-wrapper">
       <div id="google-login-button"></div>
     </div>
 
-    <!-- Admin Panel (Visible) -->
+    <!-- Admin Panel (Fully Functional) -->
     <div id="admin-panel">
-      <h2 style="color:#ff474c; text-align:center; margin-bottom:1.5rem; font-size:1.4rem;">XyLo BOT - Add New Listing</h2>
+      <div class="admin-header">
+        <h2 style="color:#ff474c; font-size:1.6rem; font-weight:600;">✨ XyLo BOT · New Listing</h2>
+        <div class="status-badge">🟢 Live Sync → Supabase</div>
+      </div>
       <div class="form-group">
-        <label>Product Link</label>
+        <label>🔗 Product Link (affiliate auto-tagged)</label>
         <input type="text" id="product-link" class="form-input" placeholder="https://www.usfans.com/product/...">
       </div>
       <div class="form-group">
-        <label>Product Name</label>
-        <input type="text" id="product-name" class="form-input" placeholder="Enter product name">
+        <label>🏷️ Product Name</label>
+        <input type="text" id="product-name" class="form-input" placeholder="e.g., USFans Hoodie - Limited Drop">
       </div>
       <div class="form-group">
-        <label>Product QC Pics (Drag & Drop)</label>
-        <div id="qc-drop-zone">Drop image here or click to upload</div>
+        <label>📸 Product QC Pics (Drag & Drop optional preview)</label>
+        <div id="qc-drop-zone">📂 Drop image here or click to browse</div>
+        <div class="upload-hint">*Image is only previewed locally — listing data saved to spreadsheet (link + name)</div>
         <img id="qc-preview" alt="Preview">
       </div>
-      <button onclick="submitListing()" style="width:100%; padding:1rem; background:#ff474c; color:white; border:none; border-radius:999px; font-weight:700; cursor:pointer;">ADD TO SPREADSHEET</button>
+      <button id="submitListingBtn" class="btn-submit">➕ ADD TO SPREADSHEET →</button>
+      <hr>
+      <div style="font-size:0.75rem; text-align:center; color:#aaa;">All listings appear in the global SpreadSheet view</div>
     </div>
 
     <div class="logo-section">
@@ -179,61 +208,290 @@
     <div style="height: 2rem;"></div>
   </main>
 
+  <!-- Toast notification -->
+  <div id="custom-toast" class="toast-msg"></div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script>
-    const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_6_2ZEDiDiWI6ShtNGz8DsQ_zpR5A6sF";
+    (function() {
+      // --- FIX: define submitListing as global accessible function, attach event listeners properly ---
+      // Configuration
+      const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
+      const SUPABASE_ANON_KEY = "sb_publishable_6_2ZEDiDiWI6ShtNGz8DsQ_zpR5A6sF";
+      const supabase = window.Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    (function () {
-      // Remove lovable stuff
-      document.querySelectorAll('#lovable-badge, [id*="lovable-badge"], .lovable-badge').forEach(el => el.remove());
-
-      function handleCredentialResponse(response) {
-        const payload = JSON.parse(atob(response.credential.split('.')[1]));
-        const user = { name: payload.name, email: payload.email, picture: payload.picture };
-        localStorage.setItem("google_user", JSON.stringify(user));
+      // Helper: show toast message
+      function showToast(message, isError = false) {
+        const toast = document.getElementById('custom-toast');
+        if (!toast) return;
+        toast.textContent = message;
+        toast.style.backgroundColor = isError ? '#3b141c' : '#1a3324';
+        toast.style.borderLeftColor = isError ? '#ff474c' : '#6bff9b';
+        toast.style.color = '#ffffff';
+        toast.style.opacity = '1';
+        setTimeout(() => {
+          toast.style.opacity = '0';
+        }, 3200);
       }
 
-      window.submitListing = async function() {
-        let link = document.getElementById('product-link').value.trim();
-        const name = document.getElementById('product-name').value.trim();
+      // IMAGE preview & drag & drop (just preview, no upload to supabase)
+      const dropZone = document.getElementById('qc-drop-zone');
+      const fileInput = document.createElement('input');
+      fileInput.type = 'file';
+      fileInput.accept = 'image/*';
+      fileInput.style.display = 'none';
+      document.body.appendChild(fileInput);
+      const previewImg = document.getElementById('qc-preview');
+      let currentImageData = null; // optional but not used for DB
 
-        if (!link || !name) return alert("Please fill both fields");
+      function triggerFileSelect() {
+        fileInput.click();
+      }
 
-        if (!link.includes('ref=2TQXNA')) {
-          link += (link.includes('?') ? '&' : '?') + 'ref=2TQXNA';
+      function handleFile(file) {
+        if (!file || !file.type.startsWith('image/')) {
+          showToast("Please select a valid image file (preview only)", false);
+          return;
         }
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          previewImg.src = e.target.result;
+          previewImg.style.display = 'block';
+          currentImageData = e.target.result;
+          showToast("✅ Image preview ready (not stored in DB)", false);
+        };
+        reader.readAsDataURL(file);
+      }
 
-        const { error } = await supabase.from('listings').insert([{ link, name }]);
+      if (dropZone) {
+        dropZone.addEventListener('click', (e) => {
+          e.preventDefault();
+          triggerFileSelect();
+        });
+        fileInput.addEventListener('change', (e) => {
+          if (fileInput.files && fileInput.files[0]) {
+            handleFile(fileInput.files[0]);
+          }
+        });
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+          dropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          });
+        });
+        dropZone.addEventListener('dragover', () => {
+          dropZone.classList.add('dragover');
+        });
+        dropZone.addEventListener('dragleave', () => {
+          dropZone.classList.remove('dragover');
+        });
+        dropZone.addEventListener('drop', (e) => {
+          dropZone.classList.remove('dragover');
+          const dt = e.dataTransfer;
+          if (dt.files && dt.files.length) {
+            handleFile(dt.files[0]);
+          } else {
+            showToast("Drop a single image file", false);
+          }
+        });
+      }
 
-        if (error) {
-          alert("Error: " + error.message);
-        } else {
-          console.log("✅ Listing added to Spreadsheet");
+      // Actual submitListing logic (renamed to avoid collision but globally exposed)
+      async function submitListingHandler() {
+        let linkInput = document.getElementById('product-link');
+        let nameInput = document.getElementById('product-name');
+        
+        if (!linkInput || !nameInput) {
+          console.error("Input fields missing");
+          showToast("Form elements missing", true);
+          return;
+        }
+        
+        let link = linkInput.value.trim();
+        let name = nameInput.value.trim();
+        
+        if (!link || !name) {
+          showToast("❌ Please fill both Product Link and Product Name", true);
+          return;
+        }
+        
+        // Basic URL validation
+        if (!link.startsWith('http://') && !link.startsWith('https://')) {
+          showToast("⚠️ Please enter a valid product URL starting with http:// or https://", true);
+          return;
+        }
+        
+        // Append ref=2TQXNA if not present
+        try {
+          let urlObj;
+          try {
+            urlObj = new URL(link);
+          } catch (e) {
+            // if invalid URL, still try to manually add? but better safe
+            if (!link.includes('ref=2TQXNA')) {
+              link += (link.includes('?') ? '&' : '?') + 'ref=2TQXNA';
+            }
+          }
+          if (urlObj) {
+            if (!urlObj.searchParams.has('ref')) {
+              urlObj.searchParams.set('ref', '2TQXNA');
+              link = urlObj.toString();
+            } else if (urlObj.searchParams.get('ref') !== '2TQXNA') {
+              // override or keep original? requirement: force ref=2TQXNA
+              urlObj.searchParams.set('ref', '2TQXNA');
+              link = urlObj.toString();
+            }
+          } else {
+            // fallback string method
+            if (!link.includes('ref=2TQXNA')) {
+              link += (link.includes('?') ? '&' : '?') + 'ref=2TQXNA';
+            }
+          }
+        } catch (err) {
+          // manual simple append if parsing fails
+          if (!link.includes('ref=2TQXNA')) {
+            link += (link.includes('?') ? '&' : '?') + 'ref=2TQXNA';
+          }
+        }
+        
+        // Disable button during request to avoid double-submit
+        const submitBtn = document.getElementById('submitListingBtn');
+        const originalText = submitBtn.innerText;
+        submitBtn.innerText = "⏳ SUBMITTING...";
+        submitBtn.disabled = true;
+        
+        try {
+          // Insert into Supabase 'listings' table
+          const { data, error } = await supabase
+            .from('listings')
+            .insert([{ link: link, name: name }]);
+          
+          if (error) {
+            console.error("Supabase insert error:", error);
+            showToast(`❌ Database error: ${error.message}`, true);
+            submitBtn.innerText = originalText;
+            submitBtn.disabled = false;
+            return;
+          }
+          
+          // Success!
+          console.log("✅ Listing added to Spreadsheet via Supabase");
           console.log({ link: link, name: name });
           console.log("1. link: \"" + link + "\"");
           console.log("2. name: \"" + name + "\"");
-          console.log("3. [[Prototype]]: Object");
-
-          alert("✅ Listing successfully saved!");
-          document.getElementById('product-link').value = '';
-          document.getElementById('product-name').value = '';
+          
+          showToast("✅ Listing successfully saved to Spreadsheet!");
+          
+          // Clear fields
+          linkInput.value = '';
+          nameInput.value = '';
+          // optional: keep image preview? but reset preview if you want
+          if (previewImg) {
+            previewImg.style.display = 'none';
+            previewImg.src = '';
+            currentImageData = null;
+          }
+          if (fileInput) fileInput.value = '';
+          
+        } catch (err) {
+          console.error("Unexpected error:", err);
+          showToast(`⚠️ Unexpected error: ${err.message || "Network error"}`, true);
+        } finally {
+          submitBtn.innerText = originalText;
+          submitBtn.disabled = false;
+        }
+      }
+      
+      // CRITICAL: Expose function globally so inline onclick can find it.
+      // The button originally had onclick="submitListing()" but we replace with modern event listener to be rock solid.
+      // However to be extra safe and backward compatible, we attach event listener AND define global function.
+      window.submitListing = submitListingHandler;
+      
+      // Also cleanly attach modern event listener to the button, removing reliance on inline onclick conflict.
+      const attachEvents = () => {
+        const btn = document.getElementById('submitListingBtn');
+        if (btn) {
+          // remove any previous event listeners (clone + replace technique for safety)
+          const newBtn = btn.cloneNode(true);
+          btn.parentNode.replaceChild(newBtn, btn);
+          newBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            submitListingHandler();
+          });
+          // fallback for any legacy inline: ensure that onclick is not overriding
+          newBtn.removeAttribute('onclick');
+        } else {
+          console.warn("submit button not found, will retry");
+        }
+        
+        // Additional input validation helpers (optional)
+        const linkField = document.getElementById('product-link');
+        if (linkField) {
+          linkField.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') submitListingHandler();
+          });
+        }
+        const nameField = document.getElementById('product-name');
+        if (nameField) {
+          nameField.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') submitListingHandler();
+          });
         }
       };
-
+      
+      // Google Login Handler (unchanged but functional)
+      function handleCredentialResponse(response) {
+        try {
+          const payload = JSON.parse(atob(response.credential.split('.')[1]));
+          const user = { name: payload.name, email: payload.email, picture: payload.picture };
+          localStorage.setItem("google_user", JSON.stringify(user));
+          showToast(`👋 Welcome ${user.name || 'User'}! You're signed in.`, false);
+        } catch(e) { console.warn(e); }
+      }
+      
+      // Remove any lovable leftover badges
+      document.querySelectorAll('#lovable-badge, [id*="lovable-badge"], .lovable-badge').forEach(el => el.remove());
+      
+      // Initialize Google Sign-In after load
       window.addEventListener("load", () => {
-        google.accounts.id.initialize({
-          client_id: "215291464454-i5jmqnoalmhrsu89b13pa7gq2nksgkj3.apps.googleusercontent.com",
-          callback: handleCredentialResponse
-        });
-        google.accounts.id.renderButton(document.getElementById("google-login-button"), {
-          theme: "filled_black", size: "large", shape: "pill", width: 260
-        });
-        google.accounts.id.prompt();
+        // Ensure google api exists
+        if (window.google && google.accounts && google.accounts.id) {
+          google.accounts.id.initialize({
+            client_id: "215291464454-i5jmqnoalmhrsu89b13pa7gq2nksgkj3.apps.googleusercontent.com",
+            callback: handleCredentialResponse
+          });
+          const googleBtnDiv = document.getElementById("google-login-button");
+          if (googleBtnDiv) {
+            google.accounts.id.renderButton(googleBtnDiv, {
+              theme: "filled_black", size: "large", shape: "pill", width: 260
+            });
+            google.accounts.id.prompt(); // one-tap
+          } else {
+            console.warn("google login container missing");
+          }
+        } else {
+          console.warn("Google client not loaded yet, but will be async");
+        }
+        
+        // final safety: attach event listeners to button
+        attachEvents();
+        
+        // Also if there's any stray element with onclick="submitListing()" (old button was replaced but we kept clean)
+        // But we have global definition, so safe.
+        console.log("Admin panel ready — submitListing globally defined and event bound");
       });
+      
+      // In case DOM loads earlier, re-run attach for dynamic buttons
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+          attachEvents();
+        });
+      } else {
+        attachEvents();
+      }
+      
+      // Add extra check: Also ensure any manually typed onclick doesn't break? Not needed.
     })();
   </script>
 </body>
