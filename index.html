@@ -93,7 +93,7 @@
     .logo-section { display: flex; flex-direction: column; align-items: center; gap: 2rem; padding: 3rem 1rem 2rem; position: relative; z-index: 3; }
     .logo-img { width: 96px; height: 96px; border-radius: 1.5rem; object-fit: contain; }
 
-    /* Google Login & User Profile */
+    /* Google Login & User Profile - FIXED POSITION */
     .auth-area {
       position: fixed;
       top: 1.5rem;
@@ -107,7 +107,7 @@
       display: flex;
       align-items: center;
       gap: 0.8rem;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.7);
       backdrop-filter: blur(10px);
       padding: 0.4rem 1rem 0.4rem 0.8rem;
       border-radius: 60px;
@@ -131,6 +131,10 @@
       border-radius: 40px;
       cursor: pointer;
       font-size: 0.7rem;
+      transition: all 0.2s;
+    }
+    .logout-btn:hover {
+      background: rgba(255, 71, 76, 0.4);
     }
 
     /* Admin Panel */
@@ -168,11 +172,13 @@
       font-size: 1rem; transition: 0.2s;
     }
     .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-submit:hover:not(:disabled) { transform: scale(0.98); }
     .toast-msg {
       position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
       background: #1a1f2e; backdrop-filter: blur(20px); padding: 12px 28px;
       border-radius: 60px; border-left: 6px solid #ff474c; z-index: 999;
       opacity: 0; transition: opacity 0.2s; pointer-events: none;
+      font-size: 0.9rem;
     }
   </style>
 </head>
@@ -181,13 +187,13 @@
   <div class="noise-overlay"></div>
   <div class="snowflakes-container" aria-hidden="true">
     <span class="snowflake" style="left:0.62%;width:1.9px;height:1.9px;animation-duration:10.3s;--drift:32px"></span>
-    <span class="snowflake" style="left:36.9%;width:2.15px;animation-duration:8.38s;--drift:-17px"></span>
-    <span class="snowflake" style="left:33.36%;width:2.96px;animation-duration:8.51s;--drift:10px"></span>
-    <span class="snowflake" style="left:72.1%;width:2.2px;animation-duration:9.2s;--drift:-22px"></span>
-    <span class="snowflake" style="left:88%;width:1.6px;animation-duration:7.4s;--drift:18px"></span>
+    <span class="snowflake" style="left:36.9%;width:2.15px;height:2.15px;animation-duration:8.38s;--drift:-17px"></span>
+    <span class="snowflake" style="left:33.36%;width:2.96px;height:2.96px;animation-duration:8.51s;--drift:10px"></span>
+    <span class="snowflake" style="left:72.1%;width:2.2px;height:2.2px;animation-duration:9.2s;--drift:-22px"></span>
+    <span class="snowflake" style="left:88%;width:1.6px;height:1.6px;animation-duration:7.4s;--drift:18px"></span>
   </div>
 
-  <!-- Google Login Area -->
+  <!-- GOOGLE LOGIN AREA - TOP RIGHT CORNER -->
   <div class="auth-area">
     <div id="google-login-button"></div>
     <div id="user-profile" class="user-profile" style="display: none;">
@@ -215,7 +221,7 @@
       </div>
     </a>
 
-    <!-- CHECK OUT OUR SPREADSHEET Button -->
+    <!-- CHECK OUT OUR SPREADSHEET BUTTON - LINKS TO SpreadSheet.html -->
     <a href="SpreadSheet.html" class="promo-link-button">
       <div class="promo-bar-inner">
         <div class="glow-overlay"></div>
@@ -223,28 +229,31 @@
           <span>Check out our</span>
           <span class="discount-text shimmer-text">SPREADSHEET</span>
         </div>
-        <div class="action-hint"><span>View Listings →</span></div>
+        <div class="action-hint"><span>View All Listings →</span></div>
       </div>
     </a>
   </div>
 
-  <!-- Admin Panel - Only visible when logged in -->
+  <!-- Admin Panel - Only shows when logged in -->
   <div id="admin-panel">
-    <h2 style="color:#ff474c; text-align:center; margin-bottom:1.5rem; font-size:1.4rem;">✨ Add New Product Listing</h2>
+    <h2 style="color:#ff474c; text-align:center; margin-bottom:1.5rem; font-size:1.6rem; font-family: var(--font-display);">✨ Add New Product</h2>
     <div class="form-group">
-      <label>Product Link</label>
+      <label>🔗 Product Link</label>
       <input type="text" id="product-link" class="form-input" placeholder="https://www.usfans.com/product/...">
     </div>
     <div class="form-group">
-      <label>Product Name</label>
+      <label>🏷️ Product Name</label>
       <input type="text" id="product-name" class="form-input" placeholder="Enter product name">
     </div>
     <div class="form-group">
-      <label>Product QC Pics (Drag & Drop - Preview Only)</label>
-      <div id="qc-drop-zone">📸 Drop image here or click to upload</div>
+      <label>📸 Product Image (Drag & Drop - Preview Only)</label>
+      <div id="qc-drop-zone">📂 Drop image here or click to upload</div>
       <img id="qc-preview" alt="Preview">
     </div>
-    <button id="submitBtn" class="btn-submit">➕ ADD TO SPREADSHEET</button>
+    <button id="submitBtn" class="btn-submit">➕ ADD TO MY LISTINGS</button>
+    <p style="text-align: center; margin-top: 1rem; font-size: 0.75rem; color: var(--muted-foreground);">
+      Your listings will appear in your personal spreadsheet
+    </p>
   </div>
 
   <div id="toast" class="toast-msg"></div>
@@ -264,11 +273,13 @@
       toast.style.backgroundColor = isError ? '#3b141c' : '#1a3324';
       toast.style.borderLeftColor = isError ? '#ff474c' : '#6bff9b';
       toast.style.opacity = '1';
-      setTimeout(() => toast.style.opacity = '0', 3000);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+      }, 3000);
     }
 
     // Google Sign-In callback
-    function handleCredentialResponse(response) {
+    window.handleCredentialResponse = function(response) {
       try {
         const decoded = JSON.parse(atob(response.credential.split('.')[1]));
         currentUser = {
@@ -278,21 +289,24 @@
           picture: decoded.picture
         };
         
+        // Save to localStorage for SpreadSheet.html to read
         localStorage.setItem('usfans_user', JSON.stringify(currentUser));
         
-        // Update UI
-        document.getElementById('google-login-button').style.display = 'none';
+        // Update UI - hide google button, show user profile
+        const googleBtnDiv = document.getElementById('google-login-button');
+        if (googleBtnDiv) googleBtnDiv.style.display = 'none';
+        
         document.getElementById('user-profile').style.display = 'flex';
         document.getElementById('user-avatar').src = currentUser.picture;
         document.getElementById('user-name').textContent = currentUser.name.split(' ')[0];
         document.getElementById('admin-panel').style.display = 'block';
         
-        showToast(`Welcome ${currentUser.name}! You can now add listings.`);
+        showToast(`✅ Welcome ${currentUser.name}! You can now add products.`);
       } catch (e) {
         console.error("Google auth error", e);
         showToast("Login failed", true);
       }
-    }
+    };
 
     // Submit listing to Supabase
     async function submitListing() {
@@ -305,18 +319,18 @@
       const name = document.getElementById('product-name').value.trim();
 
       if (!link || !name) {
-        showToast("Please fill both fields", true);
+        showToast("❌ Please fill both Product Link and Name", true);
         return;
       }
 
-      // Add ref parameter
+      // Add ref=2TQXNA parameter
       if (!link.includes('ref=2TQXNA')) {
         link += (link.includes('?') ? '&' : '?') + 'ref=2TQXNA';
       }
 
       const submitBtn = document.getElementById('submitBtn');
       submitBtn.disabled = true;
-      submitBtn.textContent = "⏳ ADDING...";
+      submitBtn.textContent = "⏳ SAVING...";
 
       try {
         const { error } = await supabase
@@ -336,44 +350,50 @@
         // Clear form
         document.getElementById('product-link').value = '';
         document.getElementById('product-name').value = '';
-        document.getElementById('qc-preview').style.display = 'none';
-        document.getElementById('qc-preview').src = '';
+        const previewImg = document.getElementById('qc-preview');
+        previewImg.style.display = 'none';
+        previewImg.src = '';
         
       } catch (error) {
         console.error("Supabase error:", error);
         showToast(`❌ Error: ${error.message}`, true);
       } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = "➕ ADD TO SPREADSHEET";
+        submitBtn.textContent = "➕ ADD TO MY LISTINGS";
       }
     }
 
-    // Logout
+    // Logout function
     function logout() {
       localStorage.removeItem('usfans_user');
       currentUser = null;
-      document.getElementById('google-login-button').style.display = 'block';
+      const googleBtnDiv = document.getElementById('google-login-button');
+      if (googleBtnDiv) googleBtnDiv.style.display = 'block';
       document.getElementById('user-profile').style.display = 'none';
       document.getElementById('admin-panel').style.display = 'none';
       showToast("Signed out successfully");
     }
 
-    // Check for existing session
+    // Check for existing session (if user already logged in from before)
     function checkExistingSession() {
       const saved = localStorage.getItem('usfans_user');
       if (saved) {
         try {
           currentUser = JSON.parse(saved);
-          document.getElementById('google-login-button').style.display = 'none';
+          const googleBtnDiv = document.getElementById('google-login-button');
+          if (googleBtnDiv) googleBtnDiv.style.display = 'none';
           document.getElementById('user-profile').style.display = 'flex';
           document.getElementById('user-avatar').src = currentUser.picture;
           document.getElementById('user-name').textContent = currentUser.name.split(' ')[0];
           document.getElementById('admin-panel').style.display = 'block';
-        } catch(e) {}
+          showToast(`Welcome back ${currentUser.name}!`);
+        } catch(e) {
+          console.error("Failed to parse saved user", e);
+        }
       }
     }
 
-    // Image preview (drag & drop)
+    // Setup image drag & drop preview
     function setupImagePreview() {
       const dropZone = document.getElementById('qc-drop-zone');
       const fileInput = document.createElement('input');
@@ -391,12 +411,16 @@
             previewImg.style.display = 'block';
           };
           reader.readAsDataURL(file);
+        } else if (file) {
+          showToast("Please drop an image file", true);
         }
       }
 
       dropZone.addEventListener('click', () => fileInput.click());
       fileInput.addEventListener('change', (e) => {
-        if (fileInput.files?.[0]) handleFile(fileInput.files[0]);
+        if (fileInput.files && fileInput.files[0]) {
+          handleFile(fileInput.files[0]);
+        }
       });
       
       ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(ev => {
@@ -409,38 +433,78 @@
       dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
       dropZone.addEventListener('drop', (e) => {
         dropZone.classList.remove('dragover');
-        if (e.dataTransfer.files?.[0]) handleFile(e.dataTransfer.files[0]);
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+          handleFile(e.dataTransfer.files[0]);
+        }
       });
     }
 
-    // Initialize
+    // Initialize everything
     window.addEventListener('load', () => {
       // Remove any lovable badges
       document.querySelectorAll('#lovable-badge, [id*="lovable-badge"], .lovable-badge').forEach(el => el.remove());
       
-      // Setup Google Sign-In
-      if (window.google?.accounts?.id) {
+      // Initialize Google Sign-In
+      if (window.google && google.accounts && google.accounts.id) {
         google.accounts.id.initialize({
           client_id: "215291464454-i5jmqnoalmhrsu89b13pa7gq2nksgkj3.apps.googleusercontent.com",
-          callback: handleCredentialResponse
+          callback: window.handleCredentialResponse
         });
-        google.accounts.id.renderButton(document.getElementById("google-login-button"), {
-          theme: "filled_black", size: "large", shape: "pill", width: 260
-        });
+        
+        const googleBtnElement = document.getElementById("google-login-button");
+        if (googleBtnElement) {
+          google.accounts.id.renderButton(googleBtnElement, {
+            theme: "filled_black", 
+            size: "large", 
+            shape: "pill", 
+            width: 260
+          });
+        }
+        
+        // Show one-tap prompt
         google.accounts.id.prompt();
+      } else {
+        console.warn("Google API not loaded yet, waiting...");
+        // Retry after a short delay
+        setTimeout(() => {
+          if (window.google && google.accounts && google.accounts.id) {
+            google.accounts.id.initialize({
+              client_id: "215291464454-i5jmqnoalmhrsu89b13pa7gq2nksgkj3.apps.googleusercontent.com",
+              callback: window.handleCredentialResponse
+            });
+            const googleBtnElement = document.getElementById("google-login-button");
+            if (googleBtnElement) {
+              google.accounts.id.renderButton(googleBtnElement, {
+                theme: "filled_black", 
+                size: "large", 
+                shape: "pill", 
+                width: 260
+              });
+            }
+            google.accounts.id.prompt();
+          }
+        }, 500);
       }
       
-      // Check for existing login
+      // Check if user is already logged in
       checkExistingSession();
       
       // Setup submit button
-      document.getElementById('submitBtn').addEventListener('click', submitListing);
+      const submitBtn = document.getElementById('submitBtn');
+      if (submitBtn) {
+        submitBtn.addEventListener('click', submitListing);
+      }
       
-      // Setup logout
-      document.getElementById('logout-btn').addEventListener('click', logout);
+      // Setup logout button
+      const logoutBtn = document.getElementById('logout-btn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', logout);
+      }
       
       // Setup image preview
       setupImagePreview();
+      
+      console.log("Page loaded - Google login button should be visible at top right");
     });
   </script>
 </body>
