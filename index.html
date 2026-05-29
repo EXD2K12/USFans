@@ -207,7 +207,7 @@
 <script>
 
 const SUPABASE_URL="https://fzfkroyskrvxkdtfseyl.supabase.co";
-const SUPABASE_ANON_KEY="YOUR_ANON_KEY";
+const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6Zmtyb3lza3J2eGtkdGZzZXlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwMTczNTMsImV4cCI6MjA5NTU5MzM1M30.jzvCdD3Phi_jS3L0PnCcK6gyeq2D8ZZBVpVfvQ7leKc";
 
 const supabaseClient=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 
@@ -215,7 +215,7 @@ let currentUser=null;
 let qcImage=null;
 
 // 🔒 ADMIN ONLY (CHANGE THIS)
-const ADMIN_EMAIL="your@email.com";
+const ADMIN_EMAIL="emanuelnadd@gmail.com";
 
 function isAdmin(){
   return currentUser && currentUser.email===ADMIN_EMAIL;
