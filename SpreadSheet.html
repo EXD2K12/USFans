@@ -1,87 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Spreadsheet</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Listings Spreadsheet</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-body{background:#0f0f10;color:white;font-family:Inter;}
-table{width:100%;border-collapse:collapse;}
-td,th{padding:10px;border-bottom:1px solid #333;}
-img{width:60px;border-radius:8px;}
-button{background:red;color:white;border:none;padding:5px 10px;border-radius:6px;}
+body{
+  background:#0f0f10;
+  color:white;
+  font-family:Arial;
+  padding:40px;
+}
+
+h1{margin-bottom:20px;}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:#18181b;
+  border-radius:12px;
+  overflow:hidden;
+}
+
+th,td{
+  padding:14px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  text-align:left;
+}
+
+th{background:#ff474c;}
+
+tr:hover{background:rgba(255,255,255,0.03);}
+
+a{color:#7ab7ff;text-decoration:none;}
+
+.loading{opacity:0.7;}
 </style>
 </head>
 
 <body>
 
-<h2>My Listings</h2>
+<h1>USFans Listings</h1>
 
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Link</th>
-<th>Image</th>
-<th>Action</th>
-</tr>
-</thead>
+<div id="loading" class="loading">Loading listings...</div>
 
-<tbody id="body"></tbody>
+<table id="table" style="display:none;">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Link</th>
+      <th>User</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+
+  <tbody id="table-body"></tbody>
 </table>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
+const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
 
-const SUPABASE_URL="https://fzfkroyskrvxkdtfseyl.supabase.co";
-const SUPABASE_KEY="YOUR_KEY_HERE";
+const SUPABASE_ANON_KEY =
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6Zmtyb3lza3J2eGtkdGZzZXlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwMTczNTMsImV4cCI6MjA5NTU5MzM1M30.jzvCdD3Phi_jS3L0PnCcK6gyeq2D8ZZBVpVfvQ7leKc";
 
-const supabaseClient=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const ADMIN_EMAILS=["YOUR_EMAIL@gmail.com"];
+async function loadListings(){
 
-let user=JSON.parse(localStorage.getItem("user"));
+  const loading = document.getElementById("loading");
+  const table = document.getElementById("table");
+  const tbody = document.getElementById("table-body");
 
-async function load(){
+  loading.style.display = "block";
 
-const {data}=await supabaseClient
-.from("listings")
-.select("*");
+  const { data, error } = await supabaseClient
+    .from("listings")
+    .select("*")
+    .order("created_at", { ascending:false });
 
-document.getElementById("body").innerHTML=data.map(x=>`
-<tr>
-<td>${x.name}</td>
-<td><a href="${x.link}" target="_blank">link</a></td>
-<td>${x.image?`<img src="${x.image}">`:"-"}</td>
-<td>
-<button onclick="del('${x.id}','${x.user_email}')">Delete</button>
-</td>
-</tr>
-`).join("");
+  loading.style.display = "none";
 
+  if(error){
+    loading.innerHTML = "Error loading listings";
+    console.error(error);
+    return;
+  }
+
+  table.style.display = "table";
+
+  tbody.innerHTML = "";
+
+  (data || []).forEach(item => {
+
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>${item.name || ""}</td>
+      <td>
+        <a href="${item.link}" target="_blank">
+          Open Product
+        </a>
+      </td>
+      <td>${item.user_email || "Unknown"}</td>
+      <td>
+        ${item.created_at ? new Date(item.created_at).toLocaleString() : ""}
+      </td>
+    `;
+
+    tbody.appendChild(tr);
+  });
 }
 
-window.del=async(id,email)=>{
-
-if(!user) return;
-
-if(user.email!==email && !ADMIN_EMAILS.includes(user.email)){
-alert("no permission");
-return;
-}
-
-await supabaseClient
-.from("listings")
-.delete()
-.eq("id",id);
-
-load();
-};
-
-load();
-
+loadListings();
 </script>
 
 </body>
