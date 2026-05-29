@@ -479,20 +479,31 @@
       finalLink += (finalLink.includes('?') ? '&' : '?') + 'ref=2TQXNA';
     }
     let qcImageUrls = [];
+    // Upload each file, showing exact error if any
     for (const file of files) {
       try {
-        const fileName = `${user.id}/${Date.now()}-${file.name}`;
-        const { data: uploadData, error: uploadError } = await supabaseClient.storage
+        const fileName = `${user.id}/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
+        const { error: uploadError } = await supabaseClient.storage
           .from('qc-images')
-          .upload(fileName, file, { cacheControl: '3600', upsert: false });
-        if (uploadError) throw uploadError;
-        const { data: publicUrlData } = supabaseClient.storage.from('qc-images').getPublicUrl(fileName);
+          .upload(fileName, file, { cacheControl: '3600', upsert: false, contentType: file.type });
+
+        if (uploadError) {
+          alert('Image upload failed: ' + uploadError.message);
+          console.error(uploadError);
+          continue; // skip this image, still add the rest
+        }
+
+        const { data: publicUrlData } = supabaseClient.storage
+          .from('qc-images')
+          .getPublicUrl(fileName);
         qcImageUrls.push(publicUrlData.publicUrl);
       } catch (err) {
-        console.error('Image upload failed', err);
-        alert('Failed to upload one or more images. Continuing without them.');
+        console.error('Unexpected upload error', err);
+        alert('Unexpected error during image upload: ' + err.message);
       }
     }
+
+    // Insert listing with whatever images we could upload
     try {
       const { error } = await supabaseClient.from('listings').insert({
         user_id: user.id,
@@ -501,10 +512,11 @@
         qc_image_url: qcImageUrls
       });
       if (error) throw error;
-      alert('Listing added successfully!');
+
+      alert('Listing added successfully!' + (qcImageUrls.length ? '' : ' (no images uploaded)'));
       document.getElementById('product-link').value = '';
       document.getElementById('product-name').value = '';
-      document.getElementById('qc-preview-container').innerHTML = '';  // ✅ this is the only correct line
+      document.getElementById('qc-preview-container').innerHTML = '';
       window._qcFiles = null;
     } catch (err) {
       console.error('Insert failed', err);
