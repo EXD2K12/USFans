@@ -1,418 +1,698 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>40% Off Shipping — Limited Time</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>40% Off Shipping — Limited Time</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-:root {
-  --font-sans: 'Inter', sans-serif;
-  --font-display: 'Cormorant Garamond', serif;
-  --background: #0f0f10;
-  --foreground: #ffffff;
-  --muted-foreground: rgba(255,255,255,0.7);
-  --ember: #ff474c;
-  --ember-glow: #ff7a75;
-  --border-glow: rgba(255,71,76,0.4);
-}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
+    :root {
+      --font-sans: 'Inter', sans-serif;
+      --font-display: 'Cormorant Garamond', serif;
+      --background: #0f0f10;
+      --foreground: #ffffff;
+      --muted-foreground: rgba(255,255,255,0.7);
+      --ember: #ff474c;
+      --ember-glow: #ff7a75;
+      --border-glow: rgba(255,71,76,0.4);
+    }
 
-.relative { position: relative; }
-.min-h-screen { min-height: 100vh; }
-.overflow-hidden { overflow: hidden; }
+    body {
+      background: var(--background);
+      color: var(--foreground);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-.bg-radial-glow {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(255,71,76,0.15), transparent 40%),
-    radial-gradient(circle at 80% 80%, rgba(255,71,76,0.12), transparent 40%);
-}
+    .relative {
+      position: relative;
+    }
 
-.logo-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  padding: 6rem 1rem 2rem;
-}
+    .min-h-screen {
+      min-height: 100vh;
+    }
 
-.logo-img {
-  width: 100px;
-  height: 100px;
-  border-radius: 20px;
-  object-fit: cover;
-}
+    .overflow-hidden {
+      overflow: hidden;
+    }
 
-.promo-link-button {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  max-width: 900px;
-  text-decoration: none;
-  transition: 0.25s;
-}
+    .bg-radial-glow {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,71,76,0.15), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(255,71,76,0.12), transparent 40%);
+    }
 
-.promo-link-button:hover {
-  transform: scale(1.02);
-}
+    .logo-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      padding: 6rem 1rem 2rem;
+    }
 
-.promo-bar-inner {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  border-radius: 999px;
-  padding: 1rem 2rem;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  backdrop-filter: blur(20px);
-  box-shadow: 0 0 40px rgba(255,71,76,0.15);
-}
+    .logo-img {
+      width: 100px;
+      height: 100px;
+      border-radius: 20px;
+      object-fit: cover;
+    }
 
-.promo-text-group {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-weight: 700;
-}
+    .promo-link-button {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      max-width: 900px;
+      text-decoration: none;
+      transition: 0.25s;
+    }
 
-.discount-text {
-  font-family: var(--font-display);
-  font-size: 1.6rem;
-  background: linear-gradient(90deg,#ffb7b3,#ff474c,#ff7a75);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+    .promo-link-button:hover {
+      transform: scale(1.02);
+    }
 
-.separator {
-  width: 1px;
-  height: 22px;
-  background: rgba(255,255,255,0.2);
-}
+    .promo-bar-inner {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      border-radius: 999px;
+      padding: 1rem 2rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 0 40px rgba(255,71,76,0.15);
+    }
 
-.badge-limited {
-  color: var(--muted-foreground);
-  font-size: 0.8rem;
-}
+    .promo-text-group {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+    }
 
-.action-hint {
-  background: rgba(255,71,76,0.15);
-  padding: 0.6rem 1.2rem;
-  border-radius: 999px;
-  color: var(--ember-glow);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
+    .discount-text {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      background: linear-gradient(90deg,#ffb7b3,#ff474c,#ff7a75);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-/* GOOGLE LOGIN */
-#google-login-wrapper {
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  z-index: 999;
-}
+    .separator {
+      width: 1px;
+      height: 22px;
+      background: rgba(255,255,255,0.2);
+    }
 
-/* ADMIN PANEL */
-#admin-panel {
-  width: 100%;
-  max-width: 960px;
-  margin: 1rem auto 2rem;
-  padding: 1.5rem;
-  background: rgba(255,71,76,0.08);
-  border: 1px solid rgba(255,71,76,0.3);
-  border-radius: 18px;
-  display: none;
-}
+    .badge-limited {
+      color: var(--muted-foreground);
+      font-size: 0.8rem;
+    }
 
-.form-group { margin-bottom: 1rem; }
+    .action-hint {
+      background: rgba(255,71,76,0.15);
+      padding: 0.6rem 1.2rem;
+      border-radius: 999px;
+      color: var(--ember-glow);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
 
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: #ff7a75;
-}
+    /* GOOGLE LOGIN */
+    #google-login-wrapper {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      z-index: 999;
+    }
 
-.form-input {
-  width: 100%;
-  padding: 0.9rem;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(255,255,255,0.05);
-  color: white;
-}
+    /* ADMIN PANEL */
+    #admin-panel {
+      width: 100%;
+      max-width: 960px;
+      margin: 1rem auto 2rem;
+      padding: 1.5rem;
+      background: rgba(255,71,76,0.08);
+      border: 1px solid rgba(255,71,76,0.3);
+      border-radius: 18px;
+      display: none;
+    }
 
-#qc-drop-zone {
-  border: 2px dashed #ff474c;
-  padding: 2rem;
-  border-radius: 14px;
-  text-align: center;
-  cursor: pointer;
-}
+    .form-group {
+      margin-bottom: 1rem;
+    }
 
-#qc-preview {
-  max-width: 100%;
-  max-height: 300px;
-  margin-top: 1rem;
-  border-radius: 10px;
-  display: none;
-}
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #ff7a75;
+    }
 
-.toast-msg {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #1a1a1a;
-  color: white;
-  padding: 12px 22px;
-  border-radius: 999px;
-  border-left: 5px solid #ff474c;
-  opacity: 0;
-  transition: opacity 0.3s;
-  z-index: 9999;
-}
-</style>
+    .form-input {
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
+      color: white;
+    }
+
+    #qc-drop-zone {
+      border: 2px dashed #ff474c;
+      padding: 2rem;
+      border-radius: 14px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    #qc-preview {
+      max-width: 100%;
+      max-height: 300px;
+      margin-top: 1rem;
+      border-radius: 10px;
+      display: none;
+    }
+
+    .toast-msg {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1a1a1a;
+      color: white;
+      padding: 12px 22px;
+      border-radius: 999px;
+      border-left: 5px solid #ff474c;
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 9999;
+    }
+  </style>
 </head>
 
 <body>
 
 <main class="relative min-h-screen overflow-hidden">
-<div class="bg-radial-glow"></div>
 
-<!-- GOOGLE LOGIN -->
-<div id="google-login-wrapper">
-<div id="google-login-button"></div>
-</div>
+  <div class="bg-radial-glow"></div>
 
-<!-- ADMIN PANEL -->
-<div id="admin-panel">
-<h2 style="margin-bottom:1.5rem; text-align:center; color:#ff474c;">
-Add New Product Listing
-</h2>
+  <!-- GOOGLE LOGIN -->
+  <div id="google-login-wrapper">
+    <div id="google-login-button"></div>
+  </div>
 
-<div class="form-group">
-<label>Product Link</label>
-<input type="text" id="product-link" class="form-input">
-</div>
+  <!-- ADMIN PANEL -->
+  <div id="admin-panel">
 
-<div class="form-group">
-<label>Product Name</label>
-<input type="text" id="product-name" class="form-input">
-</div>
+    <h2 style="margin-bottom:1.5rem; text-align:center; color:#ff474c;">
+      Add New Product Listing
+    </h2>
 
-<div class="form-group">
-<label>QC Picture</label>
-<div id="qc-drop-zone">Drop image here or click upload</div>
-<img id="qc-preview">
-</div>
+    <div class="form-group">
+      <label>Product Link</label>
+      <input type="text" id="product-link" class="form-input">
+    </div>
 
-<button onclick="submitListing()" style="width:100%; padding:1rem; border:none; border-radius:999px; background:#ff474c; color:white; font-weight:700; cursor:pointer;">
-ADD TO SPREADSHEET
-</button>
-</div>
+    <div class="form-group">
+      <label>Product Name</label>
+      <input type="text" id="product-name" class="form-input">
+    </div>
 
-<!-- MAIN -->
-<div class="logo-section">
-<img src="images/usfans-wzr06cld.webp" class="logo-img" alt="USFans">
+    <div class="form-group">
+      <label>QC Picture</label>
 
-<a href="https://www.usfans.com/register?ref=2TQXNA" class="promo-link-button" target="_blank">
-<div class="promo-bar-inner">
-<div class="promo-text-group">
-<span>Grab your</span>
-<span class="discount-text">40% OFF</span>
-<span>shipping</span>
-<div class="separator"></div>
-<span class="badge-limited">Limited time</span>
-</div>
-<div class="action-hint">Register Now →</div>
-</div>
-</a>
+      <div id="qc-drop-zone">
+        Drop image here or click upload
+      </div>
 
-<a href="SpreadSheet.html" class="promo-link-button">
-<div class="promo-bar-inner">
-<div class="promo-text-group">
-<span>Check out our</span>
-<span class="discount-text">Spreadsheet</span>
-</div>
-<div class="action-hint">View Now →</div>
-</div>
-</a>
+      <img id="qc-preview">
+    </div>
 
-</div>
+    <button
+      onclick="submitListing()"
+      style="
+        width:100%;
+        padding:1rem;
+        border:none;
+        border-radius:999px;
+        background:#ff474c;
+        color:white;
+        font-weight:700;
+        cursor:pointer;
+      "
+    >
+      ADD TO SPREADSHEET
+    </button>
+
+  </div>
+
+  <!-- MAIN -->
+  <div class="logo-section">
+
+    <img
+      src="images/usfans-wzr06cld.webp"
+      class="logo-img"
+      alt="USFans"
+    >
+
+    <!-- MAIN BUTTON -->
+    <a
+      href="https://www.usfans.com/register?ref=2TQXNA"
+      class="promo-link-button"
+      target="_blank"
+    >
+      <div class="promo-bar-inner">
+
+        <div class="promo-text-group">
+          <span>Grab your</span>
+
+          <span class="discount-text">
+            40% OFF
+          </span>
+
+          <span>shipping</span>
+
+          <div class="separator"></div>
+
+          <span class="badge-limited">
+            Limited time
+          </span>
+        </div>
+
+        <div class="action-hint">
+          Register Now →
+        </div>
+
+      </div>
+    </a>
+
+    <!-- SPREADSHEET BUTTON -->
+    <a
+      href="SpreadSheet.html"
+      class="promo-link-button"
+    >
+      <div class="promo-bar-inner">
+
+        <div class="promo-text-group">
+          <span>Check out our</span>
+
+          <span class="discount-text">
+            Spreadsheet
+          </span>
+        </div>
+
+        <div class="action-hint">
+          View Now →
+        </div>
+
+      </div>
+    </a>
+
+  </div>
+
 </main>
 
 <div id="toast" class="toast-msg"></div>
 
+<!-- GOOGLE -->
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<!-- SUPABASE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6Zmtyb3lza3J2eGtkdGZzZXlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwMTczNTMsImV4cCI6MjA5NTU5MzM1M30.jzvCdD3Phi_jS3L0PnCcK6gyeq2D8ZZBVpVfvQ7leKc";
+  // =========================
+  // SUPABASE
+  // =========================
 
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
 
-let currentUser = null;
+  const SUPABASE_ANON_KEY =
+    "YOUR_SUPABASE_KEY_HERE";
 
-function showToast(message, error = false) {
-const toast = document.getElementById("toast");
-toast.textContent = message;
-toast.style.borderLeftColor = error ? "#ff474c" : "#4dff88";
-toast.style.opacity = "1";
-setTimeout(() => toast.style.opacity = "0", 3000);
-}
+  // FIXED
+  const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
 
-function handleCredentialResponse(response) {
-const payload = JSON.parse(atob(response.credential.split(".")[1]));
-currentUser = {
-id: payload.sub,
-name: payload.name,
-email: payload.email,
-picture: payload.picture
-};
+  let currentUser = null;
 
-localStorage.setItem("usfans_user", JSON.stringify(currentUser));
-showUser(currentUser);
-showToast(`Welcome ${currentUser.name}!`);
-}
+  // =========================
+  // TOAST
+  // =========================
 
-function showUser(user) {
-const wrapper = document.getElementById("google-login-wrapper");
+  function showToast(message, error = false) {
 
-wrapper.innerHTML = `
-<div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.06);padding:8px 16px;border-radius:999px;backdrop-filter:blur(12px);">
-<img src="${user.picture}" style="width:40px;height:40px;border-radius:50%;">
-<div>
-<div style="font-size:13px;font-weight:700;">${user.name}</div>
-<div style="font-size:11px;opacity:0.7;">${user.email}</div>
-</div>
-<button id="logoutButton" style="background:#ff474c;border:none;color:white;padding:6px 12px;border-radius:999px;cursor:pointer;">Sign Out</button>
-</div>
-`;
+    const toast = document.getElementById("toast");
 
-document.getElementById("admin-panel").style.display = "block";
-setupDragDrop();
+    toast.textContent = message;
 
-document.getElementById("logoutButton").addEventListener("click", () => {
-localStorage.removeItem("usfans_user");
-location.reload();
-});
-}
+    toast.style.borderLeftColor =
+      error ? "#ff474c" : "#4dff88";
 
-function setupDragDrop() {
-const dropZone = document.getElementById("qc-drop-zone");
-const preview = document.getElementById("qc-preview");
+    toast.style.opacity = "1";
 
-dropZone.addEventListener("click", () => {
-const input = document.createElement("input");
-input.type = "file";
-input.accept = "image/*";
+    setTimeout(() => {
+      toast.style.opacity = "0";
+    }, 3000);
+  }
 
-input.onchange = (e) => {
-const file = e.target.files[0];
-if (!file) return;
+  // =========================
+  // GOOGLE LOGIN
+  // =========================
 
-const reader = new FileReader();
-reader.onload = (ev) => {
-preview.src = ev.target.result;
-preview.style.display = "block";
-};
-reader.readAsDataURL(file);
-};
+  function handleCredentialResponse(response) {
 
-input.click();
-});
-}
+    const payload =
+      JSON.parse(
+        atob(response.credential.split(".")[1])
+      );
 
-async function submitListing() {
-if (!currentUser) {
-showToast("Please login first", true);
-return;
-}
+    currentUser = {
+      id: payload.sub,
+      name: payload.name,
+      email: payload.email,
+      picture: payload.picture
+    };
 
-let link = document.getElementById("product-link").value.trim();
-const name = document.getElementById("product-name").value.trim();
+    localStorage.setItem(
+      "usfans_user",
+      JSON.stringify(currentUser)
+    );
 
-if (!link || !name) {
-showToast("Fill all fields", true);
-return;
-}
+    showUser(currentUser);
 
-if (!link.includes("ref=2TQXNA")) {
-link += (link.includes("?") ? "&" : "?") + "ref=2TQXNA";
-}
+    showToast(
+      `Welcome ${currentUser.name}!`
+    );
+  }
 
-try {
-const { error } = await supabaseClient
-.from("listings")
-.insert([{ link, name, user_id: currentUser.id, user_email: currentUser.email }]);
+  function showUser(user) {
 
-if (error) throw error;
+    const wrapper =
+      document.getElementById(
+        "google-login-wrapper"
+      );
 
-showToast("Added successfully!");
-document.getElementById("product-link").value = "";
-document.getElementById("product-name").value = "";
-} catch (err) {
-showToast(err.message, true);
-}
-}
+    wrapper.innerHTML = `
+      <div style="
+        display:flex;
+        align-items:center;
+        gap:12px;
+        background:rgba(255,255,255,0.06);
+        padding:8px 16px;
+        border-radius:999px;
+        backdrop-filter:blur(12px);
+      ">
 
-function restoreSession() {
-const saved = localStorage.getItem("usfans_user");
-if (!saved) return;
+        <img
+          src="${user.picture}"
+          style="
+            width:40px;
+            height:40px;
+            border-radius:50%;
+          "
+        >
 
-try {
-currentUser = JSON.parse(saved);
-showUser(currentUser);
-} catch (e) {}
-}
+        <div>
+          <div style="font-size:13px;font-weight:700;">
+            ${user.name}
+          </div>
 
-window.onload = () => {
-restoreSession();
+          <div style="font-size:11px;opacity:0.7;">
+            ${user.email}
+          </div>
+        </div>
 
-const waitForGoogle = setInterval(() => {
-if (window.google && google.accounts && google.accounts.id) {
-clearInterval(waitForGoogle);
+        <button
+          id="logoutButton"
+          style="
+            background:#ff474c;
+            border:none;
+            color:white;
+            padding:6px 12px;
+            border-radius:999px;
+            cursor:pointer;
+          "
+        >
+          Sign Out
+        </button>
 
-google.accounts.id.initialize({
-client_id: "215291464454-i5jmqnoalmhrsu89b13pa7gq2nksgkj3.apps.googleusercontent.com",
-callback: handleCredentialResponse
-});
+      </div>
+    `;
 
-google.accounts.id.renderButton(
-document.getElementById("google-login-button"),
-{ theme: "filled_black", size: "large", shape: "pill", width: 260 }
-);
-}
-}, 100);
-};
+    document.getElementById(
+      "admin-panel"
+    ).style.display = "block";
+
+    setupDragDrop();
+
+    document
+      .getElementById("logoutButton")
+      .addEventListener("click", () => {
+
+        localStorage.removeItem(
+          "usfans_user"
+        );
+
+        location.reload();
+      });
+  }
+
+  // =========================
+  // DRAG DROP
+  // =========================
+
+  function setupDragDrop() {
+
+    const dropZone =
+      document.getElementById(
+        "qc-drop-zone"
+      );
+
+    const preview =
+      document.getElementById(
+        "qc-preview"
+      );
+
+    dropZone.addEventListener(
+      "click",
+      () => {
+
+        const input =
+          document.createElement("input");
+
+        input.type = "file";
+
+        input.accept = "image/*";
+
+        input.onchange = (e) => {
+
+          const file =
+            e.target.files[0];
+
+          if (!file) return;
+
+          const reader =
+            new FileReader();
+
+          reader.onload = (ev) => {
+
+            preview.src =
+              ev.target.result;
+
+            preview.style.display =
+              "block";
+          };
+
+          reader.readAsDataURL(file);
+        };
+
+        input.click();
+      }
+    );
+  }
+
+  // =========================
+  // SUBMIT
+  // =========================
+
+  async function submitListing() {
+
+    if (!currentUser) {
+
+      showToast(
+        "Please login first",
+        true
+      );
+
+      return;
+    }
+
+    let link =
+      document.getElementById(
+        "product-link"
+      ).value.trim();
+
+    const name =
+      document.getElementById(
+        "product-name"
+      ).value.trim();
+
+    if (!link || !name) {
+
+      showToast(
+        "Fill all fields",
+        true
+      );
+
+      return;
+    }
+
+    if (
+      !link.includes("ref=2TQXNA")
+    ) {
+
+      link +=
+        (link.includes("?")
+          ? "&"
+          : "?") +
+        "ref=2TQXNA";
+    }
+
+    try {
+
+      const { error } =
+        await supabaseClient
+          .from("listings")
+          .insert([
+            {
+              link,
+              name,
+              user_id: currentUser.id,
+              user_email:
+                currentUser.email
+            }
+          ]);
+
+      if (error) throw error;
+
+      showToast(
+        "Added successfully!"
+      );
+
+      document.getElementById(
+        "product-link"
+      ).value = "";
+
+      document.getElementById(
+        "product-name"
+      ).value = "";
+
+    } catch (err) {
+
+      console.error(err);
+
+      showToast(
+        err.message,
+        true
+      );
+    }
+  }
+
+  // =========================
+  // RESTORE SESSION
+  // =========================
+
+  function restoreSession() {
+
+    const saved =
+      localStorage.getItem(
+        "usfans_user"
+      );
+
+    if (!saved) return;
+
+    try {
+
+      currentUser =
+        JSON.parse(saved);
+
+      showUser(currentUser);
+
+    } catch (e) {
+
+      console.error(e);
+    }
+  }
+
+  // =========================
+  // INIT GOOGLE
+  // =========================
+
+  window.onload = () => {
+
+    restoreSession();
+
+    // WAIT for google script
+    const waitForGoogle = setInterval(() => {
+
+      if (
+        window.google &&
+        google.accounts &&
+        google.accounts.id
+      ) {
+
+        clearInterval(waitForGoogle);
+
+        google.accounts.id.initialize({
+
+          client_id:
+            "215291464454-i5jmqnoalmhrsu89b13pa7gq2nksgkj3.apps.googleusercontent.com",
+
+          callback:
+            handleCredentialResponse
+        });
+
+        google.accounts.id.renderButton(
+          document.getElementById(
+            "google-login-button"
+          ),
+          {
+            theme: "filled_black",
+            size: "large",
+            shape: "pill",
+            width: 260
+          }
+        );
+
+      }
+
+    }, 100);
+  };
 </script>
 
 </body>
