@@ -3,10 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>40% Off Shipping — Limited Time</title>
-  <meta name="description" content="Grab 40% off shipping. Limited time offer.">
-  <meta name="author" content="USFans">
-  <link rel="preload" as="image" href="images/usfans-wzr06cld.webp">
+  <title>USFans Spreadsheet — All Listings</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -23,549 +21,501 @@
     :root {
       --font-sans: 'Inter', sans-serif;
       --font-display: 'Cormorant Garamond', serif;
-      --background: oklch(13% 0.02 25);
-      --foreground: oklch(97% 0.01 20);
-      --muted-foreground: oklch(70% 0.03 25);
-      --ember: oklch(62% 0.26 25);
-      --ember-glow: oklch(70% 0.28 22);
-      --border-glow: oklch(62% 0.26 25 / 0.4);
+      --background: #0f0f10;
+      --foreground: #ffffff;
+      --muted: #b3b3b3;
+      --accent: #ff474c;
+      --accent2: #ff7a75;
     }
     body {
-      background-color: var(--background);
+      background: var(--background);
       color: var(--foreground);
       font-family: var(--font-sans);
       min-height: 100vh;
       overflow-x: hidden;
     }
-    .relative {
-      position: relative;
-    }
-    .min-h-screen {
-      min-height: 100vh;
-    }
-    .overflow-hidden {
-      overflow: hidden;
-    }
     .bg-radial-glow {
-      pointer-events: none;
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse at 20% 20%, oklch(0.3 0.15 25 / 0.35), transparent 55%),
-        radial-gradient(ellipse at 80% 80%, oklch(0.25 0.18 22 / 0.3), transparent 60%);
-    }
-    .noise-overlay {
-      pointer-events: none;
-      position: absolute;
-      inset: 0;
-      opacity: 0.04;
-      mix-blend-mode: overlay;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' /%3E%3C/svg%3E");
-    }
-    .snowflakes-container {
-      pointer-events: none;
       position: fixed;
       inset: 0;
-      overflow: hidden;
-      z-index: 2;
-    }
-    .snowflake {
-      filter: blur(0.5px);
       pointer-events: none;
-      background: radial-gradient(circle, #ff6266e6, #d4092400);
-      border-radius: 9999px;
-      animation: linear infinite snowfall;
-      position: absolute;
-      top: 0;
-    }
-    @keyframes snowfall {
-      0% {
-        opacity: 0;
-        transform: translateY(-10vh) translate(0);
-      }
-      10% {
-        opacity: 1;
-      }
-      90% {
-        opacity: 0.8;
-      }
-      to {
-        transform: translateY(110vh) translate(var(--drift, 20px));
-        opacity: 0;
-      }
-    }
-    @keyframes shimmer {
-      0% {
-        background-position: -200%;
-      }
-      to {
-        background-position: 200%;
-      }
-    }
-    .shimmer-text {
-      -webkit-text-fill-color: transparent;
       background:
-        linear-gradient(
-          90deg,
-          #fa002a,
-          #ff303c,
-          #ff474c 12.5%,
-          #ff7a75 25%,
-          #ffb7b3,
-          #ff7a75 75%,
-          #ff474c 87.5%,
-          #ff303c,
-          #fa002a
-        ) 0 0 / 200%;
-      background-clip: text;
-      -webkit-background-clip: text;
-      animation: 3s linear infinite shimmer;
-    }
-    .promo-link-button {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      max-width: 960px;
-      margin: 0 auto;
-      text-decoration: none;
-      cursor: pointer;
-      transition:
-        transform 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1),
-        filter 0.2s;
-      outline: none;
-    }
-    .promo-link-button:hover {
-      transform: scale(1.02);
-    }
-    .promo-bar-inner {
-      position: relative;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 1.2rem 2rem;
-      border-radius: 9999px;
-      padding: 0.9rem 2.2rem;
-      backdrop-filter: blur(28px);
-      background:
-        linear-gradient(
-          90deg,
-          oklch(0.18 0.04 25 / 0.98),
-          oklch(1 0 0 / 0.08),
-          oklch(0.18 0.04 25 / 0.98)
-        );
-      box-shadow:
-        0 0 0 1px var(--border-glow),
-        0 0 18px oklch(0.62 0.26 25 / 0.25),
-        0 0 55px oklch(0.62 0.26 25 / 0.2);
-    }
-    .glow-overlay {
-      pointer-events: none;
-      position: absolute;
-      inset: 0;
-      border-radius: 9999px;
-      background:
-        radial-gradient(
-          circle,
-          oklch(0.62 0.26 25 / 0.5),
-          transparent 70%
-        );
-      opacity: 0.6;
-    }
-    .promo-text-group {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.6rem 1rem;
-      font-size: 0.9rem;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--foreground);
-    }
-    .discount-text {
-      font-family: var(--font-display);
-      font-size: 1.6rem;
-      font-weight: 700;
-      background:
-        linear-gradient(
-          135deg,
-          #ffb7b3,
-          #ff7a75,
-          #ff474c
-        );
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    .separator {
-      width: 1px;
-      height: 24px;
-      background-color:
-        oklch(0.62 0.26 25 / 0.5);
-    }
-    .badge-limited {
-      font-size: 0.7rem;
-      letter-spacing: 0.3em;
-      color: var(--muted-foreground);
-    }
-    .action-hint {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      background:
-        oklch(0.62 0.26 25 / 0.22);
-      padding: 0.55rem 1.3rem;
-      border-radius: 40px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--ember-glow);
+        radial-gradient(circle at 20% 20%, rgba(255,71,76,0.18), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(255,71,76,0.14), transparent 40%);
+      z-index: 0;
     }
     .logo-section {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 2rem;
-      padding: 3rem 1rem 2rem;
+      padding: 2rem 1rem;
+      position: relative;
+      z-index: 2;
     }
     .logo-img {
       width: 96px;
       height: 96px;
-      border-radius: 1.5rem;
+      border-radius: 24px;
       object-fit: contain;
     }
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border-width: 0;
-    }
-    /* ADD LISTING PANEL */
-    #add-listing-panel {
+    .promo-link-button {
       width: 100%;
-      max-width: 960px;
-      margin: 1rem auto 2rem;
-      padding: 1.5rem;
-      background: rgba(250, 0, 42, 0.12);
-      border: 1px solid oklch(0.62 0.26 25 / 0.5);
-      border-radius: 16px;
-      display: none;
+      max-width: 900px;
+      text-decoration: none;
+      transition: .25s;
     }
-    .form-group {
-      margin-bottom: 1rem;
+    .promo-link-button:hover {
+      transform: scale(1.02);
     }
-    .form-group label {
-      display: block;
-      margin-bottom: 0.4rem;
-      font-weight: 600;
-      color: #ff7a75;
+    .promo-bar-inner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 2rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(20px);
     }
-    .form-input {
+    .promo-text-group {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+    }
+    .discount-text {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      background: linear-gradient(90deg, #ffb7b3, #ff474c, #ff7a75);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .action-hint {
+      background: rgba(255,71,76,0.15);
+      padding: 0.6rem 1.2rem;
+      border-radius: 999px;
+      color: #ffb7b3;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .spreadsheet-container {
+      max-width: 1400px;
+      margin: 0 auto 4rem;
+      padding: 0 1rem;
+      position: relative;
+      z-index: 2;
+    }
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .table-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      background: linear-gradient(90deg, #ffb7b3, #ff474c);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .stats-badge {
+      background: rgba(255,71,76,0.15);
+      border: 1px solid rgba(255,71,76,0.3);
+      padding: 0.6rem 1rem;
+      border-radius: 999px;
+    }
+    .search-input {
       width: 100%;
-      padding: 0.8rem;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 8px;
+      max-width: 320px;
+      padding: 0.9rem 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.05);
       color: white;
+      margin-bottom: 1.5rem;
     }
-    #qc-drop-zone {
-      border: 2px dashed #ff474c;
-      padding: 2rem;
-      text-align: center;
-      border-radius: 12px;
+    .table-wrapper {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      overflow: hidden;
+      overflow-x: auto;
+      backdrop-filter: blur(20px);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    thead {
+      background: rgba(255,71,76,0.08);
+    }
+    th {
+      padding: 1rem;
+      text-align: left;
+      color: #ffb7b3;
       cursor: pointer;
-      transition: all 0.2s;
     }
-    #qc-drop-zone.dragover {
-      background: rgba(255, 71, 76, 0.15);
-      border-color: #ff7a75;
+    td {
+      padding: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
     }
-    .sign-out-btn {
+    tr:hover {
+      background: rgba(255,71,76,0.05);
+    }
+    .product-link {
+      color: #ff7a75;
+      text-decoration: none;
+    }
+    .product-link:hover {
+      text-decoration: underline;
+    }
+    .delete-btn {
       background: rgba(255,71,76,0.15);
       border: 1px solid #ff474c;
       color: #ff474c;
-      padding: 0.3rem 0.8rem;
+      padding: 0.4rem 0.8rem;
       border-radius: 999px;
       cursor: pointer;
-      font-size: 0.75rem;
-      font-weight: 600;
-      margin-left: 8px;
-      transition: 0.2s;
+      transition: .2s;
     }
-    .sign-out-btn:hover {
+    .delete-btn:hover {
       background: #ff474c;
       color: white;
+    }
+    .loading,
+    .empty-state {
+      padding: 3rem;
+      text-align: center;
+      color: var(--muted);
+    }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255,71,76,0.2);
+      border-top-color: #ff474c;
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #18181b;
+      border-left: 4px solid #ff474c;
+      padding: 0.8rem 1.3rem;
+      border-radius: 999px;
+      opacity: 0;
+      transition: .3s;
+      z-index: 9999;
+    }
+
+    /* Updated image grid – 2 columns, square thumbnails */
+    .qc-images {
+      display: grid;
+      grid-template-columns: repeat(2, 60px);
+      gap: 4px;
+    }
+    .qc-images img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+    .qc-images img:hover {
+      transform: scale(1.05);
+      outline: 1px solid #ff474c;
+    }
+
+    /* Lightbox modal */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+    }
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 8px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.7);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 2rem;
+      color: white;
+      cursor: pointer;
+      background: none;
+      border: none;
+      z-index: 10001;
+    }
+    .hide-col {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <main class="relative min-h-screen overflow-hidden">
-    <div class="bg-radial-glow"></div>
-    <div class="noise-overlay"></div>
-    <div class="snowflakes-container" aria-hidden="true">
-      <span class="snowflake" style="left:0.62%;width:1.9px;height:1.9px;animation-duration:10.3s;animation-delay:-2.4s;opacity:0.62;--drift:32px"></span>
-      <span class="snowflake" style="left:36.9%;width:2.15px;height:2.15px;animation-duration:8.38s;animation-delay:-0.38s;opacity:0.6;--drift:-17px"></span>
-      <span class="snowflake" style="left:33.36%;width:2.96px;height:2.96px;animation-duration:8.51s;animation-delay:-3.7s;opacity:0.45;--drift:10px"></span>
-      <span class="snowflake" style="left:12.4%;width:1.6px;height:1.6px;animation-duration:12.1s;animation-delay:-1.2s;opacity:0.55;--drift:25px"></span>
-      <span class="snowflake" style="left:68.7%;width:2.4px;height:2.4px;animation-duration:7.8s;animation-delay:-4.5s;opacity:0.7;--drift:-22px"></span>
-      <span class="snowflake" style="left:5.1%;width:1.8px;height:1.8px;animation-duration:9.6s;animation-delay:-0.9s;opacity:0.48;--drift:18px"></span>
-      <span class="snowflake" style="left:84.3%;width:3.1px;height:3.1px;animation-duration:11.4s;animation-delay:-5.1s;opacity:0.52;--drift:35px"></span>
-      <span class="snowflake" style="left:22.8%;width:1.4px;height:1.4px;animation-duration:6.9s;animation-delay:-2.8s;opacity:0.65;--drift:-12px"></span>
-      <span class="snowflake" style="left:47.2%;width:2.7px;height:2.7px;animation-duration:10.7s;animation-delay:-1.6s;opacity:0.58;--drift:28px"></span>
-      <span class="snowflake" style="left:91.5%;width:2.1px;height:2.1px;animation-duration:8.2s;animation-delay:-3.9s;opacity:0.42;--drift:-30px"></span>
-      <span class="snowflake" style="left:8.9%;width:1.7px;height:1.7px;animation-duration:13.5s;animation-delay:-0.4s;opacity:0.61;--drift:15px"></span>
-      <span class="snowflake" style="left:55.6%;width:2.8px;height:2.8px;animation-duration:7.4s;animation-delay:-4.2s;opacity:0.49;--drift:24px"></span>
-      <span class="snowflake" style="left:29.3%;width:1.5px;height:1.5px;animation-duration:9.9s;animation-delay:-2.1s;opacity:0.67;--drift:-19px"></span>
-      <span class="snowflake" style="left:73.1%;width:2.3px;height:2.3px;animation-duration:11.8s;animation-delay:-5.8s;opacity:0.53;--drift:31px"></span>
-      <span class="snowflake" style="left:41.7%;width:1.9px;height:1.9px;animation-duration:8.7s;animation-delay:-1.3s;opacity:0.59;--drift:-14px"></span>
-      <span class="snowflake" style="left:17.6%;width:2.6px;height:2.6px;animation-duration:10.2s;animation-delay:-3.4s;opacity:0.46;--drift:27px"></span>
-      <span class="snowflake" style="left:80.4%;width:1.3px;height:1.3px;animation-duration:12.6s;animation-delay:-0.7s;opacity:0.64;--drift:-25px"></span>
-      <span class="snowflake" style="left:3.8%;width:2.9px;height:2.9px;animation-duration:7.1s;animation-delay:-4.8s;opacity:0.51;--drift:20px"></span>
-      <span class="snowflake" style="left:62.5%;width:1.8px;height:1.8px;animation-duration:9.3s;animation-delay:-2.5s;opacity:0.57;--drift:-16px"></span>
-      <span class="snowflake" style="left:26.9%;width:2.2px;height:2.2px;animation-duration:11.2s;animation-delay:-1.9s;opacity:0.44;--drift:33px"></span>
-      <span class="snowflake" style="left:88.2%;width:1.6px;height:1.6px;animation-duration:8.5s;animation-delay:-5.3s;opacity:0.68;--drift:-21px"></span>
-      <span class="snowflake" style="left:14.7%;width:2.5px;height:2.5px;animation-duration:10.9s;animation-delay:-3.2s;opacity:0.5;--drift:19px"></span>
-      <span class="snowflake" style="left:69.8%;width:1.7px;height:1.7px;animation-duration:7.6s;animation-delay:-0.5s;opacity:0.6;--drift:-28px"></span>
-      <span class="snowflake" style="left:37.4%;width:2.4px;height:2.4px;animation-duration:12.3s;animation-delay:-4.1s;opacity:0.47;--drift:26px"></span>
-      <span class="snowflake" style="left:95.1%;width:1.9px;height:1.9px;animation-duration:9.1s;animation-delay:-2.7s;opacity:0.63;--drift:-13px"></span>
-      <span class="snowflake" style="left:10.3%;width:2.7px;height:2.7px;animation-duration:8.9s;animation-delay:-1.8s;opacity:0.54;--drift:30px"></span>
-      <span class="snowflake" style="left:52.8%;width:1.4px;height:1.4px;animation-duration:11.5s;animation-delay:-5.6s;opacity:0.49;--drift:-24px"></span>
-      <span class="snowflake" style="left:78.9%;width:2.1px;height:2.1px;animation-duration:7.9s;animation-delay:-3.6s;opacity:0.58;--drift:22px"></span>
-    </div>
-    <h1 class="sr-only">40% Off Shipping — Limited Time</h1>
+<div class="bg-radial-glow"></div>
 
-    <div id="google-login-wrapper" style="position: absolute; top: 1.5rem; right: 1.5rem; z-index: 100;">
-      <div id="google-login-button"></div>
-    </div>
-
-    <div id="add-listing-panel">
-      <h2 style="color:#ff474c; text-align:center; margin-bottom:1.5rem; font-size:1.4rem;">➕ Add Product Listing</h2>
-      <div class="form-group">
-        <label>Product Link</label>
-        <input type="text" id="product-link" class="form-input" placeholder="https://www.usfans.com/product/...">
+<div class="logo-section">
+  <img src="images/usfans-wzr06cld.webp" class="logo-img" alt="USFans">
+  <!-- ✅ FIXED: "/" instead of "index.html" -->
+  <a href="/" class="promo-link-button">
+    <div class="promo-bar-inner">
+      <div class="promo-text-group">
+        <span>← Back To</span>
+        <span class="discount-text">HOME</span>
       </div>
-      <div class="form-group">
-        <label>Product Name</label>
-        <input type="text" id="product-name" class="form-input" placeholder="Enter product name">
-      </div>
-      <div class="form-group">
-        <label>QC Pictures (Drag & Drop multiple)</label>
-        <div id="qc-drop-zone">Drop images here or click to upload</div>
-        <div id="qc-preview-container" style="display:flex; flex-wrap:wrap; gap:4px; margin-top:1rem;"></div>
-      </div>
-      <button onclick="submitListing()" style="width:100%; padding:1rem; background:#ff474c; color:white; border:none; border-radius:999px; font-weight:700; cursor:pointer;">Add to Spreadsheet</button>
+      <div class="action-hint">Return</div>
     </div>
+  </a>
+</div>
 
-    <div class="logo-section">
-      <img src="images/usfans-wzr06cld.webp" alt="USFans" class="logo-img">
-      <a href="https://www.usfans.com/register?ref=2TQXNA" id="exclusive-offer-button" class="promo-link-button" target="_blank" rel="noopener noreferrer">
-        <div class="promo-bar-inner">
-          <div class="glow-overlay"></div>
-          <div class="promo-text-group">
-            <span>Grab your</span>
-            <span class="discount-text shimmer-text">40% OFF</span>
-            <span>shipping</span>
-            <div class="separator"></div>
-            <span class="badge-limited">Limited time</span>
-          </div>
-          <div class="action-hint"><span>Register now →</span></div>
-        </div>
-      </a>
-
-      <!-- CHANGED: removed target="_blank" so it opens in same tab -->
-      <a href="/SpreadSheet" id="spreadsheet-button" class="promo-link-button" style="margin-top:1rem;">
-        <div class="promo-bar-inner">
-          <div class="glow-overlay"></div>
-          <div class="promo-text-group">
-            <span>Check out our</span>
-            <span class="discount-text shimmer-text">SPREADSHEET</span>
-          </div>
-          <div class="action-hint"><span>View Now →</span></div>
-        </div>
-      </a>
+<div class="spreadsheet-container">
+  <div class="table-header">
+    <h2 class="table-title">📋 All Product Listings</h2>
+    <div class="stats-badge" id="listing-count">Loading...</div>
+  </div>
+  <input type="text" id="search-input" class="search-input" placeholder="🔍 Search listings...">
+  <div class="table-wrapper">
+    <div id="loading-state" class="loading">
+      <div class="spinner"></div>
+      <p>Loading listings...</p>
     </div>
-    <div style="height: 2rem;"></div>
-  </main>
+    <div id="table-content" style="display:none;">
+      <table>
+        <thead>
+          <tr>
+            <th onclick="sortTable('name')">Product ↕</th>
+            <th>Link</th>
+            <th>QC Images</th>
+            <th onclick="sortTable('created_at')">Date ↕</th>
+            <th id="actions-header">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+    <div id="empty-state" class="empty-state" style="display:none;">
+      <p>📭 No listings found</p>
+    </div>
+  </div>
+</div>
 
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6Zmtyb3lza3J2eGtkdGZzZXlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwMTczNTMsImV4cCI6MjA5NTU5MzM1M30.jzvCdD3Phi_jS3L0PnCcK6gyeq2D8ZZBVpVfvQ7leKc";
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    const ADMIN_EMAIL = "emanuelnadd@gmail.com";
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="QC Full Size">
+</div>
 
-    const addListingPanel = document.getElementById('add-listing-panel');
-    const loginWrapper = document.getElementById('google-login-wrapper');
+<div id="toast" class="toast"></div>
 
-    (function removeLovable() {
-      const badge = document.getElementById('lovable-badge');
-      if (badge) badge.remove();
-      document.querySelectorAll('[id*="lovable-badge"], .lovable-badge').forEach(el => el.remove());
-    })();
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6Zmtyb3lza3J2eGtkdGZzZXlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwMTczNTMsImV4cCI6MjA5NTU5MzM1M30.jzvCdD3Phi_jS3L0PnCcK6gyeq2D8ZZBVpVfvQ7leKc";
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const ADMIN_EMAIL = "emanuelnadd@gmail.com";
 
-    async function handleCredentialResponse(response) {
-      const payload = JSON.parse(atob(response.credential.split('.')[1]));
-      const googleUser = { email: payload.email.toLowerCase(), name: payload.name, picture: payload.picture };
-      try {
-        const { data: user, error } = await supabaseClient
-          .from('users')
-          .upsert({ email: googleUser.email, name: googleUser.name, picture: googleUser.picture }, { onConflict: 'email' })
-          .select()
-          .single();
-        if (error) throw error;
-        const usfansUser = { id: user.id, email: user.email.toLowerCase(), name: user.name, picture: user.picture };
-        localStorage.setItem('usfans_user', JSON.stringify(usfansUser));
-        showUserUI(usfansUser);
-      } catch (err) {
-        console.error('Supabase user upsert failed', err);
-        alert('Login failed - could not save user. Check console.');
-      }
-    }
+  let currentUser = null;
+  let isAdmin = false;
+  let allListings = [];
+  let currentSort = { column: 'created_at', direction: 'desc' };
+  let currentSearch = '';
 
-    function showUserUI(user) {
-      loginWrapper.innerHTML = `
-        <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.06); padding:12px 18px; border-radius:999px; backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.08);">
-          <img src="${user.picture}" style="width:42px; height:42px; border-radius:50%;">
-          <span style="font-weight:700; color:white; font-size:14px;">${user.name}</span>
-          <button onclick="signOut()" class="sign-out-btn">Sign Out</button>
-        </div>
-      `;
-      if (user.email === ADMIN_EMAIL) {
-        addListingPanel.style.display = 'block';
-        setupDragDrop();
+  function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').style.display = 'flex';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').style.display = 'none';
+  }
+  window.openLightbox = openLightbox;
+  window.closeLightbox = closeLightbox;
+
+  function showToast(msg, error = false) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.style.borderLeftColor = error ? '#ff474c' : '#4dff88';
+    toast.style.opacity = '1';
+    setTimeout(() => { toast.style.opacity = '0'; }, 3000);
+  }
+
+  function loadUser() {
+    const saved = localStorage.getItem('usfans_user');
+    if (!saved) return false;
+    try {
+      currentUser = JSON.parse(saved);
+      isAdmin = currentUser.email && currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+      console.log('Loaded user:', currentUser.email, 'isAdmin:', isAdmin);
+      if (!isAdmin) {
+        document.getElementById('actions-header').classList.add('hide-col');
       } else {
-        addListingPanel.style.display = 'none';
+        document.getElementById('actions-header').classList.remove('hide-col');
       }
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  async function fetchListings() {
+    document.getElementById('loading-state').style.display = 'block';
+    try {
+      const { data, error } = await supabaseClient
+        .from('listings')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (error) throw error;
+      allListings = data || [];
+      document.getElementById('listing-count').innerHTML = `📊 ${allListings.length} listings`;
+      document.getElementById('loading-state').style.display = 'none';
+      if (allListings.length === 0) {
+        document.getElementById('empty-state').style.display = 'block';
+      } else {
+        document.getElementById('table-content').style.display = 'block';
+        renderTable();
+      }
+    } catch (err) {
+      console.error(err);
+      showToast(err.message, true);
+    }
+  }
+
+  async function deleteListing(id, name) {
+    if (!isAdmin) {
+      showToast('Only the admin can delete listings.', true);
+      return;
+    }
+    if (!confirm(`Delete "${name}"?`)) return;
+    try {
+      const { error } = await supabaseClient
+        .from('listings')
+        .delete()
+        .eq('id', id);
+      if (error) throw error;
+      showToast('Deleted successfully');
+      await fetchListings();
+    } catch (err) {
+      showToast(err.message, true);
+    }
+  }
+
+  function renderTable() {
+    let filtered = [...allListings];
+    if (currentSearch) {
+      const s = currentSearch.toLowerCase();
+      filtered = filtered.filter(item =>
+        (item.name || '').toLowerCase().includes(s) ||
+        (item.link || '').toLowerCase().includes(s)
+      );
     }
 
-    window.signOut = function() {
-      localStorage.removeItem('usfans_user');
-      loginWrapper.innerHTML = '<div id="google-login-button"></div>';
-      addListingPanel.style.display = 'none';
-      google.accounts.id.renderButton(
-        document.getElementById("google-login-button"),
-        { theme: "filled_black", size: "large", shape: "pill", width: 260 }
-      );
-      google.accounts.id.prompt();
-    };
-
-    function setupDragDrop() {
-      const dropZone = document.getElementById('qc-drop-zone');
-      const previewContainer = document.getElementById('qc-preview-container');
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'image/*';
-      input.multiple = true;
-      let selectedFiles = [];
-
-      function updatePreview() {
-        previewContainer.innerHTML = '';
-        selectedFiles.forEach((file) => {
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            img.style.width = '80px';
-            img.style.height = '80px';
-            img.style.objectFit = 'cover';
-            img.style.borderRadius = '8px';
-            img.style.margin = '4px';
-            previewContainer.appendChild(img);
-          };
-          reader.readAsDataURL(file);
-        });
-        previewContainer.style.display = selectedFiles.length ? 'flex' : 'none';
+    filtered.sort((a, b) => {
+      let aVal = a[currentSort.column];
+      let bVal = b[currentSort.column];
+      if (currentSort.column === 'created_at') {
+        aVal = new Date(aVal);
+        bVal = new Date(bVal);
       }
-
-      dropZone.addEventListener('click', () => input.click());
-      input.addEventListener('change', () => { selectedFiles = Array.from(input.files); updatePreview(); });
-      dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
-      dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-      dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('dragover');
-        selectedFiles = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
-        updatePreview();
-      });
-      window._qcFiles = () => selectedFiles;
-    }
-
-    window.submitListing = async function() {
-      const user = JSON.parse(localStorage.getItem('usfans_user'));
-      if (!user || user.email !== ADMIN_EMAIL) {
-        alert('Only the admin can add listings.');
-        return;
-      }
-      const link = document.getElementById('product-link').value.trim();
-      const name = document.getElementById('product-name').value.trim();
-      const files = window._qcFiles ? window._qcFiles() : [];
-
-      if (!link || !name) { alert('Product link and name are required'); return; }
-
-      if (files.length === 0) {
-        alert('No images selected. The listing will be added without QC pictures.');
-      }
-
-      let finalLink = link;
-      if (!finalLink.includes('ref=2TQXNA')) finalLink += (finalLink.includes('?') ? '&' : '?') + 'ref=2TQXNA';
-      let qcImageUrls = [];
-      for (const file of files) {
-        try {
-          const fileName = `${user.id}/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
-          const { error: uploadError } = await supabaseClient.storage
-            .from('qc-images')
-            .upload(fileName, file, { cacheControl: '3600', upsert: false, contentType: file.type });
-          if (uploadError) { alert('Image upload failed: ' + uploadError.message); console.error(uploadError); continue; }
-          const { data: publicUrlData } = supabaseClient.storage.from('qc-images').getPublicUrl(fileName);
-          qcImageUrls.push(publicUrlData.publicUrl);
-        } catch (err) { console.error('Unexpected upload error', err); alert('Unexpected error during image upload: ' + err.message); }
-      }
-      try {
-        const { error } = await supabaseClient.from('listings').insert({
-          user_id: user.id,
-          name: name,
-          link: finalLink,
-          qc_image_url: qcImageUrls
-        });
-        if (error) throw error;
-
-        alert('Listing added successfully!' + (qcImageUrls.length ? '' : ' (no images uploaded)'));
-        document.getElementById('product-link').value = '';
-        document.getElementById('product-name').value = '';
-        document.getElementById('qc-preview-container').innerHTML = '';
-
-        // Clear the selected files array but keep the function reference
-        const qcFilesFn = window._qcFiles;
-        if (qcFilesFn) {
-          const arr = qcFilesFn();
-          arr.length = 0;
-        }
-      } catch (err) { console.error('Insert failed', err); alert('Failed to add listing: ' + err.message); }
-    };
-
-    window.addEventListener('load', () => {
-      google.accounts.id.initialize({
-        client_id: "215291464454-i5jmqnoalmhrsu89b13pa7gq2nksgkj3.apps.googleusercontent.com",
-        callback: handleCredentialResponse
-      });
-      google.accounts.id.renderButton(
-        document.getElementById("google-login-button"),
-        { theme: "filled_black", size: "large", shape: "pill", width: 260 }
-      );
-      google.accounts.id.prompt();
-      const saved = localStorage.getItem('usfans_user');
-      if (saved) { const user = JSON.parse(saved); showUserUI(user); }
+      if (aVal < bVal) return currentSort.direction === 'asc' ? -1 : 1;
+      if (aVal > bVal) return currentSort.direction === 'asc' ? 1 : -1;
+      return 0;
     });
-  </script>
+
+    const tbody = document.getElementById('table-body');
+    tbody.innerHTML = filtered.map(item => {
+      let images = [];
+      if (item.qc_image_url) {
+        if (Array.isArray(item.qc_image_url)) {
+          images = item.qc_image_url;
+        } else if (typeof item.qc_image_url === 'string') {
+          images = [item.qc_image_url];
+        } else if (typeof item.qc_image_url === 'object') {
+          images = Object.values(item.qc_image_url);
+        }
+      }
+
+      const imageHTML = images.length > 0
+        ? `<div class="qc-images">${images.map(url => `<img src="${url}" alt="QC" onclick="event.stopPropagation(); openLightbox('${url}')">`).join('')}</div>`
+        : '—';
+
+      const deleteCell = isAdmin
+        ? `<td><button class="delete-btn" onclick="deleteListing('${item.id}', '${escapeHtml(item.name).replace(/'/g, "\\'")}')">Delete</button></td>`
+        : '';
+
+      return `
+        <tr>
+          <td><strong>${escapeHtml(item.name)}</strong></td>
+          <td><a href="${escapeHtml(item.link)}" target="_blank" class="product-link">${truncateUrl(item.link)}</a></td>
+          <td>${imageHTML}</td>
+          <td>${formatDate(item.created_at)}</td>
+          ${deleteCell}
+        </tr>
+      `;
+    }).join('');
+  }
+
+  function sortTable(column) {
+    if (currentSort.column === column) {
+      currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+    } else {
+      currentSort.column = column;
+      currentSort.direction = 'desc';
+    }
+    renderTable();
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[m]);
+  }
+  function truncateUrl(url, max = 50) {
+    if (!url) return '';
+    return url.length <= max ? url : url.substring(0, max) + '...';
+  }
+  function formatDate(date) {
+    if (!date) return 'N/A';
+    return new Date(date).toLocaleDateString();
+  }
+
+  document.getElementById('search-input').addEventListener('input', e => {
+    currentSearch = e.target.value;
+    renderTable();
+  });
+
+  window.deleteListing = deleteListing;
+  window.sortTable = sortTable;
+
+  if (!loadUser()) {
+    showToast('Please login first on the main page.', true);
+    setTimeout(() => { location.href = '/'; }, 2000);
+  } else {
+    fetchListings();
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
 </body>
 </html>
