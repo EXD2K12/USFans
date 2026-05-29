@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
+
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4048219571639841" crossorigin="anonymous"></script>
 
@@ -507,7 +507,14 @@
       const link = document.getElementById('product-link').value.trim();
       const name = document.getElementById('product-name').value.trim();
       const files = window._qcFiles ? window._qcFiles() : [];
+
       if (!link || !name) { alert('Product link and name are required'); return; }
+
+      // Alert if no images were selected (optional but helpful)
+      if (files.length === 0) {
+        alert('No images selected. The listing will be added without QC pictures.');
+      }
+
       let finalLink = link;
       if (!finalLink.includes('ref=2TQXNA')) finalLink += (finalLink.includes('?') ? '&' : '?') + 'ref=2TQXNA';
       let qcImageUrls = [];
@@ -530,11 +537,18 @@
           qc_image_url: qcImageUrls
         });
         if (error) throw error;
+
         alert('Listing added successfully!' + (qcImageUrls.length ? '' : ' (no images uploaded)'));
         document.getElementById('product-link').value = '';
         document.getElementById('product-name').value = '';
         document.getElementById('qc-preview-container').innerHTML = '';
-        window._qcFiles = null;
+
+        // Clear the selected files array but keep the function reference
+        const qcFilesFn = window._qcFiles;
+        if (qcFilesFn) {
+          const arr = qcFilesFn();
+          arr.length = 0;
+        }
       } catch (err) { console.error('Insert failed', err); alert('Failed to add listing: ' + err.message); }
     };
 
