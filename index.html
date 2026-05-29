@@ -36,17 +36,9 @@
       overflow-x: hidden;
     }
 
-    .relative {
-      position: relative;
-    }
-
-    .min-h-screen {
-      min-height: 100vh;
-    }
-
-    .overflow-hidden {
-      overflow: hidden;
-    }
+    .relative { position: relative; }
+    .min-h-screen { min-height: 100vh; }
+    .overflow-hidden { overflow: hidden; }
 
     .bg-radial-glow {
       position: absolute;
@@ -81,9 +73,7 @@
       transition: 0.25s;
     }
 
-    .promo-link-button:hover {
-      transform: scale(1.02);
-    }
+    .promo-link-button:hover { transform: scale(1.02); }
 
     .promo-bar-inner {
       width: 100%;
@@ -139,7 +129,6 @@
       letter-spacing: 0.1em;
     }
 
-    /* GOOGLE LOGIN */
     #google-login-wrapper {
       position: absolute;
       top: 1.5rem;
@@ -147,7 +136,6 @@
       z-index: 999;
     }
 
-    /* ADMIN PANEL */
     #admin-panel {
       width: 100%;
       max-width: 960px;
@@ -159,9 +147,7 @@
       display: none;
     }
 
-    .form-group {
-      margin-bottom: 1rem;
-    }
+    .form-group { margin-bottom: 1rem; }
 
     .form-group label {
       display: block;
@@ -218,7 +204,6 @@
 
   <div class="bg-radial-glow"></div>
 
-  <!-- GOOGLE LOGIN -->
   <div id="google-login-wrapper">
     <div id="google-login-button"></div>
   </div>
@@ -242,91 +227,32 @@
 
     <div class="form-group">
       <label>QC Picture</label>
-
-      <div id="qc-drop-zone">
-        Drop image here or click upload
-      </div>
-
+      <div id="qc-drop-zone">Drop image here or click upload</div>
       <img id="qc-preview">
     </div>
 
-    <button
-      onclick="submitListing()"
-      style="
-        width:100%;
-        padding:1rem;
-        border:none;
-        border-radius:999px;
-        background:#ff474c;
-        color:white;
-        font-weight:700;
-        cursor:pointer;
-      "
-    >
+    <button onclick="submitListing()"
+      style="width:100%;padding:1rem;border:none;border-radius:999px;background:#ff474c;color:white;font-weight:700;">
       ADD TO SPREADSHEET
     </button>
 
   </div>
 
-  <!-- MAIN -->
   <div class="logo-section">
 
-    <img
-      src="images/usfans-wzr06cld.webp"
-      class="logo-img"
-      alt="USFans"
-    >
+    <img src="images/usfans-wzr06cld.webp" class="logo-img">
 
-    <!-- MAIN BUTTON -->
-    <a
-      href="https://www.usfans.com/register?ref=2TQXNA"
-      class="promo-link-button"
-      target="_blank"
-    >
+    <a href="https://www.usfans.com/register?ref=2TQXNA" class="promo-link-button" target="_blank">
       <div class="promo-bar-inner">
-
-        <div class="promo-text-group">
-          <span>Grab your</span>
-
-          <span class="discount-text">
-            40% OFF
-          </span>
-
-          <span>shipping</span>
-
-          <div class="separator"></div>
-
-          <span class="badge-limited">
-            Limited time
-          </span>
-        </div>
-
-        <div class="action-hint">
-          Register Now →
-        </div>
-
+        <span>Grab your</span>
+        <span class="discount-text">40% OFF</span>
       </div>
     </a>
 
-    <!-- SPREADSHEET BUTTON -->
-    <a
-      href="SpreadSheet.html"
-      class="promo-link-button"
-    >
+    <a href="SpreadSheet.html" class="promo-link-button">
       <div class="promo-bar-inner">
-
-        <div class="promo-text-group">
-          <span>Check out our</span>
-
-          <span class="discount-text">
-            Spreadsheet
-          </span>
-        </div>
-
-        <div class="action-hint">
-          View Now →
-        </div>
-
+        <span>Check out our</span>
+        <span class="discount-text">Spreadsheet</span>
       </div>
     </a>
 
@@ -336,363 +262,136 @@
 
 <div id="toast" class="toast-msg"></div>
 
-<!-- GOOGLE -->
 <script src="https://accounts.google.com/gsi/client" async defer></script>
-
-<!-- SUPABASE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-  // =========================
-  // SUPABASE
-  // =========================
 
-  const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
+const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
+const SUPABASE_ANON_KEY = "YOUR_SUPABASE_KEY";
 
-  const SUPABASE_ANON_KEY =
-    "YOUR_SUPABASE_KEY_HERE";
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  // FIXED
-  const supabaseClient = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
+let currentUser = null;
+let qcImage = null;
 
-  let currentUser = null;
+/* 🔒 ONLY YOU CAN ACCESS */
+const ADMIN_EMAIL = "your@email.com";
 
-  // =========================
-  // TOAST
-  // =========================
+function isAdmin(){
+  return currentUser && currentUser.email === ADMIN_EMAIL;
+}
 
-  function showToast(message, error = false) {
+function showToast(msg, error=false){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.style.borderLeftColor = error ? "#ff474c" : "#4dff88";
+  t.style.opacity = "1";
+  setTimeout(()=>t.style.opacity="0",3000);
+}
 
-    const toast = document.getElementById("toast");
+function handleCredentialResponse(res){
+  const p = JSON.parse(atob(res.credential.split(".")[1]));
 
-    toast.textContent = message;
+  currentUser = {
+    id: p.sub,
+    name: p.name,
+    email: p.email,
+    picture: p.picture
+  };
 
-    toast.style.borderLeftColor =
-      error ? "#ff474c" : "#4dff88";
+  localStorage.setItem("usfans_user", JSON.stringify(currentUser));
+  showUser();
+}
 
-    toast.style.opacity = "1";
+function showUser(){
 
-    setTimeout(() => {
-      toast.style.opacity = "0";
-    }, 3000);
+  document.getElementById("google-login-wrapper").innerHTML = `
+    <div style="display:flex;gap:10px;align-items:center;background:rgba(255,255,255,0.06);padding:8px 14px;border-radius:999px;">
+      <img src="${currentUser.picture}" style="width:40px;height:40px;border-radius:50%">
+      <div>${currentUser.name}</div>
+    </div>
+  `;
+
+  /* 🔒 ADMIN ONLY FIX */
+  if(isAdmin()){
+    document.getElementById("admin-panel").style.display = "block";
   }
+}
 
-  // =========================
-  // GOOGLE LOGIN
-  // =========================
+document.getElementById("qc-drop-zone").onclick = () => {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "image/*";
 
-  function handleCredentialResponse(response) {
+  input.onchange = e => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
 
-    const payload =
-      JSON.parse(
-        atob(response.credential.split(".")[1])
-      );
-
-    currentUser = {
-      id: payload.sub,
-      name: payload.name,
-      email: payload.email,
-      picture: payload.picture
+    reader.onload = ev => {
+      qcImage = ev.target.result;
+      const img = document.getElementById("qc-preview");
+      img.src = qcImage;
+      img.style.display = "block";
     };
 
-    localStorage.setItem(
-      "usfans_user",
-      JSON.stringify(currentUser)
-    );
-
-    showUser(currentUser);
-
-    showToast(
-      `Welcome ${currentUser.name}!`
-    );
-  }
-
-  function showUser(user) {
-
-    const wrapper =
-      document.getElementById(
-        "google-login-wrapper"
-      );
-
-    wrapper.innerHTML = `
-      <div style="
-        display:flex;
-        align-items:center;
-        gap:12px;
-        background:rgba(255,255,255,0.06);
-        padding:8px 16px;
-        border-radius:999px;
-        backdrop-filter:blur(12px);
-      ">
-
-        <img
-          src="${user.picture}"
-          style="
-            width:40px;
-            height:40px;
-            border-radius:50%;
-          "
-        >
-
-        <div>
-          <div style="font-size:13px;font-weight:700;">
-            ${user.name}
-          </div>
-
-          <div style="font-size:11px;opacity:0.7;">
-            ${user.email}
-          </div>
-        </div>
-
-        <button
-          id="logoutButton"
-          style="
-            background:#ff474c;
-            border:none;
-            color:white;
-            padding:6px 12px;
-            border-radius:999px;
-            cursor:pointer;
-          "
-        >
-          Sign Out
-        </button>
-
-      </div>
-    `;
-
-    document.getElementById(
-      "admin-panel"
-    ).style.display = "block";
-
-    setupDragDrop();
-
-    document
-      .getElementById("logoutButton")
-      .addEventListener("click", () => {
-
-        localStorage.removeItem(
-          "usfans_user"
-        );
-
-        location.reload();
-      });
-  }
-
-  // =========================
-  // DRAG DROP
-  // =========================
-
-  function setupDragDrop() {
-
-    const dropZone =
-      document.getElementById(
-        "qc-drop-zone"
-      );
-
-    const preview =
-      document.getElementById(
-        "qc-preview"
-      );
-
-    dropZone.addEventListener(
-      "click",
-      () => {
-
-        const input =
-          document.createElement("input");
-
-        input.type = "file";
-
-        input.accept = "image/*";
-
-        input.onchange = (e) => {
-
-          const file =
-            e.target.files[0];
-
-          if (!file) return;
-
-          const reader =
-            new FileReader();
-
-          reader.onload = (ev) => {
-
-            preview.src =
-              ev.target.result;
-
-            preview.style.display =
-              "block";
-          };
-
-          reader.readAsDataURL(file);
-        };
-
-        input.click();
-      }
-    );
-  }
-
-  // =========================
-  // SUBMIT
-  // =========================
-
-  async function submitListing() {
-
-    if (!currentUser) {
-
-      showToast(
-        "Please login first",
-        true
-      );
-
-      return;
-    }
-
-    let link =
-      document.getElementById(
-        "product-link"
-      ).value.trim();
-
-    const name =
-      document.getElementById(
-        "product-name"
-      ).value.trim();
-
-    if (!link || !name) {
-
-      showToast(
-        "Fill all fields",
-        true
-      );
-
-      return;
-    }
-
-    if (
-      !link.includes("ref=2TQXNA")
-    ) {
-
-      link +=
-        (link.includes("?")
-          ? "&"
-          : "?") +
-        "ref=2TQXNA";
-    }
-
-    try {
-
-      const { error } =
-        await supabaseClient
-          .from("listings")
-          .insert([
-            {
-              link,
-              name,
-              user_id: currentUser.id,
-              user_email:
-                currentUser.email
-            }
-          ]);
-
-      if (error) throw error;
-
-      showToast(
-        "Added successfully!"
-      );
-
-      document.getElementById(
-        "product-link"
-      ).value = "";
-
-      document.getElementById(
-        "product-name"
-      ).value = "";
-
-    } catch (err) {
-
-      console.error(err);
-
-      showToast(
-        err.message,
-        true
-      );
-    }
-  }
-
-  // =========================
-  // RESTORE SESSION
-  // =========================
-
-  function restoreSession() {
-
-    const saved =
-      localStorage.getItem(
-        "usfans_user"
-      );
-
-    if (!saved) return;
-
-    try {
-
-      currentUser =
-        JSON.parse(saved);
-
-      showUser(currentUser);
-
-    } catch (e) {
-
-      console.error(e);
-    }
-  }
-
-  // =========================
-  // INIT GOOGLE
-  // =========================
-
-  window.onload = () => {
-
-    restoreSession();
-
-    // WAIT for google script
-    const waitForGoogle = setInterval(() => {
-
-      if (
-        window.google &&
-        google.accounts &&
-        google.accounts.id
-      ) {
-
-        clearInterval(waitForGoogle);
-
-        google.accounts.id.initialize({
-
-          client_id:
-            "215291464454-i5jmqnoalmhrsu89b13pa7gq2nksgkj3.apps.googleusercontent.com",
-
-          callback:
-            handleCredentialResponse
-        });
-
-        google.accounts.id.renderButton(
-          document.getElementById(
-            "google-login-button"
-          ),
-          {
-            theme: "filled_black",
-            size: "large",
-            shape: "pill",
-            width: 260
-          }
-        );
-
-      }
-
-    }, 100);
+    reader.readAsDataURL(file);
   };
+
+  input.click();
+};
+
+async function submitListing(){
+
+  if(!isAdmin()) return showToast("Not admin", true);
+
+  let link = document.getElementById("product-link").value.trim();
+  let name = document.getElementById("product-name").value.trim();
+
+  if(!link || !name) return showToast("Fill all fields", true);
+
+  if(!link.includes("ref=2TQXNA")){
+    link += (link.includes("?") ? "&" : "?") + "ref=2TQXNA";
+  }
+
+  const { error } = await supabaseClient.from("listings").insert([{
+    link,
+    name,
+    qc_image: qcImage, /* ✅ FIXED IMAGE SAVE */
+    user_id: currentUser.id,
+    user_email: currentUser.email
+  }]);
+
+  if(error) return showToast(error.message, true);
+
+  showToast("Added successfully!");
+}
+
+window.onload = () => {
+
+  const saved = localStorage.getItem("usfans_user");
+  if(saved){
+    currentUser = JSON.parse(saved);
+    showUser();
+  }
+
+  const wait = setInterval(() => {
+    if(window.google){
+      clearInterval(wait);
+
+      google.accounts.id.initialize({
+        client_id: "YOUR_CLIENT_ID",
+        callback: handleCredentialResponse
+      });
+
+      google.accounts.id.renderButton(
+        document.getElementById("google-login-button"),
+        { theme:"filled_black", size:"large" }
+      );
+    }
+  },100);
+};
+
 </script>
 
 </body>
