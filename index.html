@@ -11,7 +11,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
     :root {
       --font-sans: 'Inter', sans-serif;
       --font-display: 'Cormorant Garamond', serif;
@@ -29,97 +33,274 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
-    .relative { position: relative; }
-    .min-h-screen { min-height: 100vh; }
-    .overflow-hidden { overflow: hidden; }
+    .relative {
+      position: relative;
+    }
+    .min-h-screen {
+      min-height: 100vh;
+    }
+    .overflow-hidden {
+      overflow: hidden;
+    }
     .bg-radial-glow {
-      pointer-events: none; position: absolute; inset: 0;
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
       background:
         radial-gradient(ellipse at 20% 20%, oklch(0.3 0.15 25 / 0.35), transparent 55%),
         radial-gradient(ellipse at 80% 80%, oklch(0.25 0.18 22 / 0.3), transparent 60%);
     }
     .noise-overlay {
-      pointer-events: none; position: absolute; inset: 0; opacity: 0.04; mix-blend-mode: overlay;
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      opacity: 0.04;
+      mix-blend-mode: overlay;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' /%3E%3C/svg%3E");
     }
-    .snowflakes-container { pointer-events: none; position: fixed; inset: 0; overflow: hidden; z-index: 2; }
+    .snowflakes-container {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: 2;
+    }
     .snowflake {
-      filter: blur(0.5px); pointer-events: none;
+      filter: blur(0.5px);
+      pointer-events: none;
       background: radial-gradient(circle, #ff6266e6, #d4092400);
-      border-radius: 9999px; animation: linear infinite snowfall; position: absolute; top: 0;
+      border-radius: 9999px;
+      animation: linear infinite snowfall;
+      position: absolute;
+      top: 0;
     }
     @keyframes snowfall {
-      0% { opacity: 0; transform: translateY(-10vh) translate(0); }
-      10% { opacity: 1; }
-      90% { opacity: 0.8; }
-      to { transform: translateY(110vh) translate(var(--drift, 20px)); opacity: 0; }
+      0% {
+        opacity: 0;
+        transform: translateY(-10vh) translate(0);
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 0.8;
+      }
+      to {
+        transform: translateY(110vh) translate(var(--drift, 20px));
+        opacity: 0;
+      }
     }
-    @keyframes shimmer { 0% { background-position: -200%; } to { background-position: 200%; } }
+    @keyframes shimmer {
+      0% {
+        background-position: -200%;
+      }
+      to {
+        background-position: 200%;
+      }
+    }
     .shimmer-text {
       -webkit-text-fill-color: transparent;
-      background: linear-gradient(90deg, #fa002a, #ff303c, #ff474c 12.5%, #ff7a75 25%, #ffb7b3, #ff7a75 75%, #ff474c 87.5%, #ff303c, #fa002a) 0 0 / 200%;
-      background-clip: text; -webkit-background-clip: text; animation: 3s linear infinite shimmer;
+      background:
+        linear-gradient(
+          90deg,
+          #fa002a,
+          #ff303c,
+          #ff474c 12.5%,
+          #ff7a75 25%,
+          #ffb7b3,
+          #ff7a75 75%,
+          #ff474c 87.5%,
+          #ff303c,
+          #fa002a
+        ) 0 0 / 200%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      animation: 3s linear infinite shimmer;
     }
     .promo-link-button {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      width: 100%; max-width: 960px; margin: 0 auto; text-decoration: none; cursor: pointer;
-      transition: transform 0.35s cubic-bezier(0.2,0.9,0.4,1.1), filter 0.2s; outline: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+      text-decoration: none;
+      cursor: pointer;
+      transition:
+        transform 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1),
+        filter 0.2s;
+      outline: none;
     }
-    .promo-link-button:hover { transform: scale(1.02); }
+    .promo-link-button:hover {
+      transform: scale(1.02);
+    }
     .promo-bar-inner {
-      position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
-      gap: 1.2rem 2rem; border-radius: 9999px; padding: 0.9rem 2.2rem; backdrop-filter: blur(28px);
-      background: linear-gradient(90deg, oklch(0.18 0.04 25 / 0.98), oklch(1 0 0 / 0.08), oklch(0.18 0.04 25 / 0.98));
-      box-shadow: 0 0 0 1px var(--border-glow), 0 0 18px oklch(0.62 0.26 25 / 0.25), 0 0 55px oklch(0.62 0.26 25 / 0.2);
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem 2rem;
+      border-radius: 9999px;
+      padding: 0.9rem 2.2rem;
+      backdrop-filter: blur(28px);
+      background:
+        linear-gradient(
+          90deg,
+          oklch(0.18 0.04 25 / 0.98),
+          oklch(1 0 0 / 0.08),
+          oklch(0.18 0.04 25 / 0.98)
+        );
+      box-shadow:
+        0 0 0 1px var(--border-glow),
+        0 0 18px oklch(0.62 0.26 25 / 0.25),
+        0 0 55px oklch(0.62 0.26 25 / 0.2);
     }
     .glow-overlay {
-      pointer-events: none; position: absolute; inset: 0; border-radius: 9999px;
-      background: radial-gradient(circle, oklch(0.62 0.26 25 / 0.5), transparent 70%); opacity: 0.6;
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      border-radius: 9999px;
+      background:
+        radial-gradient(
+          circle,
+          oklch(0.62 0.26 25 / 0.5),
+          transparent 70%
+        );
+      opacity: 0.6;
     }
     .promo-text-group {
-      display: flex; align-items: center; flex-wrap: wrap; gap: 0.6rem 1rem;
-      font-size: 0.9rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--foreground);
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.6rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--foreground);
     }
     .discount-text {
-      font-family: var(--font-display); font-size: 1.6rem; font-weight: 700;
-      background: linear-gradient(135deg, #ffb7b3, #ff7a75, #ff474c);
-      -webkit-background-clip: text; background-clip: text; color: transparent;
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      background:
+        linear-gradient(
+          135deg,
+          #ffb7b3,
+          #ff7a75,
+          #ff474c
+        );
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
-    .separator { width: 1px; height: 24px; background-color: oklch(0.62 0.26 25 / 0.5); }
-    .badge-limited { font-size: 0.7rem; letter-spacing: 0.3em; color: var(--muted-foreground); }
+    .separator {
+      width: 1px;
+      height: 24px;
+      background-color:
+        oklch(0.62 0.26 25 / 0.5);
+    }
+    .badge-limited {
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      color: var(--muted-foreground);
+    }
     .action-hint {
-      display: flex; align-items: center; gap: 0.6rem; background: oklch(0.62 0.26 25 / 0.22);
-      padding: 0.55rem 1.3rem; border-radius: 40px; font-size: 0.8rem; font-weight: 700;
-      letter-spacing: 0.2em; text-transform: uppercase; color: var(--ember-glow);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background:
+        oklch(0.62 0.26 25 / 0.22);
+      padding: 0.55rem 1.3rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ember-glow);
     }
-    .logo-section { display: flex; flex-direction: column; align-items: center; gap: 2rem; padding: 3rem 1rem 2rem; }
-    .logo-img { width: 96px; height: 96px; border-radius: 1.5rem; object-fit: contain; }
+    .logo-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      padding: 3rem 1rem 2rem;
+    }
+    .logo-img {
+      width: 96px;
+      height: 96px;
+      border-radius: 1.5rem;
+      object-fit: contain;
+    }
     .sr-only {
-      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border-width: 0;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
     }
+    /* ADD LISTING PANEL */
     #add-listing-panel {
-      width: 100%; max-width: 960px; margin: 1rem auto 2rem; padding: 1.5rem;
-      background: rgba(250, 0, 42, 0.12); border: 1px solid oklch(0.62 0.26 25 / 0.5);
-      border-radius: 16px; display: none;
+      width: 100%;
+      max-width: 960px;
+      margin: 1rem auto 2rem;
+      padding: 1.5rem;
+      background: rgba(250, 0, 42, 0.12);
+      border: 1px solid oklch(0.62 0.26 25 / 0.5);
+      border-radius: 16px;
+      display: none;
     }
-    .form-group { margin-bottom: 1rem; }
-    .form-group label { display: block; margin-bottom: 0.4rem; font-weight: 600; color: #ff7a75; }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+      color: #ff7a75;
+    }
     .form-input {
-      width: 100%; padding: 0.8rem; background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: white;
+      width: 100%;
+      padding: 0.8rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      color: white;
     }
     #qc-drop-zone {
-      border: 2px dashed #ff474c; padding: 2rem; text-align: center;
-      border-radius: 12px; cursor: pointer; transition: all 0.2s;
+      border: 2px dashed #ff474c;
+      padding: 2rem;
+      text-align: center;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
     }
-    #qc-drop-zone.dragover { background: rgba(255, 71, 76, 0.15); border-color: #ff7a75; }
+    #qc-drop-zone.dragover {
+      background: rgba(255, 71, 76, 0.15);
+      border-color: #ff7a75;
+    }
     .sign-out-btn {
-      background: rgba(255,71,76,0.15); border: 1px solid #ff474c; color: #ff474c;
-      padding: 0.3rem 0.8rem; border-radius: 999px; cursor: pointer; font-size: 0.75rem;
-      font-weight: 600; margin-left: 8px; transition: 0.2s;
+      background: rgba(255,71,76,0.15);
+      border: 1px solid #ff474c;
+      color: #ff474c;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 8px;
+      transition: 0.2s;
     }
-    .sign-out-btn:hover { background: #ff474c; color: white; }
+    .sign-out-btn:hover {
+      background: #ff474c;
+      color: white;
+    }
   </style>
 </head>
 <body>
@@ -164,19 +345,46 @@
 
     <div id="add-listing-panel">
       <h2 style="color:#ff474c; text-align:center; margin-bottom:1.5rem; font-size:1.4rem;">➕ Add Product Listing</h2>
-      <div class="form-group"><label>Product Link</label><input type="text" id="product-link" class="form-input" placeholder="https://www.usfans.com/product/..."></div>
-      <div class="form-group"><label>Product Name</label><input type="text" id="product-name" class="form-input" placeholder="Enter product name"></div>
-      <div class="form-group"><label>QC Pictures (Drag & Drop multiple)</label><div id="qc-drop-zone">Drop images here or click to upload</div><div id="qc-preview-container" style="display:flex; flex-wrap:wrap; gap:4px; margin-top:1rem;"></div></div>
+      <div class="form-group">
+        <label>Product Link</label>
+        <input type="text" id="product-link" class="form-input" placeholder="https://www.usfans.com/product/...">
+      </div>
+      <div class="form-group">
+        <label>Product Name</label>
+        <input type="text" id="product-name" class="form-input" placeholder="Enter product name">
+      </div>
+      <div class="form-group">
+        <label>QC Pictures (Drag & Drop multiple)</label>
+        <div id="qc-drop-zone">Drop images here or click to upload</div>
+        <div id="qc-preview-container" style="display:flex; flex-wrap:wrap; gap:4px; margin-top:1rem;"></div>
+      </div>
       <button onclick="submitListing()" style="width:100%; padding:1rem; background:#ff474c; color:white; border:none; border-radius:999px; font-weight:700; cursor:pointer;">Add to Spreadsheet</button>
     </div>
 
     <div class="logo-section">
       <img src="images/usfans-wzr06cld.webp" alt="USFans" class="logo-img">
       <a href="https://www.usfans.com/register?ref=2TQXNA" id="exclusive-offer-button" class="promo-link-button" target="_blank" rel="noopener noreferrer">
-        <div class="promo-bar-inner"><div class="glow-overlay"></div><div class="promo-text-group"><span>Grab your</span><span class="discount-text shimmer-text">40% OFF</span><span>shipping</span><div class="separator"></div><span class="badge-limited">Limited time</span></div><div class="action-hint"><span>Register now →</span></div></div>
+        <div class="promo-bar-inner">
+          <div class="glow-overlay"></div>
+          <div class="promo-text-group">
+            <span>Grab your</span>
+            <span class="discount-text shimmer-text">40% OFF</span>
+            <span>shipping</span>
+            <div class="separator"></div>
+            <span class="badge-limited">Limited time</span>
+          </div>
+          <div class="action-hint"><span>Register now →</span></div>
+        </div>
       </a>
       <a href="/SpreadSheet" id="spreadsheet-button" class="promo-link-button" style="margin-top:1rem;" target="_blank" rel="noopener noreferrer">
-        <div class="promo-bar-inner"><div class="glow-overlay"></div><div class="promo-text-group"><span>Check out our</span><span class="discount-text shimmer-text">SPREADSHEET</span></div><div class="action-hint"><span>View Now →</span></div></div>
+        <div class="promo-bar-inner">
+          <div class="glow-overlay"></div>
+          <div class="promo-text-group">
+            <span>Check out our</span>
+            <span class="discount-text shimmer-text">SPREADSHEET</span>
+          </div>
+          <div class="action-hint"><span>View Now →</span></div>
+        </div>
       </a>
     </div>
     <div style="height: 2rem;"></div>
@@ -188,7 +396,7 @@
     const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6Zmtyb3lza3J2eGtkdGZzZXlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwMTczNTMsImV4cCI6MjA5NTU5MzM1M30.jzvCdD3Phi_jS3L0PnCcK6gyeq2D8ZZBVpVfvQ7leKc";
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    const ADMIN_EMAIL = "emanuelnadd@gmail.com";   // ← CHANGE THIS TO YOUR REAL EMAIL
+    const ADMIN_EMAIL = "emanuelnadd@gmail.com";
 
     const addListingPanel = document.getElementById('add-listing-panel');
     const loginWrapper = document.getElementById('google-login-wrapper');
@@ -206,7 +414,8 @@
         const { data: user, error } = await supabaseClient
           .from('users')
           .upsert({ email: googleUser.email, name: googleUser.name, picture: googleUser.picture }, { onConflict: 'email' })
-          .select().single();
+          .select()
+          .single();
         if (error) throw error;
         const usfansUser = { id: user.id, email: user.email, name: user.name, picture: user.picture };
         localStorage.setItem('usfans_user', JSON.stringify(usfansUser));
@@ -225,7 +434,6 @@
           <button onclick="signOut()" class="sign-out-btn">Sign Out</button>
         </div>
       `;
-      // Show add panel ONLY for admin
       if (user.email === ADMIN_EMAIL) {
         addListingPanel.style.display = 'block';
         setupDragDrop();
@@ -261,8 +469,11 @@
           reader.onload = (e) => {
             const img = document.createElement('img');
             img.src = e.target.result;
-            img.style.width = '80px'; img.style.height = '80px'; img.style.objectFit = 'cover';
-            img.style.borderRadius = '8px'; img.style.margin = '4px';
+            img.style.width = '80px';
+            img.style.height = '80px';
+            img.style.objectFit = 'cover';
+            img.style.borderRadius = '8px';
+            img.style.margin = '4px';
             previewContainer.appendChild(img);
           };
           reader.readAsDataURL(file);
@@ -285,7 +496,10 @@
 
     window.submitListing = async function() {
       const user = JSON.parse(localStorage.getItem('usfans_user'));
-      if (!user || user.email !== ADMIN_EMAIL) { alert('Only the admin can add listings.'); return; }
+      if (!user || user.email !== ADMIN_EMAIL) {
+        alert('Only the admin can add listings.');
+        return;
+      }
       const link = document.getElementById('product-link').value.trim();
       const name = document.getElementById('product-name').value.trim();
       const files = window._qcFiles ? window._qcFiles() : [];
@@ -306,7 +520,10 @@
       }
       try {
         const { error } = await supabaseClient.from('listings').insert({
-          user_id: user.id, name: name, link: finalLink, qc_image_url: qcImageUrls
+          user_id: user.id,
+          name: name,
+          link: finalLink,
+          qc_image_url: qcImageUrls
         });
         if (error) throw error;
         alert('Listing added successfully!' + (qcImageUrls.length ? '' : ' (no images uploaded)'));
