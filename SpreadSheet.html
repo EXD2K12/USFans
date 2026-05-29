@@ -1,44 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Listings Spreadsheet</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Listings Spreadsheet</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<style>
-body{
-  background:#0f0f10;
-  color:white;
-  font-family:Arial;
-  padding:40px;
-}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-h1{margin-bottom:20px;}
+  <style>
+    body{
+      background:#0f0f10;
+      color:white;
+      font-family:'Inter',Arial;
+      padding:40px;
+    }
 
-table{
-  width:100%;
-  border-collapse:collapse;
-  background:#18181b;
-  border-radius:12px;
-  overflow:hidden;
-}
+    h1{
+      margin-bottom:20px;
+      background:linear-gradient(90deg,#ff474c,#ff7a75);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
 
-th,td{
-  padding:14px;
-  border-bottom:1px solid rgba(255,255,255,0.08);
-  text-align:left;
-}
+    table{
+      width:100%;
+      border-collapse:collapse;
+      background:#18181b;
+      border-radius:12px;
+      overflow:hidden;
+    }
 
-th{background:#ff474c;}
+    th, td{
+      padding:14px;
+      border-bottom:1px solid rgba(255,255,255,0.08);
+      text-align:left;
+    }
 
-tr:hover{background:rgba(255,255,255,0.03);}
+    th{
+      background:#ff474c;
+    }
 
-a{color:#7ab7ff;text-decoration:none;}
+    tr:hover{
+      background:rgba(255,255,255,0.03);
+    }
 
-.loading{opacity:0.7;}
-</style>
+    a{
+      color:#7ab7ff;
+      text-decoration:none;
+    }
+
+    .loading{
+      opacity:0.7;
+    }
+
+    .delete-btn{
+      background:#ff474c;
+      border:none;
+      color:white;
+      padding:6px 10px;
+      border-radius:8px;
+      cursor:pointer;
+    }
+
+    .delete-btn:hover{
+      opacity:0.8;
+    }
+  </style>
 </head>
 
 <body>
@@ -52,8 +83,8 @@ a{color:#7ab7ff;text-decoration:none;}
     <tr>
       <th>Name</th>
       <th>Link</th>
-      <th>User</th>
       <th>Date</th>
+      <th>Actions</th>
     </tr>
   </thead>
 
@@ -61,52 +92,98 @@ a{color:#7ab7ff;text-decoration:none;}
 </table>
 
 <script>
-const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
+
+const SUPABASE_URL =
+  "https://fzfkroyskrvxkdtfseyl.supabase.co";
 
 const SUPABASE_ANON_KEY =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6Zmtyb3lza3J2eGtkdGZzZXlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwMTczNTMsImV4cCI6MjA5NTU5MzM1M30.jzvCdD3Phi_jS3L0PnCcK6gyeq2D8ZZBVpVfvQ7leKc";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6Zmtyb3lza3J2eGtkdGZzZXlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwMTczNTMsImV4cCI6MjA5NTU5MzM1M30.jzvCdD3Phi_jS3L0PnCcK6gyeq2D8ZZBVpVfvQ7leKc";
 
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabaseClient =
+  supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+let currentUser = null;
+let all = [];
+
+/* USER */
+function loadUser(){
+  const s = localStorage.getItem("usfans_user");
+  if(!s) return false;
+  currentUser = JSON.parse(s);
+  return true;
+}
+
+/* LOAD */
 async function loadListings(){
 
   const loading = document.getElementById("loading");
   const table = document.getElementById("table");
   const tbody = document.getElementById("table-body");
 
-  loading.style.display = "block";
+  const { data, error } =
+    await supabaseClient
+      .from("listings")
+      .select("*")
+      .order("created_at",{ascending:false});
 
-  const { data, error } = await supabaseClient
-    .from("listings")
-    .select("*")
-    .order("created_at", { ascending:false });
-
-  loading.style.display = "none";
+  loading.style.display="none";
 
   if(error){
-    loading.innerHTML = "Error loading listings";
-    console.error(error);
+    loading.innerText="Error loading listings";
     return;
   }
 
-  table.style.display = "table";
+  all = data || [];
 
+  table.style.display="table";
+
+  render();
+}
+
+/* DELETE FIXED */
+async function deleteListing(id){
+
+  const { error } =
+    await supabaseClient
+      .from("listings")
+      .delete()
+      .eq("id",id);
+
+  if(error){
+    alert(error.message);
+    return;
+  }
+
+  loadListings();
+}
+
+/* RENDER (NO USER SHOWN) */
+function render(){
+
+  const tbody = document.getElementById("table-body");
   tbody.innerHTML = "";
 
-  (data || []).forEach(item => {
+  all.forEach(item=>{
 
     const tr = document.createElement("tr");
 
     tr.innerHTML = `
-      <td>${item.name || ""}</td>
+      <td><strong>${item.name || ""}</strong></td>
+
       <td>
         <a href="${item.link}" target="_blank">
-          Open Product
+          Open
         </a>
       </td>
-      <td>${item.user_email || "Unknown"}</td>
+
       <td>
-        ${item.created_at ? new Date(item.created_at).toLocaleString() : ""}
+        ${new Date(item.created_at).toLocaleString()}
+      </td>
+
+      <td>
+        <button class="delete-btn" onclick="deleteListing('${item.id}')">
+          Delete
+        </button>
       </td>
     `;
 
@@ -114,7 +191,16 @@ async function loadListings(){
   });
 }
 
-loadListings();
+window.deleteListing = deleteListing;
+
+/* INIT */
+if(!loadUser()){
+  alert("Login required");
+  location.href="index.html";
+}else{
+  loadListings();
+}
+
 </script>
 
 </body>
