@@ -292,6 +292,23 @@
       border-radius: 8px;
       display: none;
     }
+    /* Sign Out button */
+    .sign-out-btn {
+      background: rgba(255,71,76,0.15);
+      border: 1px solid #ff474c;
+      color: #ff474c;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 8px;
+      transition: 0.2s;
+    }
+    .sign-out-btn:hover {
+      background: #ff474c;
+      color: white;
+    }
   </style>
 </head>
 <body>
@@ -347,9 +364,9 @@
         <input type="text" id="product-name" class="form-input" placeholder="Enter product name">
       </div>
       <div class="form-group">
-        <label>QC Picture (Drag & Drop)</label>
-        <div id="qc-drop-zone">Drop image here or click to upload</div>
-        <img id="qc-preview" alt="Preview">
+        <label>QC Picture (Drag & Drop multiple)</label>
+        <div id="qc-drop-zone">Drop images here or click to upload</div>
+        <div id="qc-preview-container" style="display:flex; flex-wrap:wrap; gap:4px; margin-top:1rem;"></div>
       </div>
       <button onclick="submitListing()" style="width:100%; padding:1rem; background:#ff474c; color:white; border:none; border-radius:999px; font-weight:700; cursor:pointer;">Add to Spreadsheet</button>
     </div>
@@ -412,7 +429,6 @@
       };
 
       try {
-        // Upsert into Supabase users table
         const { data: user, error } = await supabaseClient
           .from('users')
           .upsert(
@@ -424,7 +440,6 @@
 
         if (error) throw error;
 
-        // Store only what's needed (no email in localStorage)
         const usfansUser = {
           id: user.id,
           name: user.name,
@@ -440,55 +455,82 @@
     }
 
     function showUserUI(user) {
-      // Show user chip (email is not stored, but we can show it from Google payload if you want - here we don't)
       loginWrapper.innerHTML = `
         <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.06); padding:12px 18px; border-radius:999px; backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.08);">
           <img src="${user.picture}" style="width:42px; height:42px; border-radius:50%;">
           <span style="font-weight:700; color:white; font-size:14px;">${user.name}</span>
+          <button onclick="signOut()" class="sign-out-btn">Sign Out</button>
         </div>
       `;
       addListingPanel.style.display = 'block';
       setupDragDrop();
     }
 
-    // ---------- Drag & Drop ----------
+    // ---------- Sign Out ----------
+    window.signOut = function() {
+      localStorage.removeItem('usfans_user');
+      loginWrapper.innerHTML = '<div id="google-login-button"></div>';
+      addListingPanel.style.display = 'none';
+      google.accounts.id.renderButton(
+        document.getElementById("google-login-button"),
+        { theme: "filled_black", size: "large", shape: "pill", width: 260 }
+      );
+      google.accounts.id.prompt();
+    };
+
+    // ---------- Multiple File Drag & Drop ----------
     function setupDragDrop() {
       const dropZone = document.getElementById('qc-drop-zone');
-      const preview = document.getElementById('qc-preview');
-      let qcFile = null;
+      const previewContainer = document.getElementById('qc-preview-container');
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.multiple = true;
 
-      // Click upload
-      dropZone.addEventListener('click', () => {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*';
-        input.onchange = (e) => {
-          qcFile = e.target.files[0];
-          if (qcFile) {
-            const reader = new FileReader();
-            reader.onload = (ev) => { preview.src = ev.target.result; preview.style.display = 'block'; };
-            reader.readAsDataURL(qcFile);
-          }
-        };
-        input.click();
+      let selectedFiles = [];
+
+      function updatePreview() {
+        previewContainer.innerHTML = '';
+        selectedFiles.forEach((file, i) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.width = '80px';
+            img.style.height = '80px';
+            img.style.objectFit = 'cover';
+            img.style.borderRadius = '8px';
+            img.style.margin = '4px';
+            previewContainer.appendChild(img);
+          };
+          reader.readAsDataURL(file);
+        });
+        if (selectedFiles.length === 0) {
+          previewContainer.style.display = 'none';
+        } else {
+          previewContainer.style.display = 'flex';
+          previewContainer.style.flexWrap = 'wrap';
+        }
+      }
+
+      dropZone.addEventListener('click', () => input.click());
+
+      input.addEventListener('change', () => {
+        selectedFiles = Array.from(input.files);
+        updatePreview();
       });
 
-      // Drag & drop
       dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
       dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
       dropZone.addEventListener('drop', (e) => {
         e.preventDefault();
         dropZone.classList.remove('dragover');
-        qcFile = e.dataTransfer.files[0];
-        if (qcFile && qcFile.type.startsWith('image/')) {
-          const reader = new FileReader();
-          reader.onload = (ev) => { preview.src = ev.target.result; preview.style.display = 'block'; };
-          reader.readAsDataURL(qcFile);
-        }
+        selectedFiles = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+        updatePreview();
       });
 
-      // Expose file for submit
-      window._qcFile = () => qcFile;
+      // Expose files for submit
+      window._qcFiles = () => selectedFiles;
     }
 
     // ---------- Submit Listing ----------
@@ -501,7 +543,7 @@
 
       const link = document.getElementById('product-link').value.trim();
       const name = document.getElementById('product-name').value.trim();
-      const qcFile = window._qcFile ? window._qcFile() : null;
+      const files = window._qcFiles ? window._qcFiles() : [];
 
       if (!link || !name) {
         alert('Product link and name are required');
@@ -513,13 +555,14 @@
         finalLink += (finalLink.includes('?') ? '&' : '?') + 'ref=2TQXNA';
       }
 
-      let qcImageUrl = null;
-      if (qcFile) {
+      // Upload all images
+      let qcImageUrls = [];
+      for (const file of files) {
         try {
-          const fileName = `${user.id}/${Date.now()}-${qcFile.name}`;
+          const fileName = `${user.id}/${Date.now()}-${file.name}`;
           const { data: uploadData, error: uploadError } = await supabaseClient.storage
             .from('qc-images')
-            .upload(fileName, qcFile, {
+            .upload(fileName, file, {
               cacheControl: '3600',
               upsert: false
             });
@@ -529,10 +572,10 @@
           const { data: publicUrlData } = supabaseClient.storage
             .from('qc-images')
             .getPublicUrl(fileName);
-          qcImageUrl = publicUrlData.publicUrl;
+          qcImageUrls.push(publicUrlData.publicUrl);
         } catch (err) {
           console.error('Image upload failed', err);
-          alert('Failed to upload image. Adding listing without it.');
+          alert('Failed to upload one or more images. Continuing without them.');
         }
       }
 
@@ -543,7 +586,7 @@
             user_id: user.id,
             name: name,
             link: finalLink,
-            qc_image_url: qcImageUrl
+            qc_image_url: qcImageUrls  // now an array, Supabase stores as jsonb
           });
 
         if (error) throw error;
@@ -551,8 +594,8 @@
         alert('Listing added successfully!');
         document.getElementById('product-link').value = '';
         document.getElementById('product-name').value = '';
-        document.getElementById('qc-preview').style.display = 'none';
-        window._qcFile = null;
+        previewContainer.innerHTML = '';
+        window._qcFiles = null;
       } catch (err) {
         console.error('Insert failed', err);
         alert('Failed to add listing: ' + err.message);
@@ -579,4 +622,4 @@
     });
   </script>
 </body>
-</html> 
+</html>
