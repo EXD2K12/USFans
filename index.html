@@ -7,8 +7,6 @@
   <meta name="description" content="Grab 40% off shipping. Limited time offer.">
   <meta name="author" content="USFans">
   <link rel="preload" as="image" href="images/usfans-wzr06cld.webp">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -32,7 +30,8 @@
     .relative { position: relative; }
     .min-h-screen { min-height: 100vh; }
     .overflow-hidden { overflow: hidden; }
-    .bg-radial-glow { pointer-events: none; position: absolute; inset: 0;
+    .bg-radial-glow {
+      pointer-events: none; position: absolute; inset: 0;
       background: radial-gradient(ellipse at 20% 20%, oklch(0.3 0.15 25 / 0.35), transparent 55%),
                   radial-gradient(ellipse at 80% 80%, oklch(0.25 0.18 22 / 0.3), transparent 60%);
     }
@@ -52,7 +51,6 @@
       90% { opacity: 0.8; }
       to { transform: translateY(110vh) translate(var(--drift, 20px)); opacity: 0; }
     }
-    @keyframes shimmer { 0% { background-position: -200%; } to { background-position: 200%; } }
     .shimmer-text {
       -webkit-text-fill-color: transparent;
       background: linear-gradient(90deg,#fa002a,#ff303c,#ff474c 12.5%,#ff7a75 25%,#ffb7b3,#ff7a75 75%,#ff474c 87.5%,#ff303c,#fa002a) 0 0 / 200%;
@@ -83,34 +81,18 @@
       background: linear-gradient(135deg, #ffb7b3, #ff7a75, #ff474c);
       -webkit-background-clip: text; background-clip: text; color: transparent;
     }
-    .separator { width: 1px; height: 24px; background-color: oklch(0.62 0.26 25 / 0.5); }
-    .badge-limited { font-size: 0.7rem; letter-spacing: 0.3em; color: var(--muted-foreground); }
     .action-hint {
       display: flex; align-items: center; gap: 0.6rem;
       background: oklch(0.62 0.26 25 / 0.22); padding: 0.55rem 1.3rem; border-radius: 40px;
       font-size: 0.8rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ember-glow);
     }
-    .logo-section { display: flex; flex-direction: column; align-items: center; gap: 2rem; padding: 3rem 1rem 2rem; }
-    .logo-img { width: 96px; height: 96px; border-radius: 1.5rem; object-fit: contain; }
-
     #google-login-wrapper { position: absolute; top: 1.5rem; right: 1.5rem; z-index: 100; }
     #admin-panel {
       width: 100%; max-width: 960px; margin: 1.2rem auto 2rem; padding: 1.8rem;
       background: rgba(250, 0, 42, 0.15); border: 1px solid oklch(0.62 0.26 25 / 0.6);
       border-radius: 16px; display: none;
     }
-    .form-group { margin-bottom: 1rem; }
-    .form-group label { display: block; margin-bottom: 0.4rem; font-weight: 600; color: #ff7a75; }
-    .form-input {
-      width: 100%; padding: 0.8rem; background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: white;
-    }
-    #qc-drop-zone {
-      border: 2px dashed #ff474c; padding: 2rem; text-align: center;
-      border-radius: 12px; cursor: pointer;
-    }
-    #qc-drop-zone.dragover { background: rgba(255,71,76,0.15); border-color: #ff7a75; }
-    #qc-preview { max-width: 100%; max-height: 300px; margin-top: 1rem; border-radius: 8px; display: none; }
+    .form-input { width:100%; padding:12px; margin:8px 0; background:rgba(255,255,255,0.08); border:1px solid #ff474c; border-radius:8px; color:white; }
   </style>
 </head>
 <body>
@@ -118,39 +100,24 @@
     <div class="bg-radial-glow"></div>
     <div class="noise-overlay"></div>
     <div class="snowflakes-container" aria-hidden="true">
-      <!-- Snowflakes (kept) -->
+      <!-- Snowflakes (dense) -->
       <span class="snowflake" style="left:0.62%;width:1.9px;height:1.9px;animation-duration:10.3s;animation-delay:-2.4s;opacity:0.62;--drift:32px"></span>
-      <!-- ... other snowflakes ... -->
+      <!-- ... (other snowflakes remain the same as previous versions) ... -->
     </div>
 
-    <h1 class="sr-only">40% Off Shipping — Limited Time</h1>
-
-    <div id="google-login-wrapper" style="margin-top:1.5rem;display:flex;justify-content:center;">
-      <div id="google-login-button"></div>
-    </div>
+    <div id="google-login-wrapper" style="margin-top:1.5rem;display:flex;justify-content:center;"></div>
 
     <!-- ADMIN PANEL -->
     <div id="admin-panel">
-      <h2 style="color:#ff474c; text-align:center; margin-bottom:1.5rem;">XyLo BOT - Add New Listing</h2>
-      <div class="form-group">
-        <label>Product Link</label>
-        <input type="text" id="product-link" class="form-input" placeholder="https://www.usfans.com/product/...">
-      </div>
-      <div class="form-group">
-        <label>Product Name</label>
-        <input type="text" id="product-name" class="form-input" placeholder="Enter product name">
-      </div>
-      <div class="form-group">
-        <label>Product QC Pics (Drag & Drop)</label>
-        <div id="qc-drop-zone">Drop image here or click to upload</div>
-        <img id="qc-preview" alt="Preview">
-      </div>
-      <button onclick="submitListing()" style="width:100%; padding:1rem; background:#ff474c; color:white; border:none; border-radius:999px; font-weight:700; cursor:pointer;">ADD TO SPREADSHEET</button>
+      <h2 style="color:#ff474c;text-align:center;margin-bottom:20px;">XyLo BOT - Add New Listing</h2>
+      <input type="text" id="product-link" class="form-input" placeholder="https://www.usfans.com/product/...">
+      <input type="text" id="product-name" class="form-input" placeholder="Product Name">
+      <div id="qc-drop-zone" style="border:2px dashed #ff474c;padding:25px;margin:15px 0;text-align:center;cursor:pointer;border-radius:12px;">Drop QC Image Here</div>
+      <img id="qc-preview" style="max-width:100%;margin:10px 0;display:none;border-radius:8px;">
+      <button onclick="submitListing()" style="width:100%;padding:16px;background:#ff474c;color:white;border:none;border-radius:999px;font-weight:700;cursor:pointer;">ADD TO SPREADSHEET</button>
     </div>
 
-    <div class="logo-section">
-      <img src="images/usfans-wzr06cld.webp" alt="USFans" class="logo-img">
-
+    <div class="logo-section" style="text-align:center;padding-top:100px;">
       <a href="https://www.usfans.com/register?ref=2TQXNA" id="exclusive-offer-button" class="promo-link-button" target="_blank" rel="noopener noreferrer">
         <div class="promo-bar-inner">
           <div class="glow-overlay"></div>
@@ -165,7 +132,7 @@
         </div>
       </a>
 
-      <a href="SpreadSheet.html" class="promo-link-button" style="margin-top: 1rem;" target="_blank" rel="noopener noreferrer">
+      <a href="SpreadSheet.html" class="promo-link-button" style="margin-top:1rem;" target="_blank" rel="noopener noreferrer">
         <div class="promo-bar-inner">
           <div class="glow-overlay"></div>
           <div class="promo-text-group">
@@ -178,91 +145,71 @@
     </div>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script>
-    (function () {
-      const removeLovableElements = () => document.querySelectorAll('#lovable-badge, [id*="lovable-badge"], .lovable-badge').forEach(el => el.remove());
-      removeLovableElements();
+    const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_6_2ZEDiDiWI6ShtNGz8DsQ_zpR5A6sF";
 
-      function handleCredentialResponse(response) {
-        const payload = JSON.parse(atob(response.credential.split('.')[1]));
-        const user = { name: payload.name, email: payload.email, picture: payload.picture };
-        localStorage.setItem("google_user", JSON.stringify(user));
-        showUser(user);
+    const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    function handleCredentialResponse(response) {
+      const payload = JSON.parse(atob(response.credential.split('.')[1]));
+      const user = { name: payload.name, email: payload.email, picture: payload.picture };
+      localStorage.setItem("google_user", JSON.stringify(user));
+      showUser(user);
+    }
+
+    function showUser(user) {
+      const wrapper = document.getElementById("google-login-wrapper");
+      wrapper.innerHTML = `<div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.06);padding:12px 18px;border-radius:999px;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.08);"><img src="${user.picture}" style="width:42px;height:42px;border-radius:50%;"><div style="display:flex;flex-direction:column;"><span style="font-weight:700;color:white;font-size:14px;">${user.name}</span><span style="font-size:12px;opacity:0.7;color:white;">${user.email}</span></div></div>`;
+
+      if (user.name === "XyLo BOT" || (user.picture && user.picture.toLowerCase().endsWith('.gif'))) {
+        document.getElementById('admin-panel').style.display = 'block';
+      }
+    }
+
+    window.submitListing = async function() {
+      let link = document.getElementById('product-link').value.trim();
+      const name = document.getElementById('product-name').value.trim();
+
+      if (!link || !name) return alert("Please fill both fields");
+
+      if (!link.includes('ref=2TQXNA')) {
+        link += (link.includes('?') ? '&' : '?') + 'ref=2TQXNA';
       }
 
-      function showUser(user) {
-        const wrapper = document.getElementById("google-login-wrapper");
-        wrapper.innerHTML = `<div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.06);padding:12px 18px;border-radius:999px;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.08);"><img src="${user.picture}" style="width:42px;height:42px;border-radius:50%;"><div style="display:flex;flex-direction:column;"><span style="font-weight:700;color:white;font-size:14px;">${user.name}</span><span style="font-size:12px;opacity:0.7;color:white;">${user.email}</span></div></div>`;
+      const { error } = await supabase.from('listings').insert([{ link, name }]);
 
-        if (user.name === "XyLo BOT" || (user.picture && user.picture.toLowerCase().endsWith('.gif'))) {
-          document.getElementById('admin-panel').style.display = 'block';
-          setupDragDrop();
-        }
-      }
-
-      function setupDragDrop() {
-        const zone = document.getElementById('qc-drop-zone');
-        const preview = document.getElementById('qc-preview');
-        zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
-        zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
-        zone.addEventListener('drop', e => {
-          e.preventDefault(); zone.classList.remove('dragover');
-          const file = e.dataTransfer.files[0];
-          if (file && file.type.startsWith('image/')) {
-            const reader = new FileReader();
-            reader.onload = ev => { preview.src = ev.target.result; preview.style.display = 'block'; };
-            reader.readAsDataURL(file);
-          }
-        });
-      }
-
-      window.submitListing = function() {
-        let link = document.getElementById('product-link').value.trim();
-        const name = document.getElementById('product-name').value.trim();
-
-        if (!link || !name) {
-          alert("Please fill both Link and Name");
-          return;
-        }
-
-        if (!link.includes('ref=2TQXNA')) {
-          link += (link.includes('?') ? '&' : '?') + 'ref=2TQXNA';
-        }
-
-        // Save to localStorage
-        let listings = JSON.parse(localStorage.getItem("usfans_listings") || "[]");
-        listings.push({ link, name, date: new Date().toLocaleString() });
-        localStorage.setItem("usfans_listings", JSON.stringify(listings));
-
+      if (error) {
+        console.error(error);
+        alert("Failed to save: " + error.message);
+      } else {
         console.log("✅ Listing added to Spreadsheet");
         console.log({ link: link, name: name });
         console.log("1. link: \"" + link + "\"");
         console.log("2. name: \"" + name + "\"");
         console.log("3. [[Prototype]]: Object");
 
-        alert("✅ Listing successfully added to Spreadsheet!");
-        
-        // Clear fields after adding
+        alert("✅ Listing successfully saved to Supabase!");
         document.getElementById('product-link').value = '';
         document.getElementById('product-name').value = '';
-        document.getElementById('qc-preview').style.display = 'none';
-      };
+      }
+    };
 
-      window.addEventListener("load", () => {
-        google.accounts.id.initialize({
-          client_id: "215291464454-i5jmqnoalmhrsu89b13pa7gq2nksgkj3.apps.googleusercontent.com",
-          callback: handleCredentialResponse
-        });
-        google.accounts.id.renderButton(document.getElementById("google-login-button"), {
-          theme: "filled_black", size: "large", shape: "pill", width: 260
-        });
-        google.accounts.id.prompt();
-
-        const savedUser = localStorage.getItem("google_user");
-        if (savedUser) showUser(JSON.parse(savedUser));
+    window.addEventListener("load", () => {
+      google.accounts.id.initialize({
+        client_id: "215291464454-i5jmqnoalmhrsu89b13pa7gq2nksgkj3.apps.googleusercontent.com",
+        callback: handleCredentialResponse
       });
-    })();
+      google.accounts.id.renderButton(document.getElementById("google-login-button"), {
+        theme: "filled_black", size: "large", shape: "pill", width: 260
+      });
+      google.accounts.id.prompt();
+
+      const saved = localStorage.getItem("google_user");
+      if (saved) showUser(JSON.parse(saved));
+    });
   </script>
 </body>
 </html>
