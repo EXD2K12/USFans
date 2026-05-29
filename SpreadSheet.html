@@ -218,6 +218,19 @@
       transition: .3s;
       z-index: 9999;
     }
+    /* Image grid for QC */
+    .qc-images {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+      gap: 4px;
+      max-width: 120px;
+    }
+    .qc-images img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 4px;
+    }
   </style>
 </head>
 <body>
@@ -253,6 +266,7 @@
           <tr>
             <th onclick="sortTable('name')">Product ↕</th>
             <th>Link</th>
+            <th>QC Images</th>
             <th onclick="sortTable('created_at')">Date ↕</th>
             <th>Actions</th>
           </tr>
@@ -271,7 +285,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
-  const SUPABASE_ANON_KEY = "PASTE_REAL_ANON_KEY_HERE";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6Zmtyb3lza3J2eGtkdGZzZXlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwMTczNTMsImV4cCI6MjA5NTU5MzM1M30.jzvCdD3Phi_jS3L0PnCcK6gyeq2D8ZZBVpVfvQ7leKc";
   const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   let currentUser = null;
@@ -364,16 +378,35 @@
     });
 
     const tbody = document.getElementById('table-body');
-    tbody.innerHTML = filtered.map(item => `
-      <tr>
-        <td><strong>${escapeHtml(item.name)}</strong></td>
-        <td><a href="${escapeHtml(item.link)}" target="_blank" class="product-link">${truncateUrl(item.link)}</a></td>
-        <td>${formatDate(item.created_at)}</td>
-        <td>
-          <button class="delete-btn" onclick="deleteListing('${item.id}', '${escapeHtml(item.name).replace(/'/g, "\\'")}')">Delete</button>
-        </td>
-      </tr>
-    `).join('');
+    tbody.innerHTML = filtered.map(item => {
+      // Parse qc_image_url (jsonb array or single string)
+      let images = [];
+      if (item.qc_image_url) {
+        if (Array.isArray(item.qc_image_url)) {
+          images = item.qc_image_url;
+        } else if (typeof item.qc_image_url === 'string') {
+          images = [item.qc_image_url];
+        } else if (typeof item.qc_image_url === 'object') {
+          images = Object.values(item.qc_image_url); // just in case
+        }
+      }
+
+      const imageHTML = images.length > 0
+        ? `<div class="qc-images">${images.map(url => `<img src="${url}" alt="QC">`).join('')}</div>`
+        : '—';
+
+      return `
+        <tr>
+          <td><strong>${escapeHtml(item.name)}</strong></td>
+          <td><a href="${escapeHtml(item.link)}" target="_blank" class="product-link">${truncateUrl(item.link)}</a></td>
+          <td>${imageHTML}</td>
+          <td>${formatDate(item.created_at)}</td>
+          <td>
+            <button class="delete-btn" onclick="deleteListing('${item.id}', '${escapeHtml(item.name).replace(/'/g, "\\'")}')">Delete</button>
+          </td>
+        </tr>
+      `;
+    }).join('');
   }
 
   function sortTable(column) {
