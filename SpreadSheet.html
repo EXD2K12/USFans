@@ -1,206 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Listings Spreadsheet</title>
+<meta charset="UTF-8">
+<title>Spreadsheet</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+body{
+  background:#0b0b0d;
+  color:white;
+  font-family:'Inter',sans-serif;
+  padding:40px;
+  overflow-x:hidden;
+}
 
-  <style>
-    body{
-      background:#0f0f10;
-      color:white;
-      font-family:'Inter',Arial;
-      padding:40px;
-    }
+/* red snow */
+.snow{
+  position:fixed;
+  top:-10px;
+  width:5px;
+  height:5px;
+  background:red;
+  border-radius:50%;
+  animation:fall linear infinite;
+}
 
-    h1{
-      margin-bottom:20px;
-      background:linear-gradient(90deg,#ff474c,#ff7a75);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-    }
+@keyframes fall{
+  to{transform:translateY(110vh);}
+}
 
-    table{
-      width:100%;
-      border-collapse:collapse;
-      background:#18181b;
-      border-radius:12px;
-      overflow:hidden;
-    }
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:#151518;
+  border-radius:10px;
+  overflow:hidden;
+}
 
-    th, td{
-      padding:14px;
-      border-bottom:1px solid rgba(255,255,255,0.08);
-      text-align:left;
-    }
+th{
+  background:#ff3b3f;
+  padding:12px;
+}
 
-    th{
-      background:#ff474c;
-    }
+td{
+  padding:12px;
+  border-bottom:1px solid #333;
+}
 
-    tr:hover{
-      background:rgba(255,255,255,0.03);
-    }
-
-    a{
-      color:#7ab7ff;
-      text-decoration:none;
-    }
-
-    .loading{
-      opacity:0.7;
-    }
-
-    .delete-btn{
-      background:#ff474c;
-      border:none;
-      color:white;
-      padding:6px 10px;
-      border-radius:8px;
-      cursor:pointer;
-    }
-
-    .delete-btn:hover{
-      opacity:0.8;
-    }
-  </style>
+a{color:#ff7a7a}
+</style>
 </head>
 
 <body>
 
-<h1>USFans Listings</h1>
+<script>
+for(let i=0;i<40;i++){
+  const s=document.createElement("div");
+  s.className="snow";
+  s.style.left=Math.random()*100+"vw";
+  s.style.animationDuration=(3+Math.random()*5)+"s";
+  document.body.appendChild(s);
+}
+</script>
 
-<div id="loading" class="loading">Loading listings...</div>
+<h1>Listings</h1>
 
-<table id="table" style="display:none;">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Link</th>
-      <th>Date</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
+<div id="loading">Loading...</div>
 
-  <tbody id="table-body"></tbody>
+<table id="table" style="display:none">
+<thead>
+<tr>
+<th>Name</th>
+<th>Link</th>
+<th>Date</th>
+</tr>
+</thead>
+
+<tbody id="body"></tbody>
 </table>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+const supabaseClient = supabase.createClient(
+  "https://fzfkroyskrvxkdtfseyl.supabase.co",
+  "YOUR_SUPABASE_KEY_HERE"
+);
 
-const SUPABASE_URL =
-  "https://fzfkroyskrvxkdtfseyl.supabase.co";
+async function load(){
+  const {data}=await supabaseClient
+    .from("listings")
+    .select("*")
+    .order("created_at",{ascending:false});
 
-const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6Zmtyb3lza3J2eGtkdGZzZXlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwMTczNTMsImV4cCI6MjA5NTU5MzM1M30.jzvCdD3Phi_jS3L0PnCcK6gyeq2D8ZZBVpVfvQ7leKc";
+  document.getElementById("loading").style.display="none";
+  document.getElementById("table").style.display="table";
 
-const supabaseClient =
-  supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  data.forEach(d=>{
+    const tr=document.createElement("tr");
 
-let currentUser = null;
-let all = [];
-
-/* USER */
-function loadUser(){
-  const s = localStorage.getItem("usfans_user");
-  if(!s) return false;
-  currentUser = JSON.parse(s);
-  return true;
-}
-
-/* LOAD */
-async function loadListings(){
-
-  const loading = document.getElementById("loading");
-  const table = document.getElementById("table");
-  const tbody = document.getElementById("table-body");
-
-  const { data, error } =
-    await supabaseClient
-      .from("listings")
-      .select("*")
-      .order("created_at",{ascending:false});
-
-  loading.style.display="none";
-
-  if(error){
-    loading.innerText="Error loading listings";
-    return;
-  }
-
-  all = data || [];
-
-  table.style.display="table";
-
-  render();
-}
-
-/* DELETE FIXED */
-async function deleteListing(id){
-
-  const { error } =
-    await supabaseClient
-      .from("listings")
-      .delete()
-      .eq("id",id);
-
-  if(error){
-    alert(error.message);
-    return;
-  }
-
-  loadListings();
-}
-
-/* RENDER (NO USER SHOWN) */
-function render(){
-
-  const tbody = document.getElementById("table-body");
-  tbody.innerHTML = "";
-
-  all.forEach(item=>{
-
-    const tr = document.createElement("tr");
-
-    tr.innerHTML = `
-      <td><strong>${item.name || ""}</strong></td>
-
-      <td>
-        <a href="${item.link}" target="_blank">
-          Open
-        </a>
-      </td>
-
-      <td>
-        ${new Date(item.created_at).toLocaleString()}
-      </td>
-
-      <td>
-        <button class="delete-btn" onclick="deleteListing('${item.id}')">
-          Delete
-        </button>
-      </td>
+    tr.innerHTML=`
+      <td>${d.name}</td>
+      <td><a href="${d.link}" target="_blank">Open</a></td>
+      <td>${new Date(d.created_at).toLocaleString()}</td>
     `;
 
-    tbody.appendChild(tr);
+    document.getElementById("body").appendChild(tr);
   });
 }
 
-window.deleteListing = deleteListing;
-
-/* INIT */
-if(!loadUser()){
-  alert("Login required");
-  location.href="index.html";
-}else{
-  loadListings();
-}
-
+load();
 </script>
 
 </body>
