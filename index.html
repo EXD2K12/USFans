@@ -4,660 +4,696 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>40% Off Shipping — Limited Time</title>
-  <meta name="description" content="Grab 40% off shipping. Limited time offer.">
-  <meta name="author" content="USFans">
-  <link rel="preload" as="image" href="images/usfans-wzr06cld.webp">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+
     :root {
       --font-sans: 'Inter', sans-serif;
       --font-display: 'Cormorant Garamond', serif;
-      --background: oklch(13% 0.02 25);
-      --foreground: oklch(97% 0.01 20);
-      --muted-foreground: oklch(70% 0.03 25);
-      --ember: oklch(62% 0.26 25);
-      --ember-glow: oklch(70% 0.28 22);
-      --border-glow: oklch(62% 0.26 25 / 0.4);
+      --background: #0f0f10;
+      --foreground: #ffffff;
+      --muted-foreground: rgba(255,255,255,0.7);
+      --ember: #ff474c;
+      --ember-glow: #ff7a75;
+      --border-glow: rgba(255,71,76,0.4);
     }
+
     body {
-      background-color: var(--background);
+      background: var(--background);
       color: var(--foreground);
       font-family: var(--font-sans);
       min-height: 100vh;
       overflow-x: hidden;
     }
+
     .relative {
       position: relative;
     }
+
     .min-h-screen {
       min-height: 100vh;
     }
+
     .overflow-hidden {
       overflow: hidden;
     }
+
     .bg-radial-glow {
-      pointer-events: none;
       position: absolute;
       inset: 0;
-      background:
-        radial-gradient(ellipse at 20% 20%, oklch(0.3 0.15 25 / 0.35), transparent 55%),
-        radial-gradient(ellipse at 80% 80%, oklch(0.25 0.18 22 / 0.3), transparent 60%);
-    }
-    .noise-overlay {
       pointer-events: none;
-      position: absolute;
-      inset: 0;
-      opacity: 0.04;
-      mix-blend-mode: overlay;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' /%3E%3C/svg%3E");
-    }
-    .snowflakes-container {
-      pointer-events: none;
-      position: fixed;
-      inset: 0;
-      overflow: hidden;
-      z-index: 2;
-    }
-    .snowflake {
-      filter: blur(0.5px);
-      pointer-events: none;
-      background: radial-gradient(circle, #ff6266e6, #d4092400);
-      border-radius: 9999px;
-      animation: linear infinite snowfall;
-      position: absolute;
-      top: 0;
-    }
-    @keyframes snowfall {
-      0% {
-        opacity: 0;
-        transform: translateY(-10vh) translate(0);
-      }
-      10% {
-        opacity: 1;
-      }
-      90% {
-        opacity: 0.8;
-      }
-      to {
-        transform: translateY(110vh) translate(var(--drift, 20px));
-        opacity: 0;
-      }
-    }
-    @keyframes shimmer {
-      0% {
-        background-position: -200%;
-      }
-      to {
-        background-position: 200%;
-      }
-    }
-    .shimmer-text {
-      -webkit-text-fill-color: transparent;
       background:
-        linear-gradient(
-          90deg,
-          #fa002a,
-          #ff303c,
-          #ff474c 12.5%,
-          #ff7a75 25%,
-          #ffb7b3,
-          #ff7a75 75%,
-          #ff474c 87.5%,
-          #ff303c,
-          #fa002a
-        ) 0 0 / 200%;
-      background-clip: text;
-      -webkit-background-clip: text;
-      animation: 3s linear infinite shimmer;
+        radial-gradient(circle at 20% 20%, rgba(255,71,76,0.15), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(255,71,76,0.12), transparent 40%);
     }
-    .promo-link-button {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      max-width: 960px;
-      margin: 0 auto;
-      text-decoration: none;
-      cursor: pointer;
-      transition:
-        transform 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1),
-        filter 0.2s;
-      outline: none;
-    }
-    .promo-link-button:hover {
-      transform: scale(1.02);
-    }
-    .promo-bar-inner {
-      position: relative;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 1.2rem 2rem;
-      border-radius: 9999px;
-      padding: 0.9rem 2.2rem;
-      backdrop-filter: blur(28px);
-      background:
-        linear-gradient(
-          90deg,
-          oklch(0.18 0.04 25 / 0.98),
-          oklch(1 0 0 / 0.08),
-          oklch(0.18 0.04 25 / 0.98)
-        );
-      box-shadow:
-        0 0 0 1px var(--border-glow),
-        0 0 18px oklch(0.62 0.26 25 / 0.25),
-        0 0 55px oklch(0.62 0.26 25 / 0.2);
-    }
-    .glow-overlay {
-      pointer-events: none;
-      position: absolute;
-      inset: 0;
-      border-radius: 9999px;
-      background:
-        radial-gradient(
-          circle,
-          oklch(0.62 0.26 25 / 0.5),
-          transparent 70%
-        );
-      opacity: 0.6;
-    }
-    .promo-text-group {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.6rem 1rem;
-      font-size: 0.9rem;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--foreground);
-    }
-    .discount-text {
-      font-family: var(--font-display);
-      font-size: 1.6rem;
-      font-weight: 700;
-      background:
-        linear-gradient(
-          135deg,
-          #ffb7b3,
-          #ff7a75,
-          #ff474c
-        );
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    .separator {
-      width: 1px;
-      height: 24px;
-      background-color:
-        oklch(0.62 0.26 25 / 0.5);
-    }
-    .badge-limited {
-      font-size: 0.7rem;
-      letter-spacing: 0.3em;
-      color: var(--muted-foreground);
-    }
-    .action-hint {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      background:
-        oklch(0.62 0.26 25 / 0.22);
-      padding: 0.55rem 1.3rem;
-      border-radius: 40px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--ember-glow);
-    }
+
     .logo-section {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 2rem;
-      padding: 3rem 1rem 2rem;
+      padding: 6rem 1rem 2rem;
     }
+
     .logo-img {
-      width: 96px;
-      height: 96px;
-      border-radius: 1.5rem;
-      object-fit: contain;
+      width: 100px;
+      height: 100px;
+      border-radius: 20px;
+      object-fit: cover;
     }
-    .sr-only {
-      position: absolute;
+
+    .promo-link-button {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      max-width: 900px;
+      text-decoration: none;
+      transition: 0.25s;
+    }
+
+    .promo-link-button:hover {
+      transform: scale(1.02);
+    }
+
+    .promo-bar-inner {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      border-radius: 999px;
+      padding: 1rem 2rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 0 40px rgba(255,71,76,0.15);
+    }
+
+    .promo-text-group {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+    }
+
+    .discount-text {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      background: linear-gradient(90deg,#ffb7b3,#ff474c,#ff7a75);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .separator {
       width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border-width: 0;
+      height: 22px;
+      background: rgba(255,255,255,0.2);
     }
-    /* TOP RIGHT GOOGLE LOGIN POSITION - EXACTLY AS WORKING EXAMPLE */
+
+    .badge-limited {
+      color: var(--muted-foreground);
+      font-size: 0.8rem;
+    }
+
+    .action-hint {
+      background: rgba(255,71,76,0.15);
+      padding: 0.6rem 1.2rem;
+      border-radius: 999px;
+      color: var(--ember-glow);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* GOOGLE LOGIN */
     #google-login-wrapper {
       position: absolute;
       top: 1.5rem;
       right: 1.5rem;
-      z-index: 100;
-      margin-top: 0;
+      z-index: 999;
     }
 
-    /* ADMIN PANEL STYLES */
+    /* ADMIN PANEL */
     #admin-panel {
       width: 100%;
       max-width: 960px;
       margin: 1rem auto 2rem;
       padding: 1.5rem;
-      background: rgba(250, 0, 42, 0.12);
-      border: 1px solid oklch(0.62 0.26 25 / 0.5);
-      border-radius: 16px;
+      background: rgba(255,71,76,0.08);
+      border: 1px solid rgba(255,71,76,0.3);
+      border-radius: 18px;
       display: none;
     }
+
     .form-group {
       margin-bottom: 1rem;
     }
+
     .form-group label {
       display: block;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.5rem;
       font-weight: 600;
       color: #ff7a75;
     }
+
     .form-input {
       width: 100%;
-      padding: 0.8rem;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 8px;
+      padding: 0.9rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
       color: white;
     }
+
     #qc-drop-zone {
       border: 2px dashed #ff474c;
       padding: 2rem;
+      border-radius: 14px;
       text-align: center;
-      border-radius: 12px;
       cursor: pointer;
-      transition: all 0.2s;
     }
-    #qc-drop-zone.dragover {
-      background: rgba(255, 71, 76, 0.15);
-      border-color: #ff7a75;
-    }
+
     #qc-preview {
       max-width: 100%;
       max-height: 300px;
       margin-top: 1rem;
-      border-radius: 8px;
+      border-radius: 10px;
       display: none;
     }
+
     .toast-msg {
       position: fixed;
-      bottom: 24px;
+      bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      background: #1a1f2e;
-      backdrop-filter: blur(20px);
-      padding: 12px 28px;
-      border-radius: 60px;
-      border-left: 6px solid #ff474c;
-      z-index: 999;
+      background: #1a1a1a;
+      color: white;
+      padding: 12px 22px;
+      border-radius: 999px;
+      border-left: 5px solid #ff474c;
       opacity: 0;
-      transition: opacity 0.2s;
-      pointer-events: none;
-      font-size: 0.9rem;
+      transition: opacity 0.3s;
+      z-index: 9999;
     }
   </style>
 </head>
+
 <body>
-  <main class="relative min-h-screen overflow-hidden">
-    <div class="bg-radial-glow"></div>
-    <div class="noise-overlay"></div>
-    <div class="snowflakes-container" aria-hidden="true">
-      <span class="snowflake" style="left:0.62%;width:1.9px;height:1.9px;animation-duration:10.3s;animation-delay:-2.4s;opacity:0.62;--drift:32px"></span>
-      <span class="snowflake" style="left:36.9%;width:2.15px;height:2.15px;animation-duration:8.38s;animation-delay:-0.38s;opacity:0.6;--drift:-17px"></span>
-      <span class="snowflake" style="left:33.36%;width:2.96px;height:2.96px;animation-duration:8.51s;animation-delay:-3.7s;opacity:0.45;--drift:10px"></span>
-      <span class="snowflake" style="left:12.4%;width:1.6px;height:1.6px;animation-duration:12.1s;animation-delay:-1.2s;opacity:0.55;--drift:25px"></span>
-      <span class="snowflake" style="left:68.7%;width:2.4px;height:2.4px;animation-duration:7.8s;animation-delay:-4.5s;opacity:0.7;--drift:-22px"></span>
-      <span class="snowflake" style="left:5.1%;width:1.8px;height:1.8px;animation-duration:9.6s;animation-delay:-0.9s;opacity:0.48;--drift:18px"></span>
-      <span class="snowflake" style="left:84.3%;width:3.1px;height:3.1px;animation-duration:11.4s;animation-delay:-5.1s;opacity:0.52;--drift:35px"></span>
-      <span class="snowflake" style="left:22.8%;width:1.4px;height:1.4px;animation-duration:6.9s;animation-delay:-2.8s;opacity:0.65;--drift:-12px"></span>
-      <span class="snowflake" style="left:47.2%;width:2.7px;height:2.7px;animation-duration:10.7s;animation-delay:-1.6s;opacity:0.58;--drift:28px"></span>
-      <span class="snowflake" style="left:91.5%;width:2.1px;height:2.1px;animation-duration:8.2s;animation-delay:-3.9s;opacity:0.42;--drift:-30px"></span>
-      <span class="snowflake" style="left:8.9%;width:1.7px;height:1.7px;animation-duration:13.5s;animation-delay:-0.4s;opacity:0.61;--drift:15px"></span>
-      <span class="snowflake" style="left:55.6%;width:2.8px;height:2.8px;animation-duration:7.4s;animation-delay:-4.2s;opacity:0.49;--drift:24px"></span>
-      <span class="snowflake" style="left:29.3%;width:1.5px;height:1.5px;animation-duration:9.9s;animation-delay:-2.1s;opacity:0.67;--drift:-19px"></span>
-      <span class="snowflake" style="left:73.1%;width:2.3px;height:2.3px;animation-duration:11.8s;animation-delay:-5.8s;opacity:0.53;--drift:31px"></span>
-      <span class="snowflake" style="left:41.7%;width:1.9px;height:1.9px;animation-duration:8.7s;animation-delay:-1.3s;opacity:0.59;--drift:-14px"></span>
-      <span class="snowflake" style="left:17.6%;width:2.6px;height:2.6px;animation-duration:10.2s;animation-delay:-3.4s;opacity:0.46;--drift:27px"></span>
-      <span class="snowflake" style="left:80.4%;width:1.3px;height:1.3px;animation-duration:12.6s;animation-delay:-0.7s;opacity:0.64;--drift:-25px"></span>
-      <span class="snowflake" style="left:3.8%;width:2.9px;height:2.9px;animation-duration:7.1s;animation-delay:-4.8s;opacity:0.51;--drift:20px"></span>
-      <span class="snowflake" style="left:62.5%;width:1.8px;height:1.8px;animation-duration:9.3s;animation-delay:-2.5s;opacity:0.57;--drift:-16px"></span>
-      <span class="snowflake" style="left:26.9%;width:2.2px;height:2.2px;animation-duration:11.2s;animation-delay:-1.9s;opacity:0.44;--drift:33px"></span>
-      <span class="snowflake" style="left:88.2%;width:1.6px;height:1.6px;animation-duration:8.5s;animation-delay:-5.3s;opacity:0.68;--drift:-21px"></span>
-      <span class="snowflake" style="left:14.7%;width:2.5px;height:2.5px;animation-duration:10.9s;animation-delay:-3.2s;opacity:0.5;--drift:19px"></span>
-      <span class="snowflake" style="left:69.8%;width:1.7px;height:1.7px;animation-duration:7.6s;animation-delay:-0.5s;opacity:0.6;--drift:-28px"></span>
-      <span class="snowflake" style="left:37.4%;width:2.4px;height:2.4px;animation-duration:12.3s;animation-delay:-4.1s;opacity:0.47;--drift:26px"></span>
-      <span class="snowflake" style="left:95.1%;width:1.9px;height:1.9px;animation-duration:9.1s;animation-delay:-2.7s;opacity:0.63;--drift:-13px"></span>
-      <span class="snowflake" style="left:10.3%;width:2.7px;height:2.7px;animation-duration:8.9s;animation-delay:-1.8s;opacity:0.54;--drift:30px"></span>
-      <span class="snowflake" style="left:52.8%;width:1.4px;height:1.4px;animation-duration:11.5s;animation-delay:-5.6s;opacity:0.49;--drift:-24px"></span>
-      <span class="snowflake" style="left:78.9%;width:2.1px;height:2.1px;animation-duration:7.9s;animation-delay:-3.6s;opacity:0.58;--drift:22px"></span>
-    </div>
-    <h1 class="sr-only">
-      40% Off Shipping — Limited Time
-    </h1>
 
-    <!-- GOOGLE LOGIN - EXACT SAME STRUCTURE AS WORKING EXAMPLE -->
-    <div id="google-login-wrapper">
-      <div id="google-login-button"></div>
+<main class="relative min-h-screen overflow-hidden">
+
+  <div class="bg-radial-glow"></div>
+
+  <!-- GOOGLE LOGIN -->
+  <div id="google-login-wrapper">
+    <div id="google-login-button"></div>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div id="admin-panel">
+
+    <h2 style="margin-bottom:1.5rem; text-align:center; color:#ff474c;">
+      Add New Product Listing
+    </h2>
+
+    <div class="form-group">
+      <label>Product Link</label>
+      <input type="text" id="product-link" class="form-input">
     </div>
 
-    <!-- ADMIN PANEL (Shows after login) -->
-    <div id="admin-panel">
-      <h2 style="color:#ff474c; text-align:center; margin-bottom:1.5rem; font-size:1.4rem;">Add New Product Listing</h2>
-      
-      <div class="form-group">
-        <label>Product Link</label>
-        <input type="text" id="product-link" class="form-input" placeholder="https://www.usfans.com/product/...">
+    <div class="form-group">
+      <label>Product Name</label>
+      <input type="text" id="product-name" class="form-input">
+    </div>
+
+    <div class="form-group">
+      <label>QC Picture</label>
+
+      <div id="qc-drop-zone">
+        Drop image here or click upload
       </div>
-      
-      <div class="form-group">
-        <label>Product Name</label>
-        <input type="text" id="product-name" class="form-input" placeholder="Enter product name">
-      </div>
-      
-      <div class="form-group">
-        <label>Product QC Pics (Drag & Drop - Preview Only)</label>
-        <div id="qc-drop-zone">Drop image here or click to upload</div>
-        <img id="qc-preview" alt="Preview">
-      </div>
-      
-      <button onclick="submitListing()" style="width:100%; padding:1rem; background:#ff474c; color:white; border:none; border-radius:999px; font-weight:700; cursor:pointer;">ADD TO SPREADSHEET</button>
+
+      <img id="qc-preview">
     </div>
 
-    <div class="logo-section">
-      <img
-        src="images/usfans-wzr06cld.webp"
-        alt="USFans"
-        class="logo-img"
-      >
-      <a
-        href="https://www.usfans.com/register?ref=2TQXNA"
-        id="exclusive-offer-button"
-        class="promo-link-button"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <div class="promo-bar-inner">
-          <div class="glow-overlay"></div>
-          <div class="promo-text-group">
-            <span>Grab your</span>
-            <span class="discount-text shimmer-text">
-              40% OFF
-            </span>
-            <span>shipping</span>
-            <div class="separator"></div>
-            <span class="badge-limited">
-              Limited time
-            </span>
-          </div>
-          <div class="action-hint">
-            <span>Register now →</span>
-          </div>
+    <button
+      onclick="submitListing()"
+      style="
+        width:100%;
+        padding:1rem;
+        border:none;
+        border-radius:999px;
+        background:#ff474c;
+        color:white;
+        font-weight:700;
+        cursor:pointer;
+      "
+    >
+      ADD TO SPREADSHEET
+    </button>
+
+  </div>
+
+  <!-- MAIN -->
+  <div class="logo-section">
+
+    <img
+      src="images/usfans-wzr06cld.webp"
+      class="logo-img"
+      alt="USFans"
+    >
+
+    <!-- MAIN BUTTON -->
+    <a
+      href="https://www.usfans.com/register?ref=2TQXNA"
+      class="promo-link-button"
+      target="_blank"
+    >
+      <div class="promo-bar-inner">
+
+        <div class="promo-text-group">
+          <span>Grab your</span>
+
+          <span class="discount-text">
+            40% OFF
+          </span>
+
+          <span>shipping</span>
+
+          <div class="separator"></div>
+
+          <span class="badge-limited">
+            Limited time
+          </span>
         </div>
-      </a>
 
-      <!-- SPREADSHEET BUTTON - EXACT SAME STYLE -->
-      <a
-        href="SpreadSheet.html"
-        id="spreadsheet-button"
-        class="promo-link-button"
-        style="margin-top: 1rem;"
-      >
-        <div class="promo-bar-inner">
-          <div class="glow-overlay"></div>
-          <div class="promo-text-group">
-            <span>Check out our</span>
-            <span class="discount-text shimmer-text">
-              SPREADSHEET
-            </span>
-          </div>
-          <div class="action-hint">
-            <span>View Now →</span>
-          </div>
+        <div class="action-hint">
+          Register Now →
         </div>
-      </a>
-    </div>
-    <div style="height: 2rem;"></div>
-  </main>
 
-  <div id="toast" class="toast-msg"></div>
+      </div>
+    </a>
 
-  <!-- GOOGLE SCRIPT (must come before custom script) -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    // Supabase Configuration
-    const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_6_2ZEDiDiWI6ShtNGz8DsQ_zpR5A6sF";
-    const supabase = window.Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    <!-- SPREADSHEET BUTTON -->
+    <a
+      href="SpreadSheet.html"
+      class="promo-link-button"
+    >
+      <div class="promo-bar-inner">
 
-    let currentUser = null;
+        <div class="promo-text-group">
+          <span>Check out our</span>
 
-    function showToast(message, isError = false) {
-      const toast = document.getElementById('toast');
-      toast.textContent = message;
-      toast.style.backgroundColor = isError ? '#3b141c' : '#1a3324';
-      toast.style.borderLeftColor = isError ? '#ff474c' : '#6bff9b';
-      toast.style.opacity = '1';
-      setTimeout(() => {
-        toast.style.opacity = '0';
-      }, 3000);
-    }
-
-    // Remove any lovable badges
-    (function removeLovableElements() {
-      const badge = document.getElementById('lovable-badge');
-      if (badge) badge.remove();
-      const allBadges = document.querySelectorAll('[id*="lovable-badge"], .lovable-badge');
-      allBadges.forEach(el => el.remove());
-    })();
-
-    // Fix main button href
-    const mainButton = document.getElementById('exclusive-offer-button');
-    if (mainButton) {
-      mainButton.setAttribute('href', 'https://www.usfans.com/register?ref=2TQXNA');
-    }
-
-    // GOOGLE LOGIN HANDLER - EXACTLY AS WORKING EXAMPLE
-    function handleCredentialResponse(response) {
-      const payload = JSON.parse(atob(response.credential.split('.')[1]));
-      currentUser = {
-        id: payload.sub,
-        name: payload.name,
-        email: payload.email,
-        picture: payload.picture
-      };
-      console.log("Logged in:", currentUser);
-      localStorage.setItem("usfans_user", JSON.stringify(currentUser));
-      showUser(currentUser);
-      showToast(`Welcome ${currentUser.name}! You can now add products.`);
-    }
-
-    function showUser(user) {
-      const loginContainer = document.getElementById("google-login-wrapper");
-      loginContainer.innerHTML = `
-        <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.06); padding:8px 16px; border-radius:999px; backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.08);">
-          <img src="${user.picture}" style="width:40px; height:40px; border-radius:50%; border:2px solid #ff474c;">
-          <div style="display:flex; flex-direction:column;">
-            <span style="font-weight:600; color:white; font-size:13px;">${user.name}</span>
-            <span style="font-size:11px; opacity:0.7; color:white;">${user.email}</span>
-          </div>
-          <button id="logoutButton" style="background:rgba(255,71,76,0.2); border:1px solid #ff474c; color:#ffb7b3; padding:4px 12px; border-radius:40px; cursor:pointer; font-size:12px;">Sign Out</button>
+          <span class="discount-text">
+            Spreadsheet
+          </span>
         </div>
-      `;
-      // Show admin panel
-      document.getElementById('admin-panel').style.display = 'block';
-      setupDragDrop();
-      
-      // Add logout functionality
-      const logoutBtn = document.getElementById('logoutButton');
-      if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
-          localStorage.removeItem('usfans_user');
-          window.location.reload();
-        });
-      }
-    }
 
-    // Image drag & drop preview
-    function setupDragDrop() {
-      const dropZone = document.getElementById('qc-drop-zone');
-      const preview = document.getElementById('qc-preview');
-      
-      if (!dropZone) return;
-      
-      // Click to upload
-      dropZone.addEventListener('click', () => {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*';
-        input.onchange = (e) => {
-          const file = e.target.files[0];
-          if (file && file.type.startsWith('image/')) {
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-              preview.src = ev.target.result;
-              preview.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-          }
-        };
-        input.click();
-      });
-      
-      // Drag & drop
-      dropZone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        dropZone.classList.add('dragover');
-      });
-      dropZone.addEventListener('dragleave', () => {
-        dropZone.classList.remove('dragover');
-      });
-      dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('dragover');
-        const file = e.dataTransfer.files[0];
-        if (file && file.type.startsWith('image/')) {
-          const reader = new FileReader();
-          reader.onload = (ev) => {
-            preview.src = ev.target.result;
-            preview.style.display = 'block';
-          };
-          reader.readAsDataURL(file);
-        }
-      });
-    }
+        <div class="action-hint">
+          View Now →
+        </div>
 
-    // Submit listing to Supabase
-    window.submitListing = async function() {
-      if (!currentUser) {
-        showToast("Please sign in with Google first", true);
-        return;
-      }
+      </div>
+    </a>
 
-      let link = document.getElementById('product-link').value.trim();
-      const name = document.getElementById('product-name').value.trim();
+  </div>
 
-      if (!link || !name) {
-        showToast("Please fill both Product Link and Name", true);
-        return;
-      }
+</main>
 
-      // Add ref parameter
-      if (!link.includes('ref=2TQXNA')) {
-        link += (link.includes('?') ? '&' : '?') + 'ref=2TQXNA';
-      }
+<div id="toast" class="toast-msg"></div>
 
-      const submitBtn = document.querySelector('#admin-panel button');
-      const originalText = submitBtn.textContent;
-      submitBtn.textContent = "⏳ ADDING...";
-      submitBtn.disabled = true;
+<!-- GOOGLE -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 
-      try {
-        const { error } = await supabase
-          .from('listings')
-          .insert([{
-            link: link,
-            name: name,
-            user_id: currentUser.id,
-            user_email: currentUser.email,
-            created_at: new Date().toISOString()
-          }]);
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-        if (error) throw error;
+<script>
+  // =========================
+  // SUPABASE
+  // =========================
 
-        showToast(`✅ "${name}" added to your spreadsheet!`);
-        console.log("New Listing Added:", { link: link, name: name });
+  const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
 
-        // Clear form
-        document.getElementById('product-link').value = '';
-        document.getElementById('product-name').value = '';
-        document.getElementById('qc-preview').style.display = 'none';
-        document.getElementById('qc-preview').src = '';
+  const SUPABASE_ANON_KEY =
+    "YOUR_SUPABASE_KEY_HERE";
 
-      } catch (error) {
-        console.error("Supabase error:", error);
-        showToast(`❌ Error: ${error.message}`, true);
-      } finally {
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-      }
+  // FIXED
+  const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
+
+  let currentUser = null;
+
+  // =========================
+  // TOAST
+  // =========================
+
+  function showToast(message, error = false) {
+
+    const toast = document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.style.borderLeftColor =
+      error ? "#ff474c" : "#4dff88";
+
+    toast.style.opacity = "1";
+
+    setTimeout(() => {
+      toast.style.opacity = "0";
+    }, 3000);
+  }
+
+  // =========================
+  // GOOGLE LOGIN
+  // =========================
+
+  function handleCredentialResponse(response) {
+
+    const payload =
+      JSON.parse(
+        atob(response.credential.split(".")[1])
+      );
+
+    currentUser = {
+      id: payload.sub,
+      name: payload.name,
+      email: payload.email,
+      picture: payload.picture
     };
 
-    // Restore login session
-    function restoreSession() {
-      const savedUser = localStorage.getItem("usfans_user");
-      if (savedUser) {
-        try {
-          currentUser = JSON.parse(savedUser);
-          showUser(currentUser);
-        } catch(e) {
-          console.error("Failed to restore session", e);
-        }
+    localStorage.setItem(
+      "usfans_user",
+      JSON.stringify(currentUser)
+    );
+
+    showUser(currentUser);
+
+    showToast(
+      `Welcome ${currentUser.name}!`
+    );
+  }
+
+  function showUser(user) {
+
+    const wrapper =
+      document.getElementById(
+        "google-login-wrapper"
+      );
+
+    wrapper.innerHTML = `
+      <div style="
+        display:flex;
+        align-items:center;
+        gap:12px;
+        background:rgba(255,255,255,0.06);
+        padding:8px 16px;
+        border-radius:999px;
+        backdrop-filter:blur(12px);
+      ">
+
+        <img
+          src="${user.picture}"
+          style="
+            width:40px;
+            height:40px;
+            border-radius:50%;
+          "
+        >
+
+        <div>
+          <div style="font-size:13px;font-weight:700;">
+            ${user.name}
+          </div>
+
+          <div style="font-size:11px;opacity:0.7;">
+            ${user.email}
+          </div>
+        </div>
+
+        <button
+          id="logoutButton"
+          style="
+            background:#ff474c;
+            border:none;
+            color:white;
+            padding:6px 12px;
+            border-radius:999px;
+            cursor:pointer;
+          "
+        >
+          Sign Out
+        </button>
+
+      </div>
+    `;
+
+    document.getElementById(
+      "admin-panel"
+    ).style.display = "block";
+
+    setupDragDrop();
+
+    document
+      .getElementById("logoutButton")
+      .addEventListener("click", () => {
+
+        localStorage.removeItem(
+          "usfans_user"
+        );
+
+        location.reload();
+      });
+  }
+
+  // =========================
+  // DRAG DROP
+  // =========================
+
+  function setupDragDrop() {
+
+    const dropZone =
+      document.getElementById(
+        "qc-drop-zone"
+      );
+
+    const preview =
+      document.getElementById(
+        "qc-preview"
+      );
+
+    dropZone.addEventListener(
+      "click",
+      () => {
+
+        const input =
+          document.createElement("input");
+
+        input.type = "file";
+
+        input.accept = "image/*";
+
+        input.onchange = (e) => {
+
+          const file =
+            e.target.files[0];
+
+          if (!file) return;
+
+          const reader =
+            new FileReader();
+
+          reader.onload = (ev) => {
+
+            preview.src =
+              ev.target.result;
+
+            preview.style.display =
+              "block";
+          };
+
+          reader.readAsDataURL(file);
+        };
+
+        input.click();
       }
+    );
+  }
+
+  // =========================
+  // SUBMIT
+  // =========================
+
+  async function submitListing() {
+
+    if (!currentUser) {
+
+      showToast(
+        "Please login first",
+        true
+      );
+
+      return;
     }
 
-    // Initialize Google Sign-In when page loads
-    window.addEventListener("load", () => {
-      if (window.google && google.accounts && google.accounts.id) {
+    let link =
+      document.getElementById(
+        "product-link"
+      ).value.trim();
+
+    const name =
+      document.getElementById(
+        "product-name"
+      ).value.trim();
+
+    if (!link || !name) {
+
+      showToast(
+        "Fill all fields",
+        true
+      );
+
+      return;
+    }
+
+    if (
+      !link.includes("ref=2TQXNA")
+    ) {
+
+      link +=
+        (link.includes("?")
+          ? "&"
+          : "?") +
+        "ref=2TQXNA";
+    }
+
+    try {
+
+      const { error } =
+        await supabaseClient
+          .from("listings")
+          .insert([
+            {
+              link,
+              name,
+              user_id: currentUser.id,
+              user_email:
+                currentUser.email
+            }
+          ]);
+
+      if (error) throw error;
+
+      showToast(
+        "Added successfully!"
+      );
+
+      document.getElementById(
+        "product-link"
+      ).value = "";
+
+      document.getElementById(
+        "product-name"
+      ).value = "";
+
+    } catch (err) {
+
+      console.error(err);
+
+      showToast(
+        err.message,
+        true
+      );
+    }
+  }
+
+  // =========================
+  // RESTORE SESSION
+  // =========================
+
+  function restoreSession() {
+
+    const saved =
+      localStorage.getItem(
+        "usfans_user"
+      );
+
+    if (!saved) return;
+
+    try {
+
+      currentUser =
+        JSON.parse(saved);
+
+      showUser(currentUser);
+
+    } catch (e) {
+
+      console.error(e);
+    }
+  }
+
+  // =========================
+  // INIT GOOGLE
+  // =========================
+
+  window.onload = () => {
+
+    restoreSession();
+
+    // WAIT for google script
+    const waitForGoogle = setInterval(() => {
+
+      if (
+        window.google &&
+        google.accounts &&
+        google.accounts.id
+      ) {
+
+        clearInterval(waitForGoogle);
+
         google.accounts.id.initialize({
-          client_id: "215291464454-i5jmqnoalmhrsu89b13pa7gq2nksgkj3.apps.googleusercontent.com",
-          callback: handleCredentialResponse
+
+          client_id:
+            "215291464454-i5jmqnoalmhrsu89b13pa7gq2nksgkj3.apps.googleusercontent.com",
+
+          callback:
+            handleCredentialResponse
         });
+
         google.accounts.id.renderButton(
-          document.getElementById("google-login-button"),
-          { theme: "filled_black", size: "large", shape: "pill", width: 260 }
+          document.getElementById(
+            "google-login-button"
+          ),
+          {
+            theme: "filled_black",
+            size: "large",
+            shape: "pill",
+            width: 260
+          }
         );
-        google.accounts.id.prompt(); // One-tap sign-up
-      } else {
-        console.error("Google API not loaded");
-        showToast("Google Sign-In failed to load. Please refresh.", true);
+
       }
-      
-      // Restore existing session
-      restoreSession();
-    });
-  </script>
+
+    }, 100);
+  };
+</script>
+
 </body>
 </html>
