@@ -11,189 +11,139 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin:0; padding:0; box-sizing:border-box; }
 
     :root {
-      --font-sans: 'Inter', sans-serif;
-      --font-display: 'Cormorant Garamond', serif;
-      --background: #0f0f10;
-      --foreground: #ffffff;
-      --muted-foreground: rgba(255,255,255,0.7);
-      --ember: #ff474c;
-      --ember-glow: #ff7a75;
-      --border-glow: rgba(255,71,76,0.4);
+      --font-sans:'Inter',sans-serif;
+      --font-display:'Cormorant Garamond',serif;
+      --background:#0f0f10;
+      --foreground:#fff;
+      --muted:rgba(255,255,255,0.7);
+      --ember:#ff474c;
     }
 
     body {
-      background: var(--background);
-      color: var(--foreground);
-      font-family: var(--font-sans);
-      min-height: 100vh;
-      overflow-x: hidden;
+      background:var(--background);
+      color:var(--foreground);
+      font-family:var(--font-sans);
+      min-height:100vh;
+      overflow-x:hidden;
     }
 
-    .relative { position: relative; }
-    .min-h-screen { min-height: 100vh; }
-    .overflow-hidden { overflow: hidden; }
+    .relative{position:relative;}
+    .min-h-screen{min-height:100vh;}
+    .overflow-hidden{overflow:hidden;}
 
-    .bg-radial-glow {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
+    .bg-radial-glow{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
       background:
         radial-gradient(circle at 20% 20%, rgba(255,71,76,0.15), transparent 40%),
         radial-gradient(circle at 80% 80%, rgba(255,71,76,0.12), transparent 40%);
     }
 
-    .logo-section {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2rem;
-      padding: 6rem 1rem 2rem;
+    .logo-section{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:2rem;
+      padding:6rem 1rem 2rem;
     }
 
-    .logo-img {
-      width: 100px;
-      height: 100px;
-      border-radius: 20px;
-      object-fit: cover;
+    .logo-img{
+      width:100px;
+      height:100px;
+      border-radius:20px;
+      object-fit:cover;
     }
 
-    .promo-link-button {
-      display: flex;
-      justify-content: center;
-      width: 100%;
-      max-width: 900px;
-      text-decoration: none;
-      transition: 0.25s;
+    .promo-link-button{
+      display:flex;
+      justify-content:center;
+      width:100%;
+      max-width:900px;
+      text-decoration:none;
     }
 
-    .promo-link-button:hover { transform: scale(1.02); }
-
-    .promo-bar-inner {
-      width: 100%;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      border-radius: 999px;
-      padding: 1rem 2rem;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      backdrop-filter: blur(20px);
-      box-shadow: 0 0 40px rgba(255,71,76,0.15);
+    .promo-bar-inner{
+      width:100%;
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      align-items:center;
+      gap:1rem;
+      padding:1rem 2rem;
+      border-radius:999px;
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.1);
+      backdrop-filter:blur(20px);
     }
 
-    .promo-text-group {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      font-weight: 700;
+    .promo-text-group{
+      display:flex;
+      gap:0.7rem;
+      text-transform:uppercase;
+      font-weight:700;
     }
 
-    .discount-text {
-      font-family: var(--font-display);
-      font-size: 1.6rem;
-      background: linear-gradient(90deg,#ffb7b3,#ff474c,#ff7a75);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    .discount-text{
+      font-family:var(--font-display);
+      font-size:1.6rem;
+      background:linear-gradient(90deg,#ffb7b3,#ff474c,#ff7a75);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
     }
 
-    .separator {
-      width: 1px;
-      height: 22px;
-      background: rgba(255,255,255,0.2);
+    #admin-panel{
+      width:100%;
+      max-width:960px;
+      margin:1rem auto;
+      padding:1.5rem;
+      background:rgba(255,71,76,0.08);
+      border:1px solid rgba(255,71,76,0.3);
+      border-radius:18px;
+      display:none;
     }
 
-    .badge-limited {
-      color: var(--muted-foreground);
-      font-size: 0.8rem;
+    .form-group{margin-bottom:1rem;}
+
+    .form-input{
+      width:100%;
+      padding:0.9rem;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.1);
+      background:rgba(255,255,255,0.05);
+      color:white;
     }
 
-    .action-hint {
-      background: rgba(255,71,76,0.15);
-      padding: 0.6rem 1.2rem;
-      border-radius: 999px;
-      color: var(--ember-glow);
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
+    #qc-drop-zone{
+      border:2px dashed #ff474c;
+      padding:2rem;
+      border-radius:14px;
+      text-align:center;
+      cursor:pointer;
     }
 
-    #google-login-wrapper {
-      position: absolute;
-      top: 1.5rem;
-      right: 1.5rem;
-      z-index: 999;
+    #qc-preview{
+      max-width:100%;
+      max-height:300px;
+      margin-top:1rem;
+      display:none;
+      border-radius:10px;
     }
 
-    #admin-panel {
-      width: 100%;
-      max-width: 960px;
-      margin: 1rem auto 2rem;
-      padding: 1.5rem;
-      background: rgba(255,71,76,0.08);
-      border: 1px solid rgba(255,71,76,0.3);
-      border-radius: 18px;
-      display: none;
-    }
-
-    .form-group { margin-bottom: 1rem; }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 600;
-      color: #ff7a75;
-    }
-
-    .form-input {
-      width: 100%;
-      padding: 0.9rem;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.05);
-      color: white;
-    }
-
-    #qc-drop-zone {
-      border: 2px dashed #ff474c;
-      padding: 2rem;
-      border-radius: 14px;
-      text-align: center;
-      cursor: pointer;
-    }
-
-    #qc-preview {
-      max-width: 100%;
-      max-height: 300px;
-      margin-top: 1rem;
-      border-radius: 10px;
-      display: none;
-    }
-
-    .toast-msg {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #1a1a1a;
-      color: white;
-      padding: 12px 22px;
-      border-radius: 999px;
-      border-left: 5px solid #ff474c;
-      opacity: 0;
-      transition: opacity 0.3s;
-      z-index: 9999;
+    .toast-msg{
+      position:fixed;
+      bottom:20px;
+      left:50%;
+      transform:translateX(-50%);
+      background:#1a1a1a;
+      padding:12px 22px;
+      border-radius:999px;
+      border-left:5px solid #ff474c;
+      opacity:0;
+      transition:0.3s;
     }
   </style>
 </head>
@@ -201,63 +151,61 @@
 <body>
 
 <main class="relative min-h-screen overflow-hidden">
-
   <div class="bg-radial-glow"></div>
 
+  <!-- LOGIN -->
   <div id="google-login-wrapper">
     <div id="google-login-button"></div>
   </div>
 
-  <!-- ADMIN PANEL -->
+  <!-- ADMIN -->
   <div id="admin-panel">
 
-    <h2 style="margin-bottom:1.5rem; text-align:center; color:#ff474c;">
-      Add New Product Listing
+    <h2 style="text-align:center;color:#ff474c;margin-bottom:1rem;">
+      Add Listing
     </h2>
 
     <div class="form-group">
-      <label>Product Link</label>
-      <input type="text" id="product-link" class="form-input">
+      <input id="product-link" class="form-input" placeholder="Product Link">
     </div>
 
     <div class="form-group">
-      <label>Product Name</label>
-      <input type="text" id="product-name" class="form-input">
+      <input id="product-name" class="form-input" placeholder="Product Name">
     </div>
 
     <div class="form-group">
-      <label>QC Picture</label>
-      <div id="qc-drop-zone">Drop image here or click upload</div>
+      <div id="qc-drop-zone">Drop image or click</div>
       <img id="qc-preview">
     </div>
 
     <button onclick="submitListing()"
-      style="width:100%;padding:1rem;border:none;border-radius:999px;background:#ff474c;color:white;font-weight:700;">
-      ADD TO SPREADSHEET
+      style="width:100%;padding:1rem;border:none;border-radius:999px;background:#ff474c;color:white;font-weight:700;cursor:pointer;">
+      ADD
     </button>
 
   </div>
 
+  <!-- MAIN -->
   <div class="logo-section">
 
     <img src="images/usfans-wzr06cld.webp" class="logo-img">
 
-    <a href="https://www.usfans.com/register?ref=2TQXNA" class="promo-link-button" target="_blank">
+    <a class="promo-link-button" href="https://www.usfans.com/register?ref=2TQXNA">
       <div class="promo-bar-inner">
-        <span>Grab your</span>
-        <span class="discount-text">40% OFF</span>
+        <div class="promo-text-group">
+          <span>Grab</span>
+          <span class="discount-text">40% OFF</span>
+        </div>
       </div>
     </a>
 
-    <a href="SpreadSheet.html" class="promo-link-button">
+    <a class="promo-link-button" href="SpreadSheet.html">
       <div class="promo-bar-inner">
-        <span>Check out our</span>
-        <span class="discount-text">Spreadsheet</span>
+        <span>Spreadsheet</span>
       </div>
     </a>
 
   </div>
-
 </main>
 
 <div id="toast" class="toast-msg"></div>
@@ -268,128 +216,94 @@
 <script>
 
 const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
-const SUPABASE_ANON_KEY = "YOUR_SUPABASE_KEY";
+
+const SUPABASE_ANON_KEY =
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6Zmtyb3lza3J2eGtkdGZzZXlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwMTczNTMsImV4cCI6MjA5NTU5MzM1M30.jzvCdD3Phi_jS3L0PnCcK6gyeq2D8ZZBVpVfvQ7leKc";
 
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-let currentUser = null;
-let qcImage = null;
+let currentUser=null;
+let qcImageBase64=null;
 
-/* 🔒 ONLY YOU CAN ACCESS */
-const ADMIN_EMAIL = "your@email.com";
-
-function isAdmin(){
-  return currentUser && currentUser.email === ADMIN_EMAIL;
+/* TOAST */
+function toast(msg){
+  const t=document.getElementById("toast");
+  t.textContent=msg;
+  t.style.opacity=1;
+  setTimeout(()=>t.style.opacity=0,3000);
 }
 
-function showToast(msg, error=false){
-  const t = document.getElementById("toast");
-  t.textContent = msg;
-  t.style.borderLeftColor = error ? "#ff474c" : "#4dff88";
-  t.style.opacity = "1";
-  setTimeout(()=>t.style.opacity="0",3000);
-}
-
+/* LOGIN */
 function handleCredentialResponse(res){
-  const p = JSON.parse(atob(res.credential.split(".")[1]));
-
-  currentUser = {
-    id: p.sub,
-    name: p.name,
-    email: p.email,
-    picture: p.picture
-  };
-
-  localStorage.setItem("usfans_user", JSON.stringify(currentUser));
+  const p=JSON.parse(atob(res.credential.split(".")[1]));
+  currentUser={id:p.sub,name:p.name,email:p.email,picture:p.picture};
+  localStorage.setItem("usfans_user",JSON.stringify(currentUser));
   showUser();
 }
 
 function showUser(){
-
-  document.getElementById("google-login-wrapper").innerHTML = `
-    <div style="display:flex;gap:10px;align-items:center;background:rgba(255,255,255,0.06);padding:8px 14px;border-radius:999px;">
-      <img src="${currentUser.picture}" style="width:40px;height:40px;border-radius:50%">
-      <div>${currentUser.name}</div>
-    </div>
-  `;
-
-  /* 🔒 ADMIN ONLY FIX */
-  if(isAdmin()){
-    document.getElementById("admin-panel").style.display = "block";
-  }
+  document.getElementById("admin-panel").style.display="block";
+  setupUpload();
 }
 
-document.getElementById("qc-drop-zone").onclick = () => {
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = "image/*";
+/* UPLOAD FIXED */
+function setupUpload(){
 
-  input.onchange = e => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
+  const zone=document.getElementById("qc-drop-zone");
+  const preview=document.getElementById("qc-preview");
 
-    reader.onload = ev => {
-      qcImage = ev.target.result;
-      const img = document.getElementById("qc-preview");
-      img.src = qcImage;
-      img.style.display = "block";
+  const handleFile=(file)=>{
+    if(!file) return;
+    const reader=new FileReader();
+    reader.onload=(e)=>{
+      qcImageBase64=e.target.result;
+      preview.src=qcImageBase64;
+      preview.style.display="block";
     };
-
     reader.readAsDataURL(file);
   };
 
-  input.click();
-};
+  zone.onclick=()=>{
+    const input=document.createElement("input");
+    input.type="file";
+    input.accept="image/*";
+    input.onchange=e=>handleFile(e.target.files[0]);
+    input.click();
+  };
 
-async function submitListing(){
-
-  if(!isAdmin()) return showToast("Not admin", true);
-
-  let link = document.getElementById("product-link").value.trim();
-  let name = document.getElementById("product-name").value.trim();
-
-  if(!link || !name) return showToast("Fill all fields", true);
-
-  if(!link.includes("ref=2TQXNA")){
-    link += (link.includes("?") ? "&" : "?") + "ref=2TQXNA";
-  }
-
-  const { error } = await supabaseClient.from("listings").insert([{
-    link,
-    name,
-    qc_image: qcImage, /* ✅ FIXED IMAGE SAVE */
-    user_id: currentUser.id,
-    user_email: currentUser.email
-  }]);
-
-  if(error) return showToast(error.message, true);
-
-  showToast("Added successfully!");
+  zone.ondragover=e=>e.preventDefault();
+  zone.ondrop=e=>{
+    e.preventDefault();
+    handleFile(e.dataTransfer.files[0]);
+  };
 }
 
-window.onload = () => {
+/* SUBMIT FIXED */
+async function submitListing(){
 
-  const saved = localStorage.getItem("usfans_user");
-  if(saved){
-    currentUser = JSON.parse(saved);
-    showUser();
-  }
+  if(!currentUser) return toast("Login first");
 
-  const wait = setInterval(() => {
-    if(window.google){
-      clearInterval(wait);
+  let link=document.getElementById("product-link").value.trim();
+  let name=document.getElementById("product-name").value.trim();
 
-      google.accounts.id.initialize({
-        client_id: "YOUR_CLIENT_ID",
-        callback: handleCredentialResponse
-      });
+  if(!link||!name) return toast("Fill all");
 
-      google.accounts.id.renderButton(
-        document.getElementById("google-login-button"),
-        { theme:"filled_black", size:"large" }
-      );
-    }
-  },100);
+  const {error}=await supabaseClient.from("listings").insert([{
+    link,
+    name,
+    qc_image:qcImageBase64,
+    user_id:currentUser.id,
+    user_email:currentUser.email
+  }]);
+
+  if(error) return toast(error.message);
+
+  toast("Added!");
+}
+
+window.onload=()=>{
+  const s=localStorage.getItem("usfans_user");
+  if(s) showUser();
 };
 
 </script>
