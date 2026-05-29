@@ -230,6 +230,9 @@
       object-fit: cover;
       border-radius: 4px;
     }
+    .hide-col {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -267,7 +270,7 @@
             <th>Link</th>
             <th>QC Images</th>
             <th onclick="sortTable('created_at')">Date ↕</th>
-            <th>Actions</th>
+            <th id="actions-header">Actions</th>
           </tr>
         </thead>
         <tbody id="table-body"></tbody>
@@ -307,7 +310,13 @@
     if (!saved) return false;
     try {
       currentUser = JSON.parse(saved);
-      isAdmin = currentUser.email === ADMIN_EMAIL;
+      isAdmin = currentUser.email && currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+      console.log('Loaded user:', currentUser.email, 'isAdmin:', isAdmin);
+      if (!isAdmin) {
+        document.getElementById('actions-header').classList.add('hide-col');
+      } else {
+        document.getElementById('actions-header').classList.remove('hide-col');
+      }
       return true;
     } catch (e) {
       return false;
@@ -397,8 +406,8 @@
         ? `<div class="qc-images">${images.map(url => `<img src="${url}" alt="QC">`).join('')}</div>`
         : '—';
 
-      const deleteButton = isAdmin
-        ? `<button class="delete-btn" onclick="deleteListing('${item.id}', '${escapeHtml(item.name).replace(/'/g, "\\'")}')">Delete</button>`
+      const deleteCell = isAdmin
+        ? `<td><button class="delete-btn" onclick="deleteListing('${item.id}', '${escapeHtml(item.name).replace(/'/g, "\\'")}')">Delete</button></td>`
         : '';
 
       return `
@@ -407,7 +416,7 @@
           <td><a href="${escapeHtml(item.link)}" target="_blank" class="product-link">${truncateUrl(item.link)}</a></td>
           <td>${imageHTML}</td>
           <td>${formatDate(item.created_at)}</td>
-          <td>${deleteButton}</td>
+          ${deleteCell}
         </tr>
       `;
     }).join('');
@@ -444,9 +453,8 @@
   window.deleteListing = deleteListing;
   window.sortTable = sortTable;
 
-  // Init
   if (!loadUser()) {
-    showToast('Please login first', true);
+    showToast('Please login first on the main page.', true);
     setTimeout(() => { location.href = 'index.html'; }, 2000);
   } else {
     fetchListings();
