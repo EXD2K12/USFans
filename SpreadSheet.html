@@ -1,20 +1,767 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>USFans Spreadsheet</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>USFans Spreadsheet — My Listings</title>
+  <meta name="description" content="View and manage your product listings">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body { background: #0d0d0d; color: #fff; font-family: 'Inter', sans-serif; padding: 2rem; text-align: center; }
-    h1 { color: #ff474c; }
-    .placeholder { margin-top: 3rem; padding: 3rem; border: 2px dashed #ff474c; border-radius: 16px; font-size: 1.3rem; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: oklch(13% 0.02 25);
+      color: oklch(97% 0.01 20);
+      min-height: 100vh;
+    }
+
+    /* Background Effects */
+    .bg-radial-glow {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at 20% 20%, oklch(0.3 0.15 25 / 0.35), transparent 55%),
+                  radial-gradient(ellipse at 80% 80%, oklch(0.25 0.18 22 / 0.3), transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .noise-overlay {
+      position: fixed;
+      inset: 0;
+      opacity: 0.04;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' /%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid rgba(255, 71, 76, 0.3);
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      background: linear-gradient(135deg, #ffb7b3, #ff474c);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      color: oklch(70% 0.03 25);
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+    }
+
+    /* User Section */
+    .user-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 0.5rem 1rem;
+      border-radius: 60px;
+      backdrop-filter: blur(10px);
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #ff474c;
+    }
+
+    .user-info {
+      text-align: right;
+    }
+
+    .user-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .user-email {
+      font-size: 0.75rem;
+      color: #ffb7b3;
+    }
+
+    .logout-btn, .back-btn {
+      background: rgba(255, 71, 76, 0.2);
+      border: 1px solid #ff474c;
+      color: #ffb7b3;
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .logout-btn:hover, .back-btn:hover {
+      background: rgba(255, 71, 76, 0.4);
+      transform: translateY(-1px);
+    }
+
+    /* Stats Bar */
+    .stats-bar {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-card {
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 71, 76, 0.3);
+      border-radius: 20px;
+      padding: 1rem 1.5rem;
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: #ffb7b3;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #ff474c;
+    }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .search-box {
+      flex: 1;
+      max-width: 300px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 71, 76, 0.5);
+      border-radius: 40px;
+      color: white;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #ff474c;
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .filter-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 71, 76, 0.3);
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      cursor: pointer;
+      color: white;
+      transition: all 0.2s;
+    }
+
+    .filter-btn.active {
+      background: #ff474c;
+      border-color: #ff474c;
+    }
+
+    .refresh-btn {
+      background: #ff474c;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      cursor: pointer;
+      color: white;
+      font-weight: 600;
+    }
+
+    /* Table */
+    .table-container {
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      overflow-x: auto;
+      border: 1px solid rgba(255, 71, 76, 0.2);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: rgba(255, 71, 76, 0.1);
+      border-bottom: 2px solid #ff474c;
+    }
+
+    th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: #ffb7b3;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    th:hover {
+      background: rgba(255, 71, 76, 0.1);
+    }
+
+    td {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(255, 71, 76, 0.1);
+    }
+
+    tr:hover {
+      background: rgba(255, 71, 76, 0.05);
+    }
+
+    .product-link {
+      color: #ff7a75;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .product-link:hover {
+      color: #ffb7b3;
+      text-decoration: underline;
+    }
+
+    .delete-btn {
+      background: rgba(255, 71, 76, 0.2);
+      border: 1px solid #ff474c;
+      color: #ff474c;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      transition: all 0.2s;
+    }
+
+    .delete-btn:hover {
+      background: #ff474c;
+      color: white;
+    }
+
+    /* Loading State */
+    .loading {
+      text-align: center;
+      padding: 3rem;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 3px solid rgba(255, 71, 76, 0.3);
+      border-top-color: #ff474c;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: #666;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(10px);
+      padding: 0.75rem 1.5rem;
+      border-radius: 40px;
+      border-left: 4px solid #ff474c;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+      th, td {
+        padding: 0.75rem;
+        font-size: 0.85rem;
+      }
+      .stats-bar {
+        flex-direction: column;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>USFans — Master Spreadsheet</h1>
-  <div class="placeholder">
-    <p>Your listings will appear here.</p>
-    <p><strong>Currently empty.</strong><br>Add new listings using the admin panel on the main page.</p>
+  <div class="bg-radial-glow"></div>
+  <div class="noise-overlay"></div>
+
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo-area">
+        <img src="images/usfans-wzr06cld.webp" alt="USFans" class="logo-img">
+        <div>
+          <h1>📊 My Listings Spreadsheet</h1>
+          <div class="subtitle">Manage your products - all listings are saved to Supabase</div>
+        </div>
+      </div>
+      <div style="display: flex; gap: 0.5rem;">
+        <a href="index.html" class="back-btn">← Back to Home</a>
+        <div id="user-section" style="display: none;" class="user-section">
+          <div class="user-info">
+            <div id="user-name" class="user-name"></div>
+            <div id="user-email" class="user-email"></div>
+          </div>
+          <img id="user-avatar" class="user-avatar" alt="avatar">
+          <button id="logout-btn" class="logout-btn">Sign Out</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-bar">
+      <div class="stat-card">
+        <div class="stat-label">Total Listings</div>
+        <div class="stat-value" id="total-count">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Products</div>
+        <div class="stat-value" id="product-count">0</div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <div class="search-box">
+        <input type="text" id="search-input" class="search-input" placeholder="🔍 Search products...">
+      </div>
+      <div class="filter-buttons">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="recent">Recent (7d)</button>
+      </div>
+      <button id="refresh-btn" class="refresh-btn">🔄 Refresh</button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-container">
+      <div id="loading-state" class="loading">
+        <div class="spinner"></div>
+        <p>Loading your listings...</p>
+      </div>
+      <div id="table-content" style="display: none;">
+        <table>
+          <thead>
+            <tr>
+              <th data-sort="name">Product Name ↕</th>
+              <th data-sort="link">Product Link</th>
+              <th data-sort="created_at">Date Added ↕</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+          </tbody>
+        </table>
+      </div>
+      <div id="empty-state" class="empty-state" style="display: none;">
+        <p>📭 No listings found</p>
+        <p style="font-size: 0.9rem; margin-top: 0.5rem;">Go back to the home page and add your first product!</p>
+      </div>
+    </div>
   </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // Supabase Configuration
+    const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_6_2ZEDiDiWI6ShtNGz8DsQ_zpR5A6sF";
+    const supabase = window.Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let currentUser = null;
+    let allListings = [];
+    let currentFilter = 'all';
+    let currentSearch = '';
+    let currentSort = { column: 'created_at', direction: 'desc' };
+
+    // Helper functions
+    function showToast(message, isError = false) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.style.backgroundColor = isError ? '#3b141c' : '#1a3324';
+      toast.style.borderLeftColor = isError ? '#ff474c' : '#6bff9b';
+      toast.style.opacity = '1';
+      setTimeout(() => {
+        toast.style.opacity = '0';
+      }, 3000);
+    }
+
+    // Load user from localStorage
+    function loadUser() {
+      const savedUser = localStorage.getItem('usfans_user');
+      if (savedUser) {
+        try {
+          currentUser = JSON.parse(savedUser);
+          updateUserUI();
+          return true;
+        } catch (e) {
+          console.error('Failed to parse user', e);
+          return false;
+        }
+      }
+      return false;
+    }
+
+    // Update user UI
+    function updateUserUI() {
+      if (currentUser) {
+        document.getElementById('user-name').textContent = currentUser.name;
+        document.getElementById('user-email').textContent = currentUser.email;
+        document.getElementById('user-avatar').src = currentUser.picture;
+        document.getElementById('user-section').style.display = 'flex';
+      } else {
+        document.getElementById('user-section').style.display = 'none';
+        // Redirect to home if not logged in
+        showToast('Please sign in first', true);
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 2000);
+      }
+    }
+
+    // Fetch listings from Supabase (only current user's listings)
+    async function fetchListings() {
+      if (!currentUser) return;
+
+      try {
+        showLoading(true);
+        
+        const { data, error } = await supabase
+          .from('listings')
+          .select('*')
+          .eq('user_id', currentUser.id)
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        allListings = data || [];
+        updateStats();
+        renderTable();
+        
+        if (allListings.length === 0) {
+          showEmptyState(true);
+        } else {
+          showEmptyState(false);
+        }
+        
+        showToast(`📋 Loaded ${allListings.length} listings`);
+        
+      } catch (error) {
+        console.error('Error fetching listings:', error);
+        showToast('Failed to load listings: ' + error.message, true);
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    // Delete a listing
+    async function deleteListing(id, productName) {
+      if (!confirm(`Delete "${productName}"? This action cannot be undone.`)) return;
+      
+      try {
+        const { error } = await supabase
+          .from('listings')
+          .delete()
+          .eq('id', id)
+          .eq('user_id', currentUser.id); // Extra safety: only delete if belongs to user
+
+        if (error) throw error;
+
+        showToast(`✅ Deleted "${productName}"`);
+        await fetchListings(); // Refresh the list
+        
+      } catch (error) {
+        console.error('Error deleting:', error);
+        showToast('Failed to delete: ' + error.message, true);
+      }
+    }
+
+    // Update statistics
+    function updateStats() {
+      const total = allListings.length;
+      document.getElementById('total-count').textContent = total;
+      document.getElementById('product-count').textContent = total;
+    }
+
+    // Filter and search listings
+    function getFilteredListings() {
+      let filtered = [...allListings];
+      
+      // Apply search
+      if (currentSearch) {
+        const searchLower = currentSearch.toLowerCase();
+        filtered = filtered.filter(item => 
+          item.name.toLowerCase().includes(searchLower) ||
+          item.link.toLowerCase().includes(searchLower)
+        );
+      }
+      
+      // Apply filter
+      if (currentFilter === 'recent') {
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+        filtered = filtered.filter(item => {
+          const itemDate = new Date(item.created_at);
+          return itemDate >= sevenDaysAgo;
+        });
+      }
+      
+      // Apply sorting
+      filtered.sort((a, b) => {
+        let aVal = a[currentSort.column];
+        let bVal = b[currentSort.column];
+        
+        if (currentSort.column === 'created_at') {
+          aVal = new Date(aVal).getTime();
+          bVal = new Date(bVal).getTime();
+        } else if (currentSort.column === 'name') {
+          aVal = aVal?.toLowerCase() || '';
+          bVal = bVal?.toLowerCase() || '';
+        }
+        
+        if (aVal < bVal) return currentSort.direction === 'asc' ? -1 : 1;
+        if (aVal > bVal) return currentSort.direction === 'asc' ? 1 : -1;
+        return 0;
+      });
+      
+      return filtered;
+    }
+
+    // Render table
+    function renderTable() {
+      const filtered = getFilteredListings();
+      const tbody = document.getElementById('table-body');
+      
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="4" style="text-align: center; padding: 3rem;">
+              No matching listings found
+            </td>
+          </tr>
+        `;
+        return;
+      }
+      
+      tbody.innerHTML = filtered.map(item => `
+        <tr>
+          <td style="font-weight: 500;">${escapeHtml(item.name)}</td>
+          <td>
+            <a href="${escapeHtml(item.link)}" target="_blank" class="product-link">
+              ${truncateUrl(item.link)}
+            </a>
+          </td>
+          <td style="font-size: 0.85rem; color: #ffb7b3;">
+            ${formatDate(item.created_at)}
+          </td>
+          <td>
+            <button class="delete-btn" onclick="deleteListing('${item.id}', '${escapeHtml(item.name).replace(/'/g, "\\'")}')">
+              Delete
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // Helper functions for display
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+      });
+    }
+
+    function truncateUrl(url, maxLength = 60) {
+      if (!url) return '';
+      if (url.length <= maxLength) return url;
+      return url.substring(0, maxLength) + '...';
+    }
+
+    function formatDate(dateString) {
+      if (!dateString) return 'N/A';
+      const date = new Date(dateString);
+      const now = new Date();
+      const diffTime = Math.abs(now - date);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      
+      if (diffDays === 0) return 'Today';
+      if (diffDays === 1) return 'Yesterday';
+      if (diffDays < 7) return `${diffDays} days ago`;
+      
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    // UI State management
+    function showLoading(show) {
+      document.getElementById('loading-state').style.display = show ? 'block' : 'none';
+      document.getElementById('table-content').style.display = show ? 'none' : 'block';
+    }
+    
+    function showEmptyState(show) {
+      document.getElementById('empty-state').style.display = show && allListings.length === 0 ? 'block' : 'none';
+      if (!show || allListings.length > 0) {
+        document.getElementById('empty-state').style.display = 'none';
+      }
+    }
+
+    // Logout
+    function logout() {
+      localStorage.removeItem('usfans_user');
+      currentUser = null;
+      showToast('Signed out successfully');
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 1000);
+    }
+
+    // Event Listeners
+    function setupEventListeners() {
+      // Search
+      const searchInput = document.getElementById('search-input');
+      searchInput.addEventListener('input', (e) => {
+        currentSearch = e.target.value;
+        renderTable();
+      });
+      
+      // Filter buttons
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentFilter = btn.dataset.filter;
+          renderTable();
+        });
+      });
+      
+      // Refresh
+      document.getElementById('refresh-btn').addEventListener('click', () => {
+        fetchListings();
+      });
+      
+      // Sort headers
+      document.querySelectorAll('th[data-sort]').forEach(th => {
+        th.addEventListener('click', () => {
+          const column = th.dataset.sort;
+          if (currentSort.column === column) {
+            currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+          } else {
+            currentSort.column = column;
+            currentSort.direction = 'desc';
+          }
+          renderTable();
+        });
+      });
+      
+      // Logout button
+      document.getElementById('logout-btn').addEventListener('click', logout);
+    }
+
+    // Initialize
+    async function init() {
+      if (!loadUser()) {
+        // No user found, redirect to home
+        showToast('Please sign in to view your listings', true);
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 2000);
+        return;
+      }
+      
+      setupEventListeners();
+      await fetchListings();
+      
+      // Auto-refresh every 30 seconds
+      setInterval(() => {
+        if (currentUser) {
+          fetchListings();
+        }
+      }, 30000);
+    }
+    
+    // Make deleteListing available globally for onclick
+    window.deleteListing = deleteListing;
+    
+    // Start
+    init();
+  </script>
 </body>
 </html>
