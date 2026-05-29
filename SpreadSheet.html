@@ -13,264 +13,44 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4048219571639841" crossorigin="anonymous"></script>
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    :root {
-      --font-sans: 'Inter', sans-serif;
-      --font-display: 'Cormorant Garamond', serif;
-      --background: #0f0f10;
-      --foreground: #ffffff;
-      --muted: #b3b3b3;
-      --accent: #ff474c;
-      --accent2: #ff7a75;
-    }
-    body {
-      background: var(--background);
-      color: var(--foreground);
-      font-family: var(--font-sans);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-    .bg-radial-glow {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(255,71,76,0.18), transparent 40%),
-        radial-gradient(circle at 80% 80%, rgba(255,71,76,0.14), transparent 40%);
-      z-index: 0;
-    }
-    .logo-section {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2rem;
-      padding: 2rem 1rem;
-      position: relative;
-      z-index: 2;
-    }
-    .logo-img {
-      width: 96px;
-      height: 96px;
-      border-radius: 24px;
-      object-fit: contain;
-    }
-    .promo-link-button {
-      width: 100%;
-      max-width: 900px;
-      text-decoration: none;
-      transition: .25s;
-    }
-    .promo-link-button:hover {
-      transform: scale(1.02);
-    }
-    .promo-bar-inner {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1rem;
-      padding: 1rem 2rem;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      backdrop-filter: blur(20px);
-    }
-    .promo-text-group {
-      display: flex;
-      align-items: center;
-      gap: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-weight: 700;
-    }
-    .discount-text {
-      font-family: var(--font-display);
-      font-size: 1.6rem;
-      background: linear-gradient(90deg, #ffb7b3, #ff474c, #ff7a75);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .action-hint {
-      background: rgba(255,71,76,0.15);
-      padding: 0.6rem 1.2rem;
-      border-radius: 999px;
-      color: #ffb7b3;
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-    .spreadsheet-container {
-      max-width: 1400px;
-      margin: 0 auto 4rem;
-      padding: 0 1rem;
-      position: relative;
-      z-index: 2;
-    }
-    .table-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-    .table-title {
-      font-family: var(--font-display);
-      font-size: 2rem;
-      background: linear-gradient(90deg, #ffb7b3, #ff474c);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .stats-badge {
-      background: rgba(255,71,76,0.15);
-      border: 1px solid rgba(255,71,76,0.3);
-      padding: 0.6rem 1rem;
-      border-radius: 999px;
-    }
-    .search-input {
-      width: 100%;
-      max-width: 320px;
-      padding: 0.9rem 1rem;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.05);
-      color: white;
-      margin-bottom: 1.5rem;
-    }
-    .table-wrapper {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 24px;
-      overflow: hidden;
-      overflow-x: auto;
-      backdrop-filter: blur(20px);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    thead {
-      background: rgba(255,71,76,0.08);
-    }
-    th {
-      padding: 1rem;
-      text-align: left;
-      color: #ffb7b3;
-      cursor: pointer;
-    }
-    td {
-      padding: 1rem;
-      border-top: 1px solid rgba(255,255,255,0.05);
-    }
-    tr:hover {
-      background: rgba(255,71,76,0.05);
-    }
-    .product-link {
-      color: #ff7a75;
-      text-decoration: none;
-    }
-    .product-link:hover {
-      text-decoration: underline;
-    }
-    .delete-btn {
-      background: rgba(255,71,76,0.15);
-      border: 1px solid #ff474c;
-      color: #ff474c;
-      padding: 0.4rem 0.8rem;
-      border-radius: 999px;
-      cursor: pointer;
-      transition: .2s;
-    }
-    .delete-btn:hover {
-      background: #ff474c;
-      color: white;
-    }
-    .loading,
-    .empty-state {
-      padding: 3rem;
-      text-align: center;
-      color: var(--muted);
-    }
-    .spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid rgba(255,71,76,0.2);
-      border-top-color: #ff474c;
-      border-radius: 50%;
-      margin: 0 auto 1rem;
-      animation: spin .8s linear infinite;
-    }
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-    .toast {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #18181b;
-      border-left: 4px solid #ff474c;
-      padding: 0.8rem 1.3rem;
-      border-radius: 999px;
-      opacity: 0;
-      transition: .3s;
-      z-index: 9999;
-    }
-
-    /* Updated image grid – 2 columns, square thumbnails */
-    .qc-images {
-      display: grid;
-      grid-template-columns: repeat(2, 60px);
-      gap: 4px;
-    }
-    .qc-images img {
-      width: 60px;
-      height: 60px;
-      object-fit: cover;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: transform 0.15s;
-    }
-    .qc-images img:hover {
-      transform: scale(1.05);
-      outline: 1px solid #ff474c;
-    }
-
-    /* Lightbox modal */
-    .lightbox {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.85);
-      z-index: 10000;
-      justify-content: center;
-      align-items: center;
-    }
-    .lightbox img {
-      max-width: 90%;
-      max-height: 90%;
-      border-radius: 8px;
-      box-shadow: 0 0 30px rgba(0,0,0,0.7);
-    }
-    .lightbox-close {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      font-size: 2rem;
-      color: white;
-      cursor: pointer;
-      background: none;
-      border: none;
-      z-index: 10001;
-    }
-    .hide-col {
-      display: none;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root { --font-sans: 'Inter', sans-serif; --font-display: 'Cormorant Garamond', serif; --background: #0f0f10; --foreground: #ffffff; --muted: #b3b3b3; --accent: #ff474c; --accent2: #ff7a75; }
+    body { background: var(--background); color: var(--foreground); font-family: var(--font-sans); min-height: 100vh; overflow-x: hidden; }
+    .bg-radial-glow { position: fixed; inset: 0; pointer-events: none; background: radial-gradient(circle at 20% 20%, rgba(255,71,76,0.18), transparent 40%), radial-gradient(circle at 80% 80%, rgba(255,71,76,0.14), transparent 40%); z-index: 0; }
+    .logo-section { display: flex; flex-direction: column; align-items: center; gap: 2rem; padding: 2rem 1rem; position: relative; z-index: 2; }
+    .logo-img { width: 96px; height: 96px; border-radius: 24px; object-fit: contain; }
+    .promo-link-button { width: 100%; max-width: 900px; text-decoration: none; transition: .25s; }
+    .promo-link-button:hover { transform: scale(1.02); }
+    .promo-bar-inner { display: flex; justify-content: center; align-items: center; gap: 1rem; padding: 1rem 2rem; border-radius: 999px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(20px); }
+    .promo-text-group { display: flex; align-items: center; gap: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; }
+    .discount-text { font-family: var(--font-display); font-size: 1.6rem; background: linear-gradient(90deg, #ffb7b3, #ff474c, #ff7a75); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .action-hint { background: rgba(255,71,76,0.15); padding: 0.6rem 1.2rem; border-radius: 999px; color: #ffb7b3; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; }
+    .spreadsheet-container { max-width: 1400px; margin: 0 auto 4rem; padding: 0 1rem; position: relative; z-index: 2; }
+    .table-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; }
+    .table-title { font-family: var(--font-display); font-size: 2rem; background: linear-gradient(90deg, #ffb7b3, #ff474c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .stats-badge { background: rgba(255,71,76,0.15); border: 1px solid rgba(255,71,76,0.3); padding: 0.6rem 1rem; border-radius: 999px; }
+    .search-input { width: 100%; max-width: 320px; padding: 0.9rem 1rem; border-radius: 999px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.05); color: white; margin-bottom: 1.5rem; }
+    .table-wrapper { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; overflow: hidden; overflow-x: auto; backdrop-filter: blur(20px); }
+    table { width: 100%; border-collapse: collapse; }
+    thead { background: rgba(255,71,76,0.08); }
+    th { padding: 1rem; text-align: left; color: #ffb7b3; cursor: pointer; }
+    td { padding: 1rem; border-top: 1px solid rgba(255,255,255,0.05); }
+    tr:hover { background: rgba(255,71,76,0.05); }
+    .product-link { color: #ff7a75; text-decoration: none; }
+    .product-link:hover { text-decoration: underline; }
+    .delete-btn { background: rgba(255,71,76,0.15); border: 1px solid #ff474c; color: #ff474c; padding: 0.4rem 0.8rem; border-radius: 999px; cursor: pointer; transition: .2s; }
+    .delete-btn:hover { background: #ff474c; color: white; }
+    .loading, .empty-state { padding: 3rem; text-align: center; color: var(--muted); }
+    .spinner { width: 40px; height: 40px; border: 3px solid rgba(255,71,76,0.2); border-top-color: #ff474c; border-radius: 50%; margin: 0 auto 1rem; animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: #18181b; border-left: 4px solid #ff474c; padding: 0.8rem 1.3rem; border-radius: 999px; opacity: 0; transition: .3s; z-index: 9999; }
+    .qc-images { display: grid; grid-template-columns: repeat(2, 60px); gap: 4px; }
+    .qc-images img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; cursor: pointer; transition: transform 0.15s; }
+    .qc-images img:hover { transform: scale(1.05); outline: 1px solid #ff474c; }
+    .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center; }
+    .lightbox img { max-width: 90%; max-height: 90%; border-radius: 8px; box-shadow: 0 0 30px rgba(0,0,0,0.7); }
+    .lightbox-close { position: absolute; top: 20px; right: 30px; font-size: 2rem; color: white; cursor: pointer; background: none; border: none; z-index: 10001; }
+    .hide-col { display: none; }
   </style>
 </head>
 <body>
@@ -278,7 +58,8 @@
 
 <div class="logo-section">
   <img src="images/usfans-wzr06cld.webp" class="logo-img" alt="USFans">
-  <a href="index.html" class="promo-link-button">
+  <!-- ✅ BACK TO HOME (root) -->
+  <a href="/" class="promo-link-button">
     <div class="promo-bar-inner">
       <div class="promo-text-group">
         <span>← Back To</span>
@@ -341,7 +122,6 @@
   let currentSort = { column: 'created_at', direction: 'desc' };
   let currentSearch = '';
 
-  // Lightbox functions
   function openLightbox(src) {
     document.getElementById('lightbox-img').src = src;
     document.getElementById('lightbox').style.display = 'flex';
@@ -508,12 +288,11 @@
 
   if (!loadUser()) {
     showToast('Please login first on the main page.', true);
-    setTimeout(() => { location.href = 'index.html'; }, 2000);
+    setTimeout(() => { location.href = '/'; }, 2000);
   } else {
     fetchListings();
   }
 
-  // Close lightbox on Escape key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeLightbox();
   });
