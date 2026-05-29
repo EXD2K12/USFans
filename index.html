@@ -409,7 +409,8 @@
 
     async function handleCredentialResponse(response) {
       const payload = JSON.parse(atob(response.credential.split('.')[1]));
-      const googleUser = { email: payload.email, name: payload.name, picture: payload.picture };
+      // store email in lowercase for reliable comparison
+      const googleUser = { email: payload.email.toLowerCase(), name: payload.name, picture: payload.picture };
       try {
         const { data: user, error } = await supabaseClient
           .from('users')
@@ -417,7 +418,7 @@
           .select()
           .single();
         if (error) throw error;
-        const usfansUser = { id: user.id, email: user.email, name: user.name, picture: user.picture };
+        const usfansUser = { id: user.id, email: user.email.toLowerCase(), name: user.name, picture: user.picture };
         localStorage.setItem('usfans_user', JSON.stringify(usfansUser));
         showUserUI(usfansUser);
       } catch (err) {
