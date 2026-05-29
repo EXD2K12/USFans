@@ -4,483 +4,824 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>USFans Spreadsheet — My Listings</title>
-  <meta name="description" content="View your product listings">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    :root {
-      --font-sans: 'Inter', sans-serif;
-      --font-display: 'Cormorant Garamond', serif;
-      --background: oklch(13% 0.02 25);
-      --foreground: oklch(97% 0.01 20);
-      --muted-foreground: oklch(70% 0.03 25);
-      --ember: oklch(62% 0.26 25);
-      --ember-glow: oklch(70% 0.28 22);
-      --border-glow: oklch(62% 0.26 25 / 0.4);
-    }
-    body {
-      background-color: var(--background);
-      color: var(--foreground);
-      font-family: var(--font-sans);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-    .bg-radial-glow {
-      pointer-events: none; position: fixed; inset: 0;
-      background: radial-gradient(ellipse at 20% 20%, oklch(0.3 0.15 25 / 0.35), transparent 55%),
-                  radial-gradient(ellipse at 80% 80%, oklch(0.25 0.18 22 / 0.3), transparent 60%);
-      z-index: 0;
-    }
-    .noise-overlay {
-      pointer-events: none; position: fixed; inset: 0; opacity: 0.04; mix-blend-mode: overlay; z-index: 1;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' /%3E%3C/svg%3E");
-    }
-    .snowflakes-container {
-      pointer-events: none; position: fixed; inset: 0; overflow: hidden; z-index: 2;
-    }
-    .snowflake {
-      filter: blur(0.5px); pointer-events: none;
-      background: radial-gradient(circle, #ff6266e6, #d4092400);
-      border-radius: 9999px; animation: linear infinite snowfall; position: absolute; top: 0;
-    }
-    @keyframes snowfall {
-      0% { opacity: 0; transform: translateY(-10vh) translate(0); }
-      10% { opacity: 1; }
-      90% { opacity: 0.8; }
-      to { transform: translateY(110vh) translate(var(--drift, 20px)); opacity: 0; }
-    }
-    .shimmer-text {
-      -webkit-text-fill-color: transparent;
-      background: linear-gradient(90deg, #fa002a, #ff303c, #ff474c 12.5%, #ff7a75 25%, #ffb7b3, #ff7a75 75%, #ff474c 87.5%, #ff303c, #fa002a) 0 0 / 200%;
-      background-clip: text; -webkit-background-clip: text; animation: 3s linear infinite shimmer;
-    }
-    .promo-link-button {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      width: 100%; max-width: 960px; margin: 0 auto; text-decoration: none; cursor: pointer;
-      transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-    }
-    .promo-link-button:hover { transform: scale(1.02); }
-    .promo-bar-inner {
-      position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
-      gap: 1.2rem 2rem; border-radius: 9999px; padding: 0.9rem 2.2rem; backdrop-filter: blur(28px);
-      background: linear-gradient(90deg, oklch(0.18 0.04 25 / 0.98), oklch(1 0 0 / 0.08), oklch(0.18 0.04 25 / 0.98));
-      box-shadow: 0 0 0 1px var(--border-glow), 0 0 18px oklch(0.62 0.26 25 / 0.25);
-    }
-    .glow-overlay {
-      pointer-events: none; position: absolute; inset: 0; border-radius: 9999px;
-      background: radial-gradient(circle, oklch(0.62 0.26 25 / 0.5), transparent 70%); opacity: 0.6;
-    }
-    .promo-text-group {
-      display: flex; align-items: center; flex-wrap: wrap; gap: 0.6rem 1rem;
-      font-size: 0.9rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
-    }
-    .discount-text {
-      font-family: var(--font-display); font-size: 1.6rem; font-weight: 700;
-      background: linear-gradient(135deg, #ffb7b3, #ff7a75, #ff474c);
-      -webkit-background-clip: text; background-clip: text; color: transparent;
-    }
-    .action-hint {
-      display: flex; align-items: center; gap: 0.6rem;
-      background: oklch(0.62 0.26 25 / 0.22); padding: 0.55rem 1.3rem; border-radius: 40px;
-      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.2em;
-    }
-    .logo-section { display: flex; flex-direction: column; align-items: center; gap: 2rem; padding: 2rem 1rem 2rem; position: relative; z-index: 3; }
-    .logo-img { width: 96px; height: 96px; border-radius: 1.5rem; object-fit: contain; }
 
-    /* Spreadsheet Table Styles */
-    .spreadsheet-container {
-      max-width: 1400px;
-      margin: 0 auto 3rem;
-      padding: 0 1rem;
-      position: relative;
-      z-index: 3;
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
     }
 
-    .table-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
+    :root{
+      --font-sans:'Inter',sans-serif;
+      --font-display:'Cormorant Garamond',serif;
+      --background:#0f0f10;
+      --foreground:#ffffff;
+      --muted:#b3b3b3;
+      --accent:#ff474c;
+      --accent2:#ff7a75;
     }
 
-    .table-title {
-      font-family: var(--font-display);
-      font-size: 1.8rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #ffb7b3, #ff474c);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+    body{
+      background:var(--background);
+      color:var(--foreground);
+      font-family:var(--font-sans);
+      min-height:100vh;
+      overflow-x:hidden;
     }
 
-    .stats-badge {
-      background: rgba(255, 71, 76, 0.2);
-      padding: 0.5rem 1rem;
-      border-radius: 40px;
-      font-size: 0.85rem;
-      border: 1px solid var(--border-glow);
+    .bg-radial-glow{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,71,76,0.18), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(255,71,76,0.14), transparent 40%);
+      z-index:0;
     }
 
-    .search-bar {
-      margin-bottom: 1.5rem;
+    .logo-section{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:2rem;
+      padding:2rem 1rem;
+      position:relative;
+      z-index:2;
     }
 
-    .search-input {
-      width: 100%;
-      max-width: 300px;
-      padding: 0.7rem 1rem;
-      background: rgba(0, 0, 0, 0.5);
-      border: 1px solid var(--border-glow);
-      border-radius: 40px;
-      color: white;
-      font-family: var(--font-sans);
+    .logo-img{
+      width:96px;
+      height:96px;
+      border-radius:24px;
+      object-fit:contain;
     }
 
-    .table-wrapper {
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(10px);
-      border-radius: 24px;
-      overflow-x: auto;
-      border: 1px solid var(--border-glow);
+    .promo-link-button{
+      width:100%;
+      max-width:900px;
+      text-decoration:none;
+      transition:.25s;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
+    .promo-link-button:hover{
+      transform:scale(1.02);
     }
 
-    thead {
-      background: rgba(255, 71, 76, 0.1);
-      border-bottom: 2px solid #ff474c;
+    .promo-bar-inner{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:1rem;
+      padding:1rem 2rem;
+      border-radius:999px;
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.08);
+      backdrop-filter:blur(20px);
     }
 
-    th {
-      padding: 1rem;
-      text-align: left;
-      font-weight: 600;
-      color: #ffb7b3;
-      cursor: pointer;
+    .promo-text-group{
+      display:flex;
+      align-items:center;
+      gap:0.7rem;
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+      font-weight:700;
     }
 
-    td {
-      padding: 1rem;
-      border-bottom: 1px solid rgba(255, 71, 76, 0.1);
+    .discount-text{
+      font-family:var(--font-display);
+      font-size:1.6rem;
+      background:linear-gradient(90deg,#ffb7b3,#ff474c,#ff7a75);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
     }
 
-    tr:hover {
-      background: rgba(255, 71, 76, 0.05);
+    .action-hint{
+      background:rgba(255,71,76,0.15);
+      padding:0.6rem 1.2rem;
+      border-radius:999px;
+      color:#ffb7b3;
+      font-size:0.8rem;
+      font-weight:700;
+      text-transform:uppercase;
     }
 
-    .product-link {
-      color: #ff7a75;
-      text-decoration: none;
+    .spreadsheet-container{
+      max-width:1400px;
+      margin:0 auto 4rem;
+      padding:0 1rem;
+      position:relative;
+      z-index:2;
     }
 
-    .product-link:hover {
-      text-decoration: underline;
+    .table-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:1rem;
+      margin-bottom:1.5rem;
     }
 
-    .delete-btn {
-      background: rgba(255, 71, 76, 0.2);
-      border: 1px solid #ff474c;
-      color: #ff474c;
-      padding: 0.25rem 0.75rem;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 0.75rem;
+    .table-title{
+      font-family:var(--font-display);
+      font-size:2rem;
+      background:linear-gradient(90deg,#ffb7b3,#ff474c);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
     }
 
-    .delete-btn:hover {
-      background: #ff474c;
-      color: white;
+    .stats-badge{
+      background:rgba(255,71,76,0.15);
+      border:1px solid rgba(255,71,76,0.3);
+      padding:0.6rem 1rem;
+      border-radius:999px;
     }
 
-    .loading, .empty-state {
-      text-align: center;
-      padding: 3rem;
-      color: var(--muted-foreground);
+    .search-input{
+      width:100%;
+      max-width:320px;
+      padding:0.9rem 1rem;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.05);
+      color:white;
+      margin-bottom:1.5rem;
     }
 
-    .spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid rgba(255, 71, 76, 0.3);
-      border-top-color: #ff474c;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 1rem;
+    .table-wrapper{
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:24px;
+      overflow:hidden;
+      overflow-x:auto;
+      backdrop-filter:blur(20px);
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+    table{
+      width:100%;
+      border-collapse:collapse;
     }
 
-    .toast {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.9);
-      backdrop-filter: blur(10px);
-      padding: 0.75rem 1.5rem;
-      border-radius: 40px;
-      border-left: 4px solid #ff474c;
-      z-index: 1000;
-      opacity: 0;
-      transition: opacity 0.3s;
-      pointer-events: none;
+    thead{
+      background:rgba(255,71,76,0.08);
     }
 
-    @media (max-width: 768px) {
-      th, td {
-        padding: 0.5rem;
-        font-size: 0.8rem;
-      }
-      .table-title {
-        font-size: 1.3rem;
+    th{
+      padding:1rem;
+      text-align:left;
+      color:#ffb7b3;
+      cursor:pointer;
+    }
+
+    td{
+      padding:1rem;
+      border-top:1px solid rgba(255,255,255,0.05);
+    }
+
+    tr:hover{
+      background:rgba(255,71,76,0.05);
+    }
+
+    .product-link{
+      color:#ff7a75;
+      text-decoration:none;
+    }
+
+    .product-link:hover{
+      text-decoration:underline;
+    }
+
+    .delete-btn{
+      background:rgba(255,71,76,0.15);
+      border:1px solid #ff474c;
+      color:#ff474c;
+      padding:0.4rem 0.8rem;
+      border-radius:999px;
+      cursor:pointer;
+      transition:.2s;
+    }
+
+    .delete-btn:hover{
+      background:#ff474c;
+      color:white;
+    }
+
+    .loading,
+    .empty-state{
+      padding:3rem;
+      text-align:center;
+      color:var(--muted);
+    }
+
+    .spinner{
+      width:40px;
+      height:40px;
+      border:3px solid rgba(255,71,76,0.2);
+      border-top-color:#ff474c;
+      border-radius:50%;
+      margin:0 auto 1rem;
+      animation:spin .8s linear infinite;
+    }
+
+    @keyframes spin{
+      to{
+        transform:rotate(360deg);
       }
     }
+
+    .toast{
+      position:fixed;
+      bottom:2rem;
+      left:50%;
+      transform:translateX(-50%);
+      background:#18181b;
+      border-left:4px solid #ff474c;
+      padding:0.8rem 1.3rem;
+      border-radius:999px;
+      opacity:0;
+      transition:.3s;
+      z-index:9999;
+    }
+
   </style>
 </head>
+
 <body>
-  <div class="bg-radial-glow"></div>
-  <div class="noise-overlay"></div>
-  <div class="snowflakes-container" aria-hidden="true">
-    <span class="snowflake" style="left:0.62%;width:1.9px;height:1.9px;animation-duration:10.3s;--drift:32px"></span>
-    <span class="snowflake" style="left:36.9%;width:2.15px;animation-duration:8.38s;--drift:-17px"></span>
-    <span class="snowflake" style="left:33.36%;width:2.96px;animation-duration:8.51s;--drift:10px"></span>
-  </div>
 
-  <div class="logo-section">
-    <img src="images/usfans-wzr06cld.webp" alt="USFans" class="logo-img">
-    <a href="index.html" class="promo-link-button">
-      <div class="promo-bar-inner">
-        <div class="glow-overlay"></div>
-        <div class="promo-text-group">
-          <span>← Back to</span>
-          <span class="discount-text shimmer-text">HOME</span>
-          <div class="action-hint"><span>Return to Main Page</span></div>
-        </div>
+<div class="bg-radial-glow"></div>
+
+<div class="logo-section">
+
+  <img
+    src="images/usfans-wzr06cld.webp"
+    class="logo-img"
+  >
+
+  <a
+    href="index.html"
+    class="promo-link-button"
+  >
+
+    <div class="promo-bar-inner">
+
+      <div class="promo-text-group">
+        <span>← Back To</span>
+
+        <span class="discount-text">
+          HOME
+        </span>
       </div>
-    </a>
-  </div>
 
-  <div class="spreadsheet-container">
-    <div class="table-header">
-      <h2 class="table-title">📋 My Product Listings</h2>
-      <div class="stats-badge" id="listing-count">Loading...</div>
+      <div class="action-hint">
+        Return
+      </div>
+
     </div>
 
-    <div class="search-bar">
-      <input type="text" id="search-input" class="search-input" placeholder="🔍 Search by name or link...">
+  </a>
+
+</div>
+
+<div class="spreadsheet-container">
+
+  <div class="table-header">
+
+    <h2 class="table-title">
+      📋 My Product Listings
+    </h2>
+
+    <div
+      class="stats-badge"
+      id="listing-count"
+    >
+      Loading...
     </div>
 
-    <div class="table-wrapper">
-      <div id="loading-state" class="loading">
-        <div class="spinner"></div>
-        <p>Loading your listings...</p>
-      </div>
-      <div id="table-content" style="display: none;">
-        <table>
-          <thead>
-            <tr>
-              <th onclick="sortTable('name')">Product Name ↕</th>
-              <th onclick="sortTable('link')">Product Link</th>
-              <th onclick="sortTable('created_at')">Date Added ↕</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="table-body"></tbody>
-        </table>
-      </div>
-      <div id="empty-state" class="empty-state" style="display: none;">
-        <p>📭 No listings found</p>
-        <p style="font-size: 0.85rem; margin-top: 0.5rem;">Go to the home page and add your first product!</p>
-      </div>
-    </div>
   </div>
 
-  <div id="toast" class="toast"></div>
+  <input
+    type="text"
+    id="search-input"
+    class="search-input"
+    placeholder="🔍 Search listings..."
+  >
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_6_2ZEDiDiWI6ShtNGz8DsQ_zpR5A6sF";
-    const supabase = window.Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  <div class="table-wrapper">
 
-    let currentUser = null;
-    let allListings = [];
-    let currentSort = { column: 'created_at', direction: 'desc' };
-    let currentSearch = '';
+    <div
+      id="loading-state"
+      class="loading"
+    >
 
-    function showToast(msg, isError = false) {
-      const toast = document.getElementById('toast');
-      toast.textContent = msg;
-      toast.style.backgroundColor = isError ? '#3b141c' : '#1a3324';
-      toast.style.borderLeftColor = isError ? '#ff474c' : '#6bff9b';
-      toast.style.opacity = '1';
-      setTimeout(() => toast.style.opacity = '0', 3000);
-    }
+      <div class="spinner"></div>
 
-    // Get user from localStorage (set by index.html)
-    function loadUser() {
-      const saved = localStorage.getItem('usfans_user');
-      if (saved) {
-        try {
-          currentUser = JSON.parse(saved);
-          return true;
-        } catch(e) {}
-      }
+      <p>
+        Loading listings...
+      </p>
+
+    </div>
+
+    <div
+      id="table-content"
+      style="display:none;"
+    >
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th onclick="sortTable('name')">
+              Product ↕
+            </th>
+
+            <th>
+              Link
+            </th>
+
+            <th onclick="sortTable('created_at')">
+              Date ↕
+            </th>
+
+            <th>
+              Actions
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody id="table-body"></tbody>
+
+      </table>
+
+    </div>
+
+    <div
+      id="empty-state"
+      class="empty-state"
+      style="display:none;"
+    >
+
+      <p>
+        📭 No listings found
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+  // =========================
+  // SUPABASE
+  // =========================
+
+  const SUPABASE_URL =
+    "https://fzfkroyskrvxkdtfseyl.supabase.co";
+
+  // PUT REAL KEY HERE
+  const SUPABASE_ANON_KEY =
+    "PASTE_REAL_ANON_KEY_HERE";
+
+  const supabaseClient =
+    supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
+    );
+
+  let currentUser = null;
+
+  let allListings = [];
+
+  let currentSort = {
+    column:'created_at',
+    direction:'desc'
+  };
+
+  let currentSearch = '';
+
+  // =========================
+  // TOAST
+  // =========================
+
+  function showToast(
+    msg,
+    error=false
+  ){
+
+    const toast =
+      document.getElementById(
+        'toast'
+      );
+
+    toast.textContent = msg;
+
+    toast.style.borderLeftColor =
+      error
+        ? '#ff474c'
+        : '#4dff88';
+
+    toast.style.opacity = '1';
+
+    setTimeout(() => {
+      toast.style.opacity = '0';
+    },3000);
+  }
+
+  // =========================
+  // LOAD USER
+  // =========================
+
+  function loadUser(){
+
+    const saved =
+      localStorage.getItem(
+        'usfans_user'
+      );
+
+    if(!saved) return false;
+
+    try{
+
+      currentUser =
+        JSON.parse(saved);
+
+      return true;
+
+    }catch(e){
+
       return false;
     }
+  }
 
-    async function fetchListings() {
-      if (!currentUser) return;
+  // =========================
+  // FETCH LISTINGS
+  // =========================
 
-      try {
-        document.getElementById('loading-state').style.display = 'block';
-        document.getElementById('table-content').style.display = 'none';
-        
-        const { data, error } = await supabase
+  async function fetchListings(){
+
+    if(!currentUser) return;
+
+    try{
+
+      document.getElementById(
+        'loading-state'
+      ).style.display='block';
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
           .from('listings')
           .select('*')
-          .eq('user_id', currentUser.id)
-          .order('created_at', { ascending: false });
+          .eq(
+            'user_id',
+            currentUser.id
+          )
+          .order(
+            'created_at',
+            {
+              ascending:false
+            }
+          );
 
-        if (error) throw error;
+      if(error) throw error;
 
-        allListings = data || [];
-        document.getElementById('listing-count').innerHTML = `📊 ${allListings.length} listings`;
-        
-        if (allListings.length === 0) {
-          document.getElementById('empty-state').style.display = 'block';
-          document.getElementById('table-content').style.display = 'none';
-        } else {
-          document.getElementById('empty-state').style.display = 'none';
-          renderTable();
-          document.getElementById('table-content').style.display = 'block';
-        }
-      } catch (error) {
-        showToast('Error: ' + error.message, true);
-      } finally {
-        document.getElementById('loading-state').style.display = 'none';
+      allListings = data || [];
+
+      document.getElementById(
+        'listing-count'
+      ).innerHTML =
+        `📊 ${allListings.length} listings`;
+
+      document.getElementById(
+        'loading-state'
+      ).style.display='none';
+
+      if(allListings.length === 0){
+
+        document.getElementById(
+          'empty-state'
+        ).style.display='block';
+
+      }else{
+
+        renderTable();
+
+        document.getElementById(
+          'table-content'
+        ).style.display='block';
       }
-    }
 
-    async function deleteListing(id, name) {
-      if (!confirm(`Delete "${name}"?`)) return;
-      
-      try {
-        const { error } = await supabase
+    }catch(err){
+
+      console.error(err);
+
+      showToast(
+        err.message,
+        true
+      );
+    }
+  }
+
+  // =========================
+  // DELETE
+  // =========================
+
+  async function deleteListing(
+    id,
+    name
+  ){
+
+    if(
+      !confirm(
+        `Delete "${name}"?`
+      )
+    ) return;
+
+    try{
+
+      const { error } =
+        await supabaseClient
           .from('listings')
           .delete()
-          .eq('id', id)
-          .eq('user_id', currentUser.id);
-          
-        if (error) throw error;
-        showToast(`✅ Deleted "${name}"`);
-        await fetchListings();
-      } catch (error) {
-        showToast('Delete failed: ' + error.message, true);
-      }
-    }
+          .eq('id',id)
+          .eq(
+            'user_id',
+            currentUser.id
+          );
 
-    function renderTable() {
-      let filtered = [...allListings];
-      
-      if (currentSearch) {
-        const search = currentSearch.toLowerCase();
-        filtered = filtered.filter(item => 
-          item.name.toLowerCase().includes(search) || 
-          item.link.toLowerCase().includes(search)
+      if(error) throw error;
+
+      showToast(
+        'Deleted successfully'
+      );
+
+      await fetchListings();
+
+    }catch(err){
+
+      showToast(
+        err.message,
+        true
+      );
+    }
+  }
+
+  // =========================
+  // RENDER
+  // =========================
+
+  function renderTable(){
+
+    let filtered =
+      [...allListings];
+
+    if(currentSearch){
+
+      const s =
+        currentSearch.toLowerCase();
+
+      filtered =
+        filtered.filter(item =>
+
+          (item.name || '')
+            .toLowerCase()
+            .includes(s)
+
+          ||
+
+          (item.link || '')
+            .toLowerCase()
+            .includes(s)
         );
+    }
+
+    filtered.sort((a,b)=>{
+
+      let aVal =
+        a[currentSort.column];
+
+      let bVal =
+        b[currentSort.column];
+
+      if(
+        currentSort.column ===
+        'created_at'
+      ){
+
+        aVal =
+          new Date(aVal);
+
+        bVal =
+          new Date(bVal);
       }
-      
-      filtered.sort((a, b) => {
-        let aVal = a[currentSort.column];
-        let bVal = b[currentSort.column];
-        if (currentSort.column === 'created_at') {
-          aVal = new Date(aVal);
-          bVal = new Date(bVal);
-        }
-        if (aVal < bVal) return currentSort.direction === 'asc' ? -1 : 1;
-        if (aVal > bVal) return currentSort.direction === 'asc' ? 1 : -1;
-        return 0;
-      });
-      
-      const tbody = document.getElementById('table-body');
-      tbody.innerHTML = filtered.map(item => `
-        <tr>
-          <td><strong>${escapeHtml(item.name)}</strong></td>
-          <td><a href="${escapeHtml(item.link)}" target="_blank" class="product-link">${truncateUrl(item.link)}</a></td>
-          <td style="font-size: 0.8rem; color: #ffb7b3;">${formatDate(item.created_at)}</td>
-          <td><button class="delete-btn" onclick="deleteListing('${item.id}', '${escapeHtml(item.name).replace(/'/g, "\\'")}')">Delete</button></td>
-        </tr>
-      `).join('');
-      
-      document.getElementById('listing-count').innerHTML = `📊 ${filtered.length} / ${allListings.length} listings`;
-    }
 
-    function sortTable(column) {
-      if (currentSort.column === column) {
-        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
-      } else {
-        currentSort.column = column;
-        currentSort.direction = 'desc';
+      if(aVal < bVal){
+
+        return currentSort.direction === 'asc'
+          ? -1
+          : 1;
       }
-      renderTable();
-    }
 
-    function escapeHtml(str) {
-      if (!str) return '';
-      return str.replace(/[&<>]/g, function(m) {
-        if (m === '&') return '&amp;';
-        if (m === '<') return '&lt;';
-        if (m === '>') return '&gt;';
-        return m;
-      });
-    }
+      if(aVal > bVal){
 
-    function truncateUrl(url, maxLen = 50) {
-      if (!url) return '';
-      if (url.length <= maxLen) return url;
-      return url.substring(0, maxLen) + '...';
-    }
+        return currentSort.direction === 'asc'
+          ? 1
+          : -1;
+      }
 
-    function formatDate(dateStr) {
-      if (!dateStr) return 'N/A';
-      const date = new Date(dateStr);
-      const now = new Date();
-      const diff = Math.floor((now - date) / (1000 * 60 * 60 * 24));
-      if (diff === 0) return 'Today';
-      if (diff === 1) return 'Yesterday';
-      if (diff < 7) return `${diff} days ago`;
-      return date.toLocaleDateString();
-    }
-
-    // Search handler
-    document.getElementById('search-input').addEventListener('input', (e) => {
-      currentSearch = e.target.value;
-      renderTable();
+      return 0;
     });
 
-    // Make deleteListing global
-    window.deleteListing = deleteListing;
-    window.sortTable = sortTable;
+    const tbody =
+      document.getElementById(
+        'table-body'
+      );
 
-    // Initialize
-    if (!loadUser()) {
-      showToast('Please sign in on the home page first', true);
-      setTimeout(() => {
-        window.location.href = 'index.html';
-      }, 2000);
-    } else {
-      fetchListings();
+    tbody.innerHTML =
+      filtered.map(item => `
+
+        <tr>
+
+          <td>
+            <strong>
+              ${escapeHtml(item.name)}
+            </strong>
+          </td>
+
+          <td>
+            <a
+              href="${escapeHtml(item.link)}"
+              target="_blank"
+              class="product-link"
+            >
+              ${truncateUrl(item.link)}
+            </a>
+          </td>
+
+          <td>
+            ${formatDate(
+              item.created_at
+            )}
+          </td>
+
+          <td>
+
+            <button
+              class="delete-btn"
+              onclick="deleteListing(
+                '${item.id}',
+                '${escapeHtml(item.name).replace(/'/g,"\\'")}'
+              )"
+            >
+              Delete
+            </button>
+
+          </td>
+
+        </tr>
+
+      `).join('');
+
+  }
+
+  // =========================
+  // SORT
+  // =========================
+
+  function sortTable(column){
+
+    if(
+      currentSort.column ===
+      column
+    ){
+
+      currentSort.direction =
+        currentSort.direction === 'asc'
+          ? 'desc'
+          : 'asc';
+
+    }else{
+
+      currentSort.column =
+        column;
+
+      currentSort.direction =
+        'desc';
     }
-  </script>
+
+    renderTable();
+  }
+
+  // =========================
+  // HELPERS
+  // =========================
+
+  function escapeHtml(str){
+
+    if(!str) return '';
+
+    return str.replace(
+      /[&<>]/g,
+      m => ({
+        '&':'&amp;',
+        '<':'&lt;',
+        '>':'&gt;'
+      })[m]
+    );
+  }
+
+  function truncateUrl(
+    url,
+    max=50
+  ){
+
+    if(!url) return '';
+
+    return url.length <= max
+      ? url
+      : url.substring(0,max)+'...';
+  }
+
+  function formatDate(date){
+
+    if(!date) return 'N/A';
+
+    return new Date(date)
+      .toLocaleDateString();
+  }
+
+  // =========================
+  // SEARCH
+  // =========================
+
+  document
+    .getElementById(
+      'search-input'
+    )
+    .addEventListener(
+      'input',
+      e => {
+
+        currentSearch =
+          e.target.value;
+
+        renderTable();
+      }
+    );
+
+  // =========================
+  // GLOBALS
+  // =========================
+
+  window.deleteListing =
+    deleteListing;
+
+  window.sortTable =
+    sortTable;
+
+  // =========================
+  // INIT
+  // =========================
+
+  if(!loadUser()){
+
+    showToast(
+      'Please login first',
+      true
+    );
+
+    setTimeout(() => {
+
+      location.href =
+        'index.html';
+
+    },2000);
+
+  }else{
+
+    fetchListings();
+  }
+
+</script>
+
 </body>
 </html>
