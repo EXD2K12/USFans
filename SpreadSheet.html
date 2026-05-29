@@ -1,20 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>USFans Spreadsheet — My Listings</title>
-  <meta name="description" content="View and manage your product listings">
+  <meta name="description" content="View your product listings">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
       --font-sans: 'Inter', sans-serif;
       --font-display: 'Cormorant Garamond', serif;
@@ -25,7 +20,6 @@
       --ember-glow: oklch(70% 0.28 22);
       --border-glow: oklch(62% 0.26 25 / 0.4);
     }
-
     body {
       background-color: var(--background);
       color: var(--foreground);
@@ -33,247 +27,112 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
-
-    /* Background Effects - Same as main page */
     .bg-radial-glow {
-      pointer-events: none;
-      position: fixed;
-      inset: 0;
+      pointer-events: none; position: fixed; inset: 0;
       background: radial-gradient(ellipse at 20% 20%, oklch(0.3 0.15 25 / 0.35), transparent 55%),
                   radial-gradient(ellipse at 80% 80%, oklch(0.25 0.18 22 / 0.3), transparent 60%);
       z-index: 0;
     }
-
     .noise-overlay {
-      pointer-events: none;
-      position: fixed;
-      inset: 0;
-      opacity: 0.04;
-      mix-blend-mode: overlay;
+      pointer-events: none; position: fixed; inset: 0; opacity: 0.04; mix-blend-mode: overlay; z-index: 1;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' /%3E%3C/svg%3E");
-      z-index: 1;
     }
-
-    /* Snowflakes */
     .snowflakes-container {
-      pointer-events: none;
-      position: fixed;
-      inset: 0;
-      overflow: hidden;
-      z-index: 2;
+      pointer-events: none; position: fixed; inset: 0; overflow: hidden; z-index: 2;
     }
-
     .snowflake {
-      filter: blur(0.5px);
-      pointer-events: none;
+      filter: blur(0.5px); pointer-events: none;
       background: radial-gradient(circle, #ff6266e6, #d4092400);
-      border-radius: 9999px;
-      animation: linear infinite snowfall;
-      position: absolute;
-      top: 0;
+      border-radius: 9999px; animation: linear infinite snowfall; position: absolute; top: 0;
     }
-
     @keyframes snowfall {
       0% { opacity: 0; transform: translateY(-10vh) translate(0); }
       10% { opacity: 1; }
       90% { opacity: 0.8; }
       to { transform: translateY(110vh) translate(var(--drift, 20px)); opacity: 0; }
     }
+    .shimmer-text {
+      -webkit-text-fill-color: transparent;
+      background: linear-gradient(90deg, #fa002a, #ff303c, #ff474c 12.5%, #ff7a75 25%, #ffb7b3, #ff7a75 75%, #ff474c 87.5%, #ff303c, #fa002a) 0 0 / 200%;
+      background-clip: text; -webkit-background-clip: text; animation: 3s linear infinite shimmer;
+    }
+    .promo-link-button {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      width: 100%; max-width: 960px; margin: 0 auto; text-decoration: none; cursor: pointer;
+      transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+    .promo-link-button:hover { transform: scale(1.02); }
+    .promo-bar-inner {
+      position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+      gap: 1.2rem 2rem; border-radius: 9999px; padding: 0.9rem 2.2rem; backdrop-filter: blur(28px);
+      background: linear-gradient(90deg, oklch(0.18 0.04 25 / 0.98), oklch(1 0 0 / 0.08), oklch(0.18 0.04 25 / 0.98));
+      box-shadow: 0 0 0 1px var(--border-glow), 0 0 18px oklch(0.62 0.26 25 / 0.25);
+    }
+    .glow-overlay {
+      pointer-events: none; position: absolute; inset: 0; border-radius: 9999px;
+      background: radial-gradient(circle, oklch(0.62 0.26 25 / 0.5), transparent 70%); opacity: 0.6;
+    }
+    .promo-text-group {
+      display: flex; align-items: center; flex-wrap: wrap; gap: 0.6rem 1rem;
+      font-size: 0.9rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+    }
+    .discount-text {
+      font-family: var(--font-display); font-size: 1.6rem; font-weight: 700;
+      background: linear-gradient(135deg, #ffb7b3, #ff7a75, #ff474c);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .action-hint {
+      display: flex; align-items: center; gap: 0.6rem;
+      background: oklch(0.62 0.26 25 / 0.22); padding: 0.55rem 1.3rem; border-radius: 40px;
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.2em;
+    }
+    .logo-section { display: flex; flex-direction: column; align-items: center; gap: 2rem; padding: 2rem 1rem 2rem; position: relative; z-index: 3; }
+    .logo-img { width: 96px; height: 96px; border-radius: 1.5rem; object-fit: contain; }
 
-    /* Main Container */
-    .container {
+    /* Spreadsheet Table Styles */
+    .spreadsheet-container {
       max-width: 1400px;
-      margin: 0 auto;
-      padding: 2rem;
+      margin: 0 auto 3rem;
+      padding: 0 1rem;
       position: relative;
       z-index: 3;
     }
 
-    /* Header with Promo Bar Style */
-    .header {
-      margin-bottom: 2rem;
-    }
-
-    .promo-bar-inner {
-      position: relative;
+    .table-header {
       display: flex;
-      flex-wrap: wrap;
-      align-items: center;
       justify-content: space-between;
-      gap: 1.2rem 2rem;
-      border-radius: 9999px;
-      padding: 0.9rem 2.2rem;
-      backdrop-filter: blur(28px);
-      background: linear-gradient(90deg, oklch(0.18 0.04 25 / 0.98), oklch(1 0 0 / 0.08), oklch(0.18 0.04 25 / 0.98));
-      box-shadow: 0 0 0 1px var(--border-glow), 0 0 18px oklch(0.62 0.26 25 / 0.25);
-    }
-
-    .glow-overlay {
-      pointer-events: none;
-      position: absolute;
-      inset: 0;
-      border-radius: 9999px;
-      background: radial-gradient(circle, oklch(0.62 0.26 25 / 0.5), transparent 70%);
-      opacity: 0.6;
-    }
-
-    .logo-area {
-      display: flex;
       align-items: center;
+      flex-wrap: wrap;
       gap: 1rem;
+      margin-bottom: 1.5rem;
     }
 
-    .logo-img {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-    }
-
-    .title-group h1 {
+    .table-title {
       font-family: var(--font-display);
-      font-size: 1.6rem;
+      font-size: 1.8rem;
       font-weight: 700;
-      background: linear-gradient(135deg, #ffb7b3, #ff7a75, #ff474c);
+      background: linear-gradient(135deg, #ffb7b3, #ff474c);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
     }
 
-    .title-group p {
-      font-size: 0.8rem;
-      color: var(--muted-foreground);
-    }
-
-    .action-buttons {
-      display: flex;
-      gap: 1rem;
-    }
-
-    .spreadsheet-btn, .back-btn {
-      background: oklch(0.62 0.26 25 / 0.22);
-      border: 1px solid var(--ember-glow);
-      padding: 0.6rem 1.3rem;
-      border-radius: 40px;
-      cursor: pointer;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: var(--ember-glow);
-      transition: all 0.2s;
-      display: inline-block;
-    }
-
-    .spreadsheet-btn:hover, .back-btn:hover {
-      background: oklch(0.62 0.26 25 / 0.4);
-      transform: scale(1.02);
-    }
-
-    /* Google Login Button Area */
-    .google-login-area {
-      position: fixed;
-      top: 1.5rem;
-      right: 1.5rem;
-      z-index: 100;
-    }
-
-    .user-profile {
-      position: fixed;
-      top: 1.5rem;
-      right: 1.5rem;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(10px);
-      padding: 0.5rem 1rem;
-      border-radius: 60px;
-      border: 1px solid var(--border-glow);
-    }
-
-    .user-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 2px solid #ff474c;
-    }
-
-    .user-info {
-      text-align: right;
-    }
-
-    .user-name {
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-
-    .user-email {
-      font-size: 0.7rem;
-      color: var(--muted-foreground);
-    }
-
-    .logout-btn {
+    .stats-badge {
       background: rgba(255, 71, 76, 0.2);
-      border: 1px solid #ff474c;
-      color: #ffb7b3;
-      padding: 0.4rem 0.8rem;
+      padding: 0.5rem 1rem;
       border-radius: 40px;
-      cursor: pointer;
-      font-size: 0.7rem;
-    }
-
-    /* Stats Cards */
-    .stats-bar {
-      display: flex;
-      gap: 1.5rem;
-      margin: 2rem 0;
-      flex-wrap: wrap;
-    }
-
-    .stat-card {
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(10px);
+      font-size: 0.85rem;
       border: 1px solid var(--border-glow);
-      border-radius: 20px;
-      padding: 1rem 1.5rem;
-      flex: 1;
-      min-width: 150px;
     }
 
-    .stat-label {
-      font-size: 0.75rem;
-      color: var(--muted-foreground);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
-
-    .stat-value {
-      font-size: 2rem;
-      font-weight: 700;
-      color: #ff474c;
-      font-family: var(--font-display);
-    }
-
-    /* Controls */
-    .controls {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .search-box {
-      flex: 1;
-      max-width: 300px;
+    .search-bar {
+      margin-bottom: 1.5rem;
     }
 
     .search-input {
       width: 100%;
-      padding: 0.75rem 1rem;
+      max-width: 300px;
+      padding: 0.7rem 1rem;
       background: rgba(0, 0, 0, 0.5);
       border: 1px solid var(--border-glow);
       border-radius: 40px;
@@ -281,46 +140,10 @@
       font-family: var(--font-sans);
     }
 
-    .search-input:focus {
-      outline: none;
-      border-color: #ff474c;
-    }
-
-    .filter-buttons {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .filter-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-glow);
-      padding: 0.5rem 1rem;
-      border-radius: 40px;
-      cursor: pointer;
-      color: white;
-      transition: all 0.2s;
-    }
-
-    .filter-btn.active {
-      background: #ff474c;
-      border-color: #ff474c;
-    }
-
-    .refresh-btn {
-      background: #ff474c;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 40px;
-      cursor: pointer;
-      color: white;
-      font-weight: 600;
-    }
-
-    /* Table */
-    .table-container {
+    .table-wrapper {
       background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(10px);
-      border-radius: 20px;
+      border-radius: 24px;
       overflow-x: auto;
       border: 1px solid var(--border-glow);
     }
@@ -341,16 +164,11 @@
       font-weight: 600;
       color: #ffb7b3;
       cursor: pointer;
-      user-select: none;
-    }
-
-    th:hover {
-      background: rgba(255, 71, 76, 0.1);
     }
 
     td {
       padding: 1rem;
-      border-bottom: 1px solid var(--border-glow);
+      border-bottom: 1px solid rgba(255, 71, 76, 0.1);
     }
 
     tr:hover {
@@ -360,11 +178,9 @@
     .product-link {
       color: #ff7a75;
       text-decoration: none;
-      transition: color 0.2s;
     }
 
     .product-link:hover {
-      color: #ffb7b3;
       text-decoration: underline;
     }
 
@@ -376,7 +192,6 @@
       border-radius: 20px;
       cursor: pointer;
       font-size: 0.75rem;
-      transition: all 0.2s;
     }
 
     .delete-btn:hover {
@@ -384,19 +199,19 @@
       color: white;
     }
 
-    /* Loading & Empty States */
     .loading, .empty-state {
       text-align: center;
       padding: 3rem;
+      color: var(--muted-foreground);
     }
 
     .spinner {
-      width: 50px;
-      height: 50px;
+      width: 40px;
+      height: 40px;
       border: 3px solid rgba(255, 71, 76, 0.3);
       border-top-color: #ff474c;
       border-radius: 50%;
-      animation: spin 1s linear infinite;
+      animation: spin 0.8s linear infinite;
       margin: 0 auto 1rem;
     }
 
@@ -404,7 +219,6 @@
       to { transform: rotate(360deg); }
     }
 
-    /* Toast */
     .toast {
       position: fixed;
       bottom: 2rem;
@@ -421,21 +235,13 @@
       pointer-events: none;
     }
 
-    /* Responsive */
     @media (max-width: 768px) {
-      .container {
-        padding: 1rem;
-      }
       th, td {
-        padding: 0.75rem;
-        font-size: 0.85rem;
+        padding: 0.5rem;
+        font-size: 0.8rem;
       }
-      .stats-bar {
-        flex-direction: column;
-      }
-      .promo-bar-inner {
-        flex-direction: column;
-        text-align: center;
+      .table-title {
+        font-size: 1.3rem;
       }
     }
   </style>
@@ -447,69 +253,33 @@
     <span class="snowflake" style="left:0.62%;width:1.9px;height:1.9px;animation-duration:10.3s;--drift:32px"></span>
     <span class="snowflake" style="left:36.9%;width:2.15px;animation-duration:8.38s;--drift:-17px"></span>
     <span class="snowflake" style="left:33.36%;width:2.96px;animation-duration:8.51s;--drift:10px"></span>
-    <span class="snowflake" style="left:72.1%;width:2.2px;animation-duration:9.2s;--drift:-22px"></span>
-    <span class="snowflake" style="left:88%;width:1.6px;animation-duration:7.4s;--drift:18px"></span>
   </div>
 
-  <!-- Google Login Area -->
-  <div id="google-login-wrapper" class="google-login-area">
-    <div id="google-login-button"></div>
-  </div>
-
-  <!-- User Profile (hidden until logged in) -->
-  <div id="user-profile" class="user-profile" style="display: none;">
-    <div class="user-info">
-      <div id="user-name" class="user-name"></div>
-      <div id="user-email" class="user-email"></div>
-    </div>
-    <img id="user-avatar" class="user-avatar" alt="avatar">
-    <button id="logout-btn" class="logout-btn">Sign Out</button>
-  </div>
-
-  <div class="container">
-    <!-- Header with Promo Style -->
-    <div class="header">
+  <div class="logo-section">
+    <img src="images/usfans-wzr06cld.webp" alt="USFans" class="logo-img">
+    <a href="index.html" class="promo-link-button">
       <div class="promo-bar-inner">
         <div class="glow-overlay"></div>
-        <div class="logo-area">
-          <img src="images/usfans-wzr06cld.webp" alt="USFans" class="logo-img">
-          <div class="title-group">
-            <h1>📊 My Spreadsheet</h1>
-            <p>Your personal product listings</p>
-          </div>
-        </div>
-        <div class="action-buttons">
-          <a href="index.html" class="back-btn">← Back to Home</a>
-          <button id="refresh-btn" class="spreadsheet-btn">🔄 Refresh</button>
+        <div class="promo-text-group">
+          <span>← Back to</span>
+          <span class="discount-text shimmer-text">HOME</span>
+          <div class="action-hint"><span>Return to Main Page</span></div>
         </div>
       </div>
+    </a>
+  </div>
+
+  <div class="spreadsheet-container">
+    <div class="table-header">
+      <h2 class="table-title">📋 My Product Listings</h2>
+      <div class="stats-badge" id="listing-count">Loading...</div>
     </div>
 
-    <!-- Stats -->
-    <div class="stats-bar">
-      <div class="stat-card">
-        <div class="stat-label">Total Listings</div>
-        <div class="stat-value" id="total-count">0</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Active Products</div>
-        <div class="stat-value" id="product-count">0</div>
-      </div>
+    <div class="search-bar">
+      <input type="text" id="search-input" class="search-input" placeholder="🔍 Search by name or link...">
     </div>
 
-    <!-- Controls -->
-    <div class="controls">
-      <div class="search-box">
-        <input type="text" id="search-input" class="search-input" placeholder="🔍 Search products...">
-      </div>
-      <div class="filter-buttons">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="recent">Recent (7d)</button>
-      </div>
-    </div>
-
-    <!-- Table -->
-    <div class="table-container">
+    <div class="table-wrapper">
       <div id="loading-state" class="loading">
         <div class="spinner"></div>
         <p>Loading your listings...</p>
@@ -518,19 +288,18 @@
         <table>
           <thead>
             <tr>
-              <th data-sort="name">Product Name ↕</th>
-              <th data-sort="link">Product Link</th>
-              <th data-sort="created_at">Date Added ↕</th>
+              <th onclick="sortTable('name')">Product Name ↕</th>
+              <th onclick="sortTable('link')">Product Link</th>
+              <th onclick="sortTable('created_at')">Date Added ↕</th>
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody id="table-body">
-          </tbody>
+          <tbody id="table-body"></tbody>
         </table>
       </div>
       <div id="empty-state" class="empty-state" style="display: none;">
-        <p>📭 No listings found yet</p>
-        <p style="font-size: 0.9rem; margin-top: 0.5rem;">Go back to the home page and add your first product!</p>
+        <p>📭 No listings found</p>
+        <p style="font-size: 0.85rem; margin-top: 0.5rem;">Go to the home page and add your first product!</p>
       </div>
     </div>
   </div>
@@ -538,86 +307,43 @@
   <div id="toast" class="toast"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script>
-    // Supabase Configuration
     const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_6_2ZEDiDiWI6ShtNGz8DsQ_zpR5A6sF";
     const supabase = window.Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     let currentUser = null;
     let allListings = [];
-    let currentFilter = 'all';
-    let currentSearch = '';
     let currentSort = { column: 'created_at', direction: 'desc' };
+    let currentSearch = '';
 
-    function showToast(message, isError = false) {
+    function showToast(msg, isError = false) {
       const toast = document.getElementById('toast');
-      toast.textContent = message;
+      toast.textContent = msg;
       toast.style.backgroundColor = isError ? '#3b141c' : '#1a3324';
       toast.style.borderLeftColor = isError ? '#ff474c' : '#6bff9b';
       toast.style.opacity = '1';
-      setTimeout(() => {
-        toast.style.opacity = '0';
-      }, 3000);
+      setTimeout(() => toast.style.opacity = '0', 3000);
     }
 
-    // Google Sign-In callback
-    function handleCredentialResponse(response) {
-      try {
-        const decoded = JSON.parse(atob(response.credential.split('.')[1]));
-        currentUser = {
-          id: decoded.sub,
-          email: decoded.email,
-          name: decoded.name,
-          picture: decoded.picture
-        };
-        
-        localStorage.setItem('usfans_user', JSON.stringify(currentUser));
-        updateUIForUser();
-        fetchListings();
-        
-        // Hide Google button, show profile
-        document.getElementById('google-login-wrapper').style.display = 'none';
-        document.getElementById('user-profile').style.display = 'flex';
-        
-        showToast(`Welcome ${currentUser.name}!`);
-      } catch (e) {
-        console.error("Google auth error", e);
-        showToast("Login failed", true);
-      }
-    }
-
-    function updateUIForUser() {
-      if (currentUser) {
-        document.getElementById('user-name').textContent = currentUser.name;
-        document.getElementById('user-email').textContent = currentUser.email;
-        document.getElementById('user-avatar').src = currentUser.picture;
-      }
-    }
-
-    // Check for existing session
-    function checkExistingSession() {
+    // Get user from localStorage (set by index.html)
+    function loadUser() {
       const saved = localStorage.getItem('usfans_user');
       if (saved) {
         try {
           currentUser = JSON.parse(saved);
-          updateUIForUser();
-          document.getElementById('google-login-wrapper').style.display = 'none';
-          document.getElementById('user-profile').style.display = 'flex';
-          fetchListings();
           return true;
         } catch(e) {}
       }
       return false;
     }
 
-    // Fetch listings from Supabase
     async function fetchListings() {
       if (!currentUser) return;
 
       try {
-        showLoading(true);
+        document.getElementById('loading-state').style.display = 'block';
+        document.getElementById('table-content').style.display = 'none';
         
         const { data, error } = await supabase
           .from('listings')
@@ -628,26 +354,25 @@
         if (error) throw error;
 
         allListings = data || [];
-        updateStats();
-        renderTable();
+        document.getElementById('listing-count').innerHTML = `📊 ${allListings.length} listings`;
         
         if (allListings.length === 0) {
-          showEmptyState(true);
+          document.getElementById('empty-state').style.display = 'block';
+          document.getElementById('table-content').style.display = 'none';
         } else {
-          showEmptyState(false);
+          document.getElementById('empty-state').style.display = 'none';
+          renderTable();
+          document.getElementById('table-content').style.display = 'block';
         }
-        
       } catch (error) {
-        console.error('Error fetching listings:', error);
-        showToast('Failed to load listings: ' + error.message, true);
+        showToast('Error: ' + error.message, true);
       } finally {
-        showLoading(false);
+        document.getElementById('loading-state').style.display = 'none';
       }
     }
 
-    // Delete a listing
-    async function deleteListing(id, productName) {
-      if (!confirm(`Delete "${productName}"? This cannot be undone.`)) return;
+    async function deleteListing(id, name) {
+      if (!confirm(`Delete "${name}"?`)) return;
       
       try {
         const { error } = await supabase
@@ -655,97 +380,59 @@
           .delete()
           .eq('id', id)
           .eq('user_id', currentUser.id);
-
+          
         if (error) throw error;
-
-        showToast(`✅ Deleted "${productName}"`);
+        showToast(`✅ Deleted "${name}"`);
         await fetchListings();
-        
       } catch (error) {
-        console.error('Error deleting:', error);
-        showToast('Failed to delete: ' + error.message, true);
+        showToast('Delete failed: ' + error.message, true);
       }
     }
 
-    function updateStats() {
-      const total = allListings.length;
-      document.getElementById('total-count').textContent = total;
-      document.getElementById('product-count').textContent = total;
-    }
-
-    function getFilteredListings() {
+    function renderTable() {
       let filtered = [...allListings];
       
       if (currentSearch) {
-        const searchLower = currentSearch.toLowerCase();
+        const search = currentSearch.toLowerCase();
         filtered = filtered.filter(item => 
-          item.name.toLowerCase().includes(searchLower) ||
-          item.link.toLowerCase().includes(searchLower)
+          item.name.toLowerCase().includes(search) || 
+          item.link.toLowerCase().includes(search)
         );
-      }
-      
-      if (currentFilter === 'recent') {
-        const sevenDaysAgo = new Date();
-        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-        filtered = filtered.filter(item => {
-          const itemDate = new Date(item.created_at);
-          return itemDate >= sevenDaysAgo;
-        });
       }
       
       filtered.sort((a, b) => {
         let aVal = a[currentSort.column];
         let bVal = b[currentSort.column];
-        
         if (currentSort.column === 'created_at') {
-          aVal = new Date(aVal).getTime();
-          bVal = new Date(bVal).getTime();
-        } else if (currentSort.column === 'name') {
-          aVal = aVal?.toLowerCase() || '';
-          bVal = bVal?.toLowerCase() || '';
+          aVal = new Date(aVal);
+          bVal = new Date(bVal);
         }
-        
         if (aVal < bVal) return currentSort.direction === 'asc' ? -1 : 1;
         if (aVal > bVal) return currentSort.direction === 'asc' ? 1 : -1;
         return 0;
       });
       
-      return filtered;
-    }
-
-    function renderTable() {
-      const filtered = getFilteredListings();
       const tbody = document.getElementById('table-body');
-      
-      if (filtered.length === 0) {
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="4" style="text-align: center; padding: 3rem;">
-              No matching listings found
-            </td>
-          </tr>
-        `;
-        return;
-      }
-      
       tbody.innerHTML = filtered.map(item => `
         <tr>
-          <td style="font-weight: 500;">${escapeHtml(item.name)}</td>
-          <td>
-            <a href="${escapeHtml(item.link)}" target="_blank" class="product-link">
-              ${truncateUrl(item.link)}
-            </a>
-          </td>
-          <td style="font-size: 0.85rem; color: #ffb7b3;">
-            ${formatDate(item.created_at)}
-          </td>
-          <td>
-            <button class="delete-btn" onclick="deleteListing('${item.id}', '${escapeHtml(item.name).replace(/'/g, "\\'")}')">
-              Delete
-            </button>
-          </td>
+          <td><strong>${escapeHtml(item.name)}</strong></td>
+          <td><a href="${escapeHtml(item.link)}" target="_blank" class="product-link">${truncateUrl(item.link)}</a></td>
+          <td style="font-size: 0.8rem; color: #ffb7b3;">${formatDate(item.created_at)}</td>
+          <td><button class="delete-btn" onclick="deleteListing('${item.id}', '${escapeHtml(item.name).replace(/'/g, "\\'")}')">Delete</button></td>
         </tr>
       `).join('');
+      
+      document.getElementById('listing-count').innerHTML = `📊 ${filtered.length} / ${allListings.length} listings`;
+    }
+
+    function sortTable(column) {
+      if (currentSort.column === column) {
+        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+      } else {
+        currentSort.column = column;
+        currentSort.direction = 'desc';
+      }
+      renderTable();
     }
 
     function escapeHtml(str) {
@@ -758,106 +445,42 @@
       });
     }
 
-    function truncateUrl(url, maxLength = 60) {
+    function truncateUrl(url, maxLen = 50) {
       if (!url) return '';
-      if (url.length <= maxLength) return url;
-      return url.substring(0, maxLength) + '...';
+      if (url.length <= maxLen) return url;
+      return url.substring(0, maxLen) + '...';
     }
 
-    function formatDate(dateString) {
-      if (!dateString) return 'N/A';
-      const date = new Date(dateString);
+    function formatDate(dateStr) {
+      if (!dateStr) return 'N/A';
+      const date = new Date(dateStr);
       const now = new Date();
-      const diffTime = Math.abs(now - date);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      
-      if (diffDays === 0) return 'Today';
-      if (diffDays === 1) return 'Yesterday';
-      if (diffDays < 7) return `${diffDays} days ago`;
-      
-      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      const diff = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+      if (diff === 0) return 'Today';
+      if (diff === 1) return 'Yesterday';
+      if (diff < 7) return `${diff} days ago`;
+      return date.toLocaleDateString();
     }
 
-    function showLoading(show) {
-      document.getElementById('loading-state').style.display = show ? 'block' : 'none';
-      document.getElementById('table-content').style.display = show ? 'none' : 'block';
-    }
-    
-    function showEmptyState(show) {
-      document.getElementById('empty-state').style.display = show && allListings.length === 0 ? 'block' : 'none';
-    }
-
-    function logout() {
-      localStorage.removeItem('usfans_user');
-      currentUser = null;
-      document.getElementById('google-login-wrapper').style.display = 'block';
-      document.getElementById('user-profile').style.display = 'none';
-      document.getElementById('table-body').innerHTML = '';
-      showToast('Signed out successfully');
-    }
-
-    function setupEventListeners() {
-      document.getElementById('search-input').addEventListener('input', (e) => {
-        currentSearch = e.target.value;
-        renderTable();
-      });
-      
-      document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          currentFilter = btn.dataset.filter;
-          renderTable();
-        });
-      });
-      
-      document.getElementById('refresh-btn').addEventListener('click', () => {
-        fetchListings();
-      });
-      
-      document.querySelectorAll('th[data-sort]').forEach(th => {
-        th.addEventListener('click', () => {
-          const column = th.dataset.sort;
-          if (currentSort.column === column) {
-            currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
-          } else {
-            currentSort.column = column;
-            currentSort.direction = 'desc';
-          }
-          renderTable();
-        });
-      });
-      
-      document.getElementById('logout-btn').addEventListener('click', logout);
-    }
-
-    // Initialize Google Sign-In
-    function initGoogleSignIn() {
-      if (window.google?.accounts?.id) {
-        google.accounts.id.initialize({
-          client_id: "215291464454-i5jmqnoalmhrsu89b13pa7gq2nksgkj3.apps.googleusercontent.com",
-          callback: handleCredentialResponse
-        });
-        google.accounts.id.renderButton(document.getElementById("google-login-button"), {
-          theme: "filled_black", size: "large", shape: "pill", width: 260
-        });
-        google.accounts.id.prompt();
-      }
-    }
+    // Search handler
+    document.getElementById('search-input').addEventListener('input', (e) => {
+      currentSearch = e.target.value;
+      renderTable();
+    });
 
     // Make deleteListing global
     window.deleteListing = deleteListing;
+    window.sortTable = sortTable;
 
     // Initialize
-    window.addEventListener('load', () => {
-      initGoogleSignIn();
-      setupEventListeners();
-      
-      if (!checkExistingSession()) {
-        showLoading(false);
-        showEmptyState(true);
-      }
-    });
+    if (!loadUser()) {
+      showToast('Please sign in on the home page first', true);
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 2000);
+    } else {
+      fetchListings();
+    }
   </script>
 </body>
 </html>
