@@ -218,7 +218,7 @@
       white-space: nowrap;
       font-size: 0.9rem;
     }
-    /* OPTIMIZED: only one thumbnail + badge */
+    /* Optimized QC preview: one resized thumbnail + badge */
     .qc-preview {
       display: flex;
       gap: 8px;
@@ -260,7 +260,7 @@
       background: rgba(255,71,76,0.5);
       transform: scale(1.02);
     }
-    /* Lightbox Gallery */
+    /* Lightbox (full resolution) */
     .lightbox {
       display: none;
       position: fixed;
@@ -396,7 +396,7 @@
   </div>
 </div>
 
-<!-- Lightbox Gallery with navigation -->
+<!-- Lightbox (full resolution gallery) -->
 <div id="lightbox" class="lightbox" onclick="closeLightboxIfBackdrop(event)">
   <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
   <button class="gallery-nav prev-btn" id="gallery-prev">❮</button>
@@ -422,11 +422,11 @@
   let currentSort = { column: 'created_at', direction: 'desc' };
   let currentSearch = '';
   
-  // Gallery state
+  // Gallery state (full original images)
   let activeGalleryUrls = [];
   let activeGalleryIndex = 0;
   
-  // Helper: parse image URLs from listing (array, string, object)
+  // Helper: extract all image URLs from a listing (array, string, object)
   function extractImageUrls(listing) {
     const raw = listing.qc_image_url;
     if (!raw) return [];
@@ -438,18 +438,29 @@
     return [];
   }
   
-  // Optimized rendering: show at most ONE thumbnail + badge with total count
+  // Resize any image URL to a small thumbnail (using images.weserv.nl – free, fast, no API key)
+  function getResizedThumbnail(originalUrl, width = 100, height = 100) {
+    if (!originalUrl) return '';
+    // Skip data URLs or very small local references (though unlikely)
+    if (originalUrl.startsWith('data:') || originalUrl.startsWith('blob:')) return originalUrl;
+    // Encode the original URL and ask weserv to deliver a 100x100 resized version
+    const encoded = encodeURIComponent(originalUrl);
+    return `https://images.weserv.nl/?url=${encoded}&w=${width}&h=${height}&fit=cover&a=attention`;
+  }
+  
+  // Render the QC column: one low‑res thumbnail + badge with remaining count
   function renderImagesCell(listing) {
     const images = extractImageUrls(listing);
     if (images.length === 0) return '<span style="color:#888;">—</span>';
     
     const total = images.length;
     const firstImage = images[0];
-    const escapedFirst = escapeHtml(firstImage);
+    const thumbUrl = getResizedThumbnail(firstImage, 100, 100);
+    const escapedThumb = escapeHtml(thumbUrl);
+    const escapedOriginal = escapeHtml(firstImage);
     
-    // Thumbnail with lazy loading, plus badge showing total count
-    // Clicking either thumbnail or badge opens gallery (full image list)
-    const thumbHtml = `<img class="qc-thumb" src="${escapedFirst}" alt="preview" loading="lazy" decoding="async" onclick="event.stopPropagation(); openGalleryForListing('${listing.id}', 0)">`;
+    // Thumbnail uses the resized version, but the onclick will open the gallery with original images
+    const thumbHtml = `<img class="qc-thumb" src="${escapedThumb}" alt="preview" loading="lazy" decoding="async" onclick="event.stopPropagation(); openGalleryForListing('${listing.id}', 0)">`;
     const badgeHtml = total > 1 
       ? `<div class="image-count-badge" onclick="event.stopPropagation(); openGalleryForListing('${listing.id}', 0)">+${total-1}</div>` 
       : '';
@@ -457,14 +468,14 @@
     return `<div class="qc-preview">${thumbHtml}${badgeHtml}</div>`;
   }
   
-  // Opens gallery for a specific listing, starting at given image index
+  // Opens gallery (full original images) for a specific listing
   window.openGalleryForListing = function(listingId, startIndex = 0) {
     const listing = allListings.find(l => l.id === listingId);
     if (!listing) return;
-    const images = extractImageUrls(listing);
-    if (images.length === 0) return;
+    const fullImages = extractImageUrls(listing);
+    if (fullImages.length === 0) return;
     
-    activeGalleryUrls = [...images];
+    activeGalleryUrls = [...fullImages];   // store original high-res URLs
     activeGalleryIndex = Math.min(startIndex, activeGalleryUrls.length - 1);
     if (activeGalleryIndex < 0) activeGalleryIndex = 0;
     
@@ -479,7 +490,7 @@
     const counterEl = document.getElementById('gallery-counter');
     if (!imgEl) return;
     if (activeGalleryUrls.length > 0 && activeGalleryIndex >= 0 && activeGalleryIndex < activeGalleryUrls.length) {
-      imgEl.src = activeGalleryUrls[activeGalleryIndex];
+      imgEl.src = activeGalleryUrls[activeGalleryIndex];   // original, full quality
       if (counterEl) counterEl.textContent = `${activeGalleryIndex+1} / ${activeGalleryUrls.length}`;
     }
   }
@@ -508,7 +519,7 @@
     if (e.target === document.getElementById('lightbox')) closeLightbox();
   }
   
-  // Attach gallery navigation events
+  // Gallery navigation listeners
   document.addEventListener('DOMContentLoaded', () => {
     const prevBtn = document.getElementById('gallery-prev');
     const nextBtn = document.getElementById('gallery-next');
@@ -668,7 +679,7 @@
   window.deleteListing = deleteListing;
   window.closeLightbox = closeLightbox;
   
-  // Bootstrap
+  // Bootstrap: auth check and load data
   if (!loadUser()) {
     showToast('Please login first on the main page.', true);
     setTimeout(() => { location.href = '/'; }, 2000);
