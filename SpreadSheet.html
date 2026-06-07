@@ -4,61 +4,355 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>USFans Spreadsheet — All Listings</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4048219571639841" crossorigin="anonymous"></script>
-
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    :root { --font-sans: 'Inter', sans-serif; --font-display: 'Cormorant Garamond', serif; --background: #0f0f10; --foreground: #ffffff; --muted: #b3b3b3; --accent: #ff474c; --accent2: #ff7a75; }
-    body { background: var(--background); color: var(--foreground); font-family: var(--font-sans); min-height: 100vh; overflow-x: hidden; }
-    .bg-radial-glow { position: fixed; inset: 0; pointer-events: none; background: radial-gradient(circle at 20% 20%, rgba(255,71,76,0.18), transparent 40%), radial-gradient(circle at 80% 80%, rgba(255,71,76,0.14), transparent 40%); z-index: 0; }
-    .logo-section { display: flex; flex-direction: column; align-items: center; gap: 2rem; padding: 2rem 1rem; position: relative; z-index: 2; }
-    .logo-img { width: 96px; height: 96px; border-radius: 24px; object-fit: contain; }
-    .promo-link-button { width: 100%; max-width: 900px; text-decoration: none; transition: .25s; }
-    .promo-link-button:hover { transform: scale(1.02); }
-    .promo-bar-inner { display: flex; justify-content: center; align-items: center; gap: 1rem; padding: 1rem 2rem; border-radius: 999px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(20px); }
-    .promo-text-group { display: flex; align-items: center; gap: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; }
-    .discount-text { font-family: var(--font-display); font-size: 1.6rem; background: linear-gradient(90deg, #ffb7b3, #ff474c, #ff7a75); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .action-hint { background: rgba(255,71,76,0.15); padding: 0.6rem 1.2rem; border-radius: 999px; color: #ffb7b3; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; }
-    .spreadsheet-container { max-width: 1400px; margin: 0 auto 4rem; padding: 0 1rem; position: relative; z-index: 2; }
-    .table-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; }
-    .table-title { font-family: var(--font-display); font-size: 2rem; background: linear-gradient(90deg, #ffb7b3, #ff474c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .stats-badge { background: rgba(255,71,76,0.15); border: 1px solid rgba(255,71,76,0.3); padding: 0.6rem 1rem; border-radius: 999px; }
-    .search-input { width: 100%; max-width: 320px; padding: 0.9rem 1rem; border-radius: 999px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.05); color: white; margin-bottom: 1.5rem; }
-    .table-wrapper { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; overflow: hidden; overflow-x: auto; backdrop-filter: blur(20px); }
-    table { width: 100%; border-collapse: collapse; }
-    thead { background: rgba(255,71,76,0.08); }
-    th { padding: 1rem; text-align: left; color: #ffb7b3; cursor: pointer; }
-    td { padding: 1rem; border-top: 1px solid rgba(255,255,255,0.05); }
-    tr:hover { background: rgba(255,71,76,0.05); }
-    .product-link { color: #ff7a75; text-decoration: none; }
-    .product-link:hover { text-decoration: underline; }
-    .delete-btn { background: rgba(255,71,76,0.15); border: 1px solid #ff474c; color: #ff474c; padding: 0.4rem 0.8rem; border-radius: 999px; cursor: pointer; transition: .2s; }
-    .delete-btn:hover { background: #ff474c; color: white; }
-    .loading, .empty-state { padding: 3rem; text-align: center; color: var(--muted); }
-    .spinner { width: 40px; height: 40px; border: 3px solid rgba(255,71,76,0.2); border-top-color: #ff474c; border-radius: 50%; margin: 0 auto 1rem; animation: spin .8s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: #18181b; border-left: 4px solid #ff474c; padding: 0.8rem 1.3rem; border-radius: 999px; opacity: 0; transition: .3s; z-index: 9999; }
-    .qc-images { display: grid; grid-template-columns: repeat(2, 60px); gap: 4px; }
-    .qc-images img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; cursor: pointer; transition: transform 0.15s; }
-    .qc-images img:hover { transform: scale(1.05); outline: 1px solid #ff474c; }
-    .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center; }
-    .lightbox img { max-width: 90%; max-height: 90%; border-radius: 8px; box-shadow: 0 0 30px rgba(0,0,0,0.7); }
-    .lightbox-close { position: absolute; top: 20px; right: 30px; font-size: 2rem; color: white; cursor: pointer; background: none; border: none; z-index: 10001; }
-    .hide-col { display: none; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    :root {
+      --font-sans: 'Inter', sans-serif;
+      --font-display: 'Cormorant Garamond', serif;
+      --background: #0f0f10;
+      --foreground: #ffffff;
+      --muted: #b3b3b3;
+      --accent: #ff474c;
+      --accent2: #ff7a75;
+    }
+    body {
+      background: var(--background);
+      color: var(--foreground);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .bg-radial-glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 20% 20%, rgba(255,71,76,0.18), transparent 40%), radial-gradient(circle at 80% 80%, rgba(255,71,76,0.14), transparent 40%);
+      z-index: 0;
+    }
+    .logo-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      padding: 2rem 1rem;
+      position: relative;
+      z-index: 2;
+    }
+    .logo-img {
+      width: 96px;
+      height: 96px;
+      border-radius: 24px;
+      object-fit: contain;
+    }
+    .promo-link-button {
+      width: 100%;
+      max-width: 900px;
+      text-decoration: none;
+      transition: .25s;
+    }
+    .promo-link-button:hover {
+      transform: scale(1.02);
+    }
+    .promo-bar-inner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 2rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(20px);
+    }
+    .promo-text-group {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+    }
+    .discount-text {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      background: linear-gradient(90deg, #ffb7b3, #ff474c, #ff7a75);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .action-hint {
+      background: rgba(255,71,76,0.15);
+      padding: 0.6rem 1.2rem;
+      border-radius: 999px;
+      color: #ffb7b3;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .spreadsheet-container {
+      max-width: 1400px;
+      margin: 0 auto 4rem;
+      padding: 0 1rem;
+      position: relative;
+      z-index: 2;
+    }
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .table-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      background: linear-gradient(90deg, #ffb7b3, #ff474c);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .stats-badge {
+      background: rgba(255,71,76,0.15);
+      border: 1px solid rgba(255,71,76,0.3);
+      padding: 0.6rem 1rem;
+      border-radius: 999px;
+    }
+    .search-input {
+      width: 100%;
+      max-width: 320px;
+      padding: 0.9rem 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.05);
+      color: white;
+      margin-bottom: 1.5rem;
+    }
+    .table-wrapper {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      overflow: hidden;
+      overflow-x: auto;
+      backdrop-filter: blur(20px);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    thead {
+      background: rgba(255,71,76,0.08);
+    }
+    th {
+      padding: 1rem;
+      text-align: left;
+      color: #ffb7b3;
+      cursor: pointer;
+    }
+    td {
+      padding: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      vertical-align: middle;
+    }
+    tr:hover {
+      background: rgba(255,71,76,0.05);
+    }
+    .product-link {
+      color: #ff7a75;
+      text-decoration: none;
+    }
+    .product-link:hover {
+      text-decoration: underline;
+    }
+    .delete-btn {
+      background: rgba(255,71,76,0.15);
+      border: 1px solid #ff474c;
+      color: #ff474c;
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: .2s;
+    }
+    .delete-btn:hover {
+      background: #ff474c;
+      color: white;
+    }
+    .loading, .empty-state {
+      padding: 3rem;
+      text-align: center;
+      color: var(--muted);
+    }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255,71,76,0.2);
+      border-top-color: #ff474c;
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #18181b;
+      border-left: 4px solid #ff474c;
+      padding: 0.8rem 1.3rem;
+      border-radius: 999px;
+      opacity: 0;
+      transition: .3s;
+      z-index: 9999;
+      pointer-events: none;
+      white-space: nowrap;
+      font-size: 0.9rem;
+    }
+    /* Optimized QC images grid: max 4 visible thumbnails */
+    .qc-images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+    .qc-thumb {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.15s, outline 0.1s;
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .qc-thumb:hover {
+      transform: scale(1.05);
+      outline: 2px solid #ff474c;
+    }
+    .image-count-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      background: rgba(255,71,76,0.2);
+      backdrop-filter: blur(4px);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      border: 1px solid rgba(255,71,76,0.5);
+      color: #ffb7b3;
+    }
+    .image-count-badge:hover {
+      background: rgba(255,71,76,0.4);
+      transform: scale(1.02);
+    }
+    /* Lightbox gallery (extended) */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.92);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(8px);
+    }
+    .lightbox-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .lightbox-img {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 0 40px rgba(0,0,0,0.5);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 2.4rem;
+      color: white;
+      cursor: pointer;
+      background: none;
+      border: none;
+      z-index: 10001;
+      transition: 0.2s;
+    }
+    .lightbox-close:hover {
+      color: #ff7a75;
+    }
+    .gallery-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.6);
+      color: white;
+      border: none;
+      font-size: 2.5rem;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 60px;
+      transition: 0.2s;
+      backdrop-filter: blur(8px);
+      font-weight: 300;
+    }
+    .gallery-nav:hover {
+      background: #ff474c;
+      color: white;
+    }
+    .prev-btn {
+      left: 20px;
+    }
+    .next-btn {
+      right: 20px;
+    }
+    .gallery-counter {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.6);
+      padding: 6px 14px;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      color: #ffb7b3;
+      backdrop-filter: blur(5px);
+    }
+    .hide-col {
+      display: none;
+    }
+    @media (max-width: 700px) {
+      .qc-thumb { width: 48px; height: 48px; }
+      .image-count-badge { width: 48px; height: 48px; font-size: 0.7rem; }
+      td { padding: 0.75rem; }
+    }
   </style>
 </head>
 <body>
 <div class="bg-radial-glow"></div>
-
 <div class="logo-section">
   <img src="images/usfans-wzr06cld.webp" class="logo-img" alt="USFans">
-  <!-- ✅ BACK TO HOME (root) -->
   <a href="/" class="promo-link-button">
     <div class="promo-bar-inner">
       <div class="promo-text-group">
@@ -69,7 +363,6 @@
     </div>
   </a>
 </div>
-
 <div class="spreadsheet-container">
   <div class="table-header">
     <h2 class="table-title">📋 All Product Listings</h2>
@@ -101,65 +394,177 @@
   </div>
 </div>
 
-<!-- Lightbox -->
-<div id="lightbox" class="lightbox" onclick="closeLightbox()">
-  <span class="lightbox-close">&times;</span>
-  <img id="lightbox-img" src="" alt="QC Full Size">
+<!-- Enhanced Lightbox Gallery -->
+<div id="lightbox" class="lightbox" onclick="closeLightboxIfBackdrop(event)">
+  <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+  <button class="gallery-nav prev-btn" id="gallery-prev">❮</button>
+  <div class="lightbox-content">
+    <img id="lightbox-img" class="lightbox-img" src="" alt="QC Full Size">
+  </div>
+  <button class="gallery-nav next-btn" id="gallery-next">❯</button>
+  <div class="gallery-counter" id="gallery-counter"></div>
 </div>
 
 <div id="toast" class="toast"></div>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+  // ======================== SUPABASE CONFIG ========================
   const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6Zmtyb3lza3J2eGtkdGZzZXlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwMTczNTMsImV4cCI6MjA5NTU5MzM1M30.jzvCdD3Phi_jS3L0PnCcK6gyeq2D8ZZBVpVfvQ7leKc";
   const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   const ADMIN_EMAIL = "emanuelnadd@gmail.com";
-
+  
   let currentUser = null;
   let isAdmin = false;
   let allListings = [];
   let currentSort = { column: 'created_at', direction: 'desc' };
   let currentSearch = '';
-
-  function openLightbox(src) {
-    document.getElementById('lightbox-img').src = src;
-    document.getElementById('lightbox').style.display = 'flex';
+  
+  // Gallery state
+  let activeGalleryImages = [];   // array of image URLs for current listing
+  let activeGalleryIndex = 0;
+  
+  // Helper: parse image URLs from listing (supports array, string, object)
+  function extractImageUrls(listing) {
+    let images = [];
+    const raw = listing.qc_image_url;
+    if (!raw) return images;
+    if (Array.isArray(raw)) {
+      images = raw.filter(url => url && typeof url === 'string' && url.trim() !== '');
+    } else if (typeof raw === 'string') {
+      if (raw.trim() !== '') images = [raw];
+    } else if (typeof raw === 'object') {
+      images = Object.values(raw).filter(v => v && typeof v === 'string' && v.trim() !== '');
+    }
+    // Remove duplicates & invalid URLs (just basic filter)
+    return [...new Set(images)];
   }
+  
+  // Optimized image rendering: show max 4 thumbnails with lazy loading, plus "+X" badge for extras
+  function renderImagesCell(listing) {
+    const images = extractImageUrls(listing);
+    if (images.length === 0) return '<span style="color:#888;">—</span>';
+    
+    const maxThumbs = 4;
+    const thumbnails = images.slice(0, maxThumbs);
+    const remaining = images.length - maxThumbs;
+    
+    // Build thumbnails with lazy loading & onclick to open gallery at specific index
+    const thumbsHtml = thumbnails.map((url, idx) => {
+      const escapedUrl = escapeHtml(url);
+      return `<img class="qc-thumb" src="${escapedUrl}" alt="QC" loading="lazy" onclick="event.stopPropagation(); openGalleryForListing('${listing.id}', ${idx})">`;
+    }).join('');
+    
+    let extraBadge = '';
+    if (remaining > 0) {
+      extraBadge = `<div class="image-count-badge" onclick="event.stopPropagation(); openGalleryForListing('${listing.id}', ${maxThumbs})">+${remaining}</div>`;
+    }
+    
+    return `<div class="qc-images">${thumbsHtml}${extraBadge}</div>`;
+  }
+  
+  // Opens gallery for a specific listing ID, starting at given image index
+  window.openGalleryForListing = function(listingId, startIndex = 0) {
+    const listing = allListings.find(l => l.id === listingId);
+    if (!listing) return;
+    const images = extractImageUrls(listing);
+    if (images.length === 0) return;
+    
+    activeGalleryImages = images;
+    activeGalleryIndex = Math.min(startIndex, images.length - 1);
+    if (activeGalleryIndex < 0) activeGalleryIndex = 0;
+    
+    updateGalleryImage();
+    const lightbox = document.getElementById('lightbox');
+    lightbox.style.display = 'flex';
+    // Prevent body scroll
+    document.body.style.overflow = 'hidden';
+  };
+  
+  function updateGalleryImage() {
+    const imgEl = document.getElementById('lightbox-img');
+    if (!imgEl) return;
+    if (activeGalleryImages.length > 0 && activeGalleryIndex >= 0 && activeGalleryIndex < activeGalleryImages.length) {
+      imgEl.src = activeGalleryImages[activeGalleryIndex];
+      const counterEl = document.getElementById('gallery-counter');
+      if (counterEl) {
+        counterEl.textContent = `${activeGalleryIndex+1} / ${activeGalleryImages.length}`;
+      }
+    }
+  }
+  
+  function nextImage() {
+    if (activeGalleryImages.length === 0) return;
+    activeGalleryIndex = (activeGalleryIndex + 1) % activeGalleryImages.length;
+    updateGalleryImage();
+  }
+  
+  function prevImage() {
+    if (activeGalleryImages.length === 0) return;
+    activeGalleryIndex = (activeGalleryIndex - 1 + activeGalleryImages.length) % activeGalleryImages.length;
+    updateGalleryImage();
+  }
+  
   function closeLightbox() {
-    document.getElementById('lightbox').style.display = 'none';
+    const lightbox = document.getElementById('lightbox');
+    lightbox.style.display = 'none';
+    document.body.style.overflow = '';
+    activeGalleryImages = [];
+    activeGalleryIndex = 0;
   }
-  window.openLightbox = openLightbox;
-  window.closeLightbox = closeLightbox;
-
+  
+  function closeLightboxIfBackdrop(e) {
+    if (e.target === document.getElementById('lightbox')) {
+      closeLightbox();
+    }
+  }
+  
+  // Attach gallery navigation events after DOM ready
+  document.addEventListener('DOMContentLoaded', () => {
+    const prevBtn = document.getElementById('gallery-prev');
+    const nextBtn = document.getElementById('gallery-next');
+    if (prevBtn) prevBtn.addEventListener('click', (e) => { e.stopPropagation(); prevImage(); });
+    if (nextBtn) nextBtn.addEventListener('click', (e) => { e.stopPropagation(); nextImage(); });
+    document.addEventListener('keydown', (e) => {
+      if (document.getElementById('lightbox').style.display === 'flex') {
+        if (e.key === 'ArrowLeft') { prevImage(); e.preventDefault(); }
+        else if (e.key === 'ArrowRight') { nextImage(); e.preventDefault(); }
+        else if (e.key === 'Escape') { closeLightbox(); e.preventDefault(); }
+      }
+    });
+  });
+  
   function showToast(msg, error = false) {
     const toast = document.getElementById('toast');
     toast.textContent = msg;
     toast.style.borderLeftColor = error ? '#ff474c' : '#4dff88';
     toast.style.opacity = '1';
-    setTimeout(() => { toast.style.opacity = '0'; }, 3000);
+    setTimeout(() => {
+      toast.style.opacity = '0';
+    }, 3000);
   }
-
+  
   function loadUser() {
     const saved = localStorage.getItem('usfans_user');
     if (!saved) return false;
     try {
       currentUser = JSON.parse(saved);
       isAdmin = currentUser.email && currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
-      console.log('Loaded user:', currentUser.email, 'isAdmin:', isAdmin);
-      if (!isAdmin) {
-        document.getElementById('actions-header').classList.add('hide-col');
-      } else {
-        document.getElementById('actions-header').classList.remove('hide-col');
+      const actionsHeader = document.getElementById('actions-header');
+      if (actionsHeader) {
+        if (!isAdmin) actionsHeader.classList.add('hide-col');
+        else actionsHeader.classList.remove('hide-col');
       }
       return true;
     } catch (e) {
       return false;
     }
   }
-
+  
   async function fetchListings() {
     document.getElementById('loading-state').style.display = 'block';
+    document.getElementById('table-content').style.display = 'none';
+    document.getElementById('empty-state').style.display = 'none';
     try {
       const { data, error } = await supabaseClient
         .from('listings')
@@ -178,9 +583,10 @@
     } catch (err) {
       console.error(err);
       showToast(err.message, true);
+      document.getElementById('loading-state').style.display = 'none';
     }
   }
-
+  
   async function deleteListing(id, name) {
     if (!isAdmin) {
       showToast('Only the admin can delete listings.', true);
@@ -188,10 +594,7 @@
     }
     if (!confirm(`Delete "${name}"?`)) return;
     try {
-      const { error } = await supabaseClient
-        .from('listings')
-        .delete()
-        .eq('id', id);
+      const { error } = await supabaseClient.from('listings').delete().eq('id', id);
       if (error) throw error;
       showToast('Deleted successfully');
       await fetchListings();
@@ -199,7 +602,7 @@
       showToast(err.message, true);
     }
   }
-
+  
   function renderTable() {
     let filtered = [...allListings];
     if (currentSearch) {
@@ -209,7 +612,6 @@
         (item.link || '').toLowerCase().includes(s)
       );
     }
-
     filtered.sort((a, b) => {
       let aVal = a[currentSort.column];
       let bVal = b[currentSort.column];
@@ -221,40 +623,36 @@
       if (aVal > bVal) return currentSort.direction === 'asc' ? 1 : -1;
       return 0;
     });
-
+    
     const tbody = document.getElementById('table-body');
+    if (!tbody) return;
+    
     tbody.innerHTML = filtered.map(item => {
-      let images = [];
-      if (item.qc_image_url) {
-        if (Array.isArray(item.qc_image_url)) {
-          images = item.qc_image_url;
-        } else if (typeof item.qc_image_url === 'string') {
-          images = [item.qc_image_url];
-        } else if (typeof item.qc_image_url === 'object') {
-          images = Object.values(item.qc_image_url);
-        }
-      }
-
-      const imageHTML = images.length > 0
-        ? `<div class="qc-images">${images.map(url => `<img src="${url}" alt="QC" onclick="event.stopPropagation(); openLightbox('${url}')">`).join('')}</div>`
-        : '—';
-
-      const deleteCell = isAdmin
+      // product name
+      const productName = escapeHtml(item.name) || 'Unnamed';
+      // product link
+      const linkHtml = item.link ? `<a href="${escapeHtml(item.link)}" target="_blank" class="product-link">${truncateUrl(item.link)}</a>` : '—';
+      // optimized images cell (uses lazy loading and limit)
+      const imagesHtml = renderImagesCell(item);
+      // date
+      const dateHtml = formatDate(item.created_at);
+      // delete cell only for admin
+      const deleteCell = isAdmin 
         ? `<td><button class="delete-btn" onclick="deleteListing('${item.id}', '${escapeHtml(item.name).replace(/'/g, "\\'")}')">Delete</button></td>`
         : '';
-
+      
       return `
         <tr>
-          <td><strong>${escapeHtml(item.name)}</strong></td>
-          <td><a href="${escapeHtml(item.link)}" target="_blank" class="product-link">${truncateUrl(item.link)}</a></td>
-          <td>${imageHTML}</td>
-          <td>${formatDate(item.created_at)}</td>
+          <td><strong>${productName}</strong></td>
+          <td>${linkHtml}</td>
+          <td>${imagesHtml}</td>
+          <td>${dateHtml}</td>
           ${deleteCell}
         </tr>
       `;
     }).join('');
   }
-
+  
   function sortTable(column) {
     if (currentSort.column === column) {
       currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
@@ -264,38 +662,46 @@
     }
     renderTable();
   }
-
+  
   function escapeHtml(str) {
     if (!str) return '';
     return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[m]);
   }
+  
   function truncateUrl(url, max = 50) {
     if (!url) return '';
     return url.length <= max ? url : url.substring(0, max) + '...';
   }
+  
   function formatDate(date) {
     if (!date) return 'N/A';
-    return new Date(date).toLocaleDateString();
+    try {
+      return new Date(date).toLocaleDateString();
+    } catch(e) {
+      return 'Invalid date';
+    }
   }
-
-  document.getElementById('search-input').addEventListener('input', e => {
+  
+  // Event Listeners
+  document.getElementById('search-input')?.addEventListener('input', e => {
     currentSearch = e.target.value;
     renderTable();
   });
-
-  window.deleteListing = deleteListing;
+  
+  // Expose global functions
   window.sortTable = sortTable;
-
+  window.deleteListing = deleteListing;
+  window.closeLightbox = closeLightbox;
+  
+  // Initialize: auth check + load data
   if (!loadUser()) {
     showToast('Please login first on the main page.', true);
-    setTimeout(() => { location.href = '/'; }, 2000);
+    setTimeout(() => {
+      location.href = '/';
+    }, 2000);
   } else {
     fetchListings();
   }
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeLightbox();
-  });
 </script>
 </body>
 </html>
