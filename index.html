@@ -7,7 +7,7 @@
     <!-- FAVICON (browser tab logo) -->
     <link rel="icon" type="image/webp" href="images/usfans-wzr06cld.webp">
 
-    <!-- ========== SOCIAL MEDIA PREVIEW (Discord, Facebook, Twitter) ========== -->
+    <!-- ========== SOCIAL MEDIA PREVIEW ========== -->
     <meta property="og:title" content="40% Off Shipping — Limited Time | WTCBuy">
     <meta property="og:description" content="Grab 40% off shipping at WTCBuy. Check out our Spreadsheet, only Bought & Tested!">
     <meta property="og:image" content="https://www.image2url.com/r2/default/images/1780856281900-7c021a31-44d0-410b-8f26-189e1882797e.png">
@@ -19,7 +19,6 @@
     <meta name="twitter:title" content="40% Off Shipping — Limited Time | WTCBuy">
     <meta name="twitter:description" content="Grab 40% off shipping at WTCBuy. Check out our Spreadsheet, only Bought & Tested!">
     <meta name="twitter:image" content="https://www.image2url.com/r2/default/images/1780856281900-7c021a31-44d0-410b-8f26-189e1882797e.png">
-    <!-- ========================================================================= -->
 
     <meta name="description" content="Grab 40% off shipping at WTCBuy. Check out our Spreadsheet, only Bought & Tested!">
     <meta name="author" content="WTCBuy">
@@ -41,24 +40,24 @@
         :root {
             --font-sans: 'Inter', sans-serif;
             --font-display: 'Cormorant Garamond', serif;
-            /* Smooth light green theme */
-            --background: #f0f8f0;
-            --background-light: #f8fcf8;
-            --foreground: #1a3a1a;
-            --muted-foreground: #3a6a3a;
-            --green-primary: #4caf50;
-            --green-dark: #2e7d32;
-            --green-light: #81c784;
-            --green-pale: #c8e6c9;
-            --green-glow: rgba(76, 175, 80, 0.25);
-            --border-glow: rgba(76, 175, 80, 0.3);
-            --card-shadow: 0 8px 32px rgba(46, 125, 50, 0.12);
-            --card-border: 1px solid rgba(76, 175, 80, 0.15);
+            /* Darker sage / tea green theme */
+            --background: #1e2b1e;
+            --background-light: #2a3a2a;
+            --foreground: #e2f0e2;
+            --muted-foreground: #9ab89a;
+            --green-primary: #6b8e6b;
+            --green-dark: #3a5a3a;
+            --green-light: #8aaa8a;
+            --green-pale: #5a7a5a;
+            --green-glow: rgba(107, 142, 107, 0.25);
+            --border-glow: rgba(107, 142, 107, 0.3);
+            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --card-border: 1px solid rgba(107, 142, 107, 0.25);
         }
         body {
             background: var(--background);
-            background-image: radial-gradient(ellipse at 20% 20%, rgba(76, 175, 80, 0.08) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 80%, rgba(46, 125, 50, 0.06) 0%, transparent 60%);
+            background-image: radial-gradient(ellipse at 20% 20%, rgba(107, 142, 107, 0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 80%, rgba(58, 90, 58, 0.10) 0%, transparent 60%);
             color: var(--foreground);
             font-family: var(--font-sans);
             min-height: 100vh;
@@ -77,14 +76,14 @@
             pointer-events: none;
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse at 20% 20%, rgba(76, 175, 80, 0.10) 0%, transparent 55%),
-                radial-gradient(ellipse at 80% 80%, rgba(46, 125, 50, 0.08) 0%, transparent 60%);
+            background: radial-gradient(ellipse at 20% 20%, rgba(107, 142, 107, 0.10) 0%, transparent 55%),
+                radial-gradient(ellipse at 80% 80%, rgba(58, 90, 58, 0.08) 0%, transparent 60%);
         }
         .noise-overlay {
             pointer-events: none;
             position: absolute;
             inset: 0;
-            opacity: 0.02;
+            opacity: 0.04;
             mix-blend-mode: overlay;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' /%3E%3C/svg%3E");
         }
@@ -98,7 +97,7 @@
         .snowflake {
             filter: blur(0.5px);
             pointer-events: none;
-            background: radial-gradient(circle, #66bb6ae6, #2e7d3200);
+            background: radial-gradient(circle, #8aaa8ae6, #3a5a3a00);
             border-radius: 9999px;
             animation: linear infinite snowfall;
             position: absolute;
@@ -113,7 +112,7 @@
                 opacity: 1;
             }
             90% {
-                opacity: 0.7;
+                opacity: 0.6;
             }
             to {
                 transform: translateY(110vh) translate(var(--drift, 20px));
@@ -130,7 +129,7 @@
         }
         .shimmer-text {
             -webkit-text-fill-color: transparent;
-            background: linear-gradient(90deg, #2e7d32, #43a047, #66bb6a 12.5%, #81c784 25%, #a5d6a7, #81c784 75%, #66bb6a 87.5%, #43a047, #2e7d32) 0 0 / 200%;
+            background: linear-gradient(90deg, #8aaa8a, #6b8e6b, #9ab89a 12.5%, #b5d0b5 25%, #c8dfc8, #b5d0b5 75%, #9ab89a 87.5%, #6b8e6b, #8aaa8a) 0 0 / 200%;
             background-clip: text;
             -webkit-background-clip: text;
             animation: 3s linear infinite shimmer;
@@ -161,15 +160,15 @@
             border-radius: 9999px;
             padding: 0.9rem 2.2rem;
             backdrop-filter: blur(28px);
-            background: rgba(255, 255, 255, 0.92);
-            box-shadow: 0 0 0 1px var(--card-border), 0 4px 24px rgba(46, 125, 50, 0.10), 0 8px 48px rgba(46, 125, 50, 0.06);
+            background: rgba(30, 43, 30, 0.92);
+            box-shadow: 0 0 0 1px var(--card-border), 0 4px 24px rgba(0, 0, 0, 0.3), 0 8px 48px rgba(0, 0, 0, 0.2);
         }
         .glow-overlay {
             pointer-events: none;
             position: absolute;
             inset: 0;
             border-radius: 9999px;
-            background: radial-gradient(circle, rgba(76, 175, 80, 0.12), transparent 70%);
+            background: radial-gradient(circle, rgba(107, 142, 107, 0.15), transparent 70%);
             opacity: 0.5;
         }
         .promo-text-group {
@@ -187,7 +186,7 @@
             font-family: var(--font-display);
             font-size: 1.6rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #2e7d32, #43a047, #66bb6a);
+            background: linear-gradient(135deg, #b5d0b5, #8aaa8a, #6b8e6b);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -195,7 +194,7 @@
         .separator {
             width: 1px;
             height: 24px;
-            background-color: rgba(46, 125, 50, 0.25);
+            background-color: rgba(107, 142, 107, 0.35);
         }
         .badge-limited {
             font-size: 0.7rem;
@@ -206,14 +205,14 @@
             display: flex;
             align-items: center;
             gap: 0.6rem;
-            background: rgba(76, 175, 80, 0.12);
+            background: rgba(107, 142, 107, 0.15);
             padding: 0.55rem 1.3rem;
             border-radius: 40px;
             font-size: 0.8rem;
             font-weight: 700;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: var(--green-dark);
+            color: var(--green-light);
         }
         .logo-section {
             display: flex;
@@ -227,9 +226,10 @@
             height: 96px;
             border-radius: 1.5rem;
             object-fit: contain;
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.08);
             padding: 4px;
-            box-shadow: 0 2px 16px rgba(46, 125, 50, 0.08);
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(107, 142, 107, 0.2);
         }
         .sr-only {
             position: absolute;
@@ -247,11 +247,11 @@
             max-width: 960px;
             margin: 1rem auto 2rem;
             padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(30, 43, 30, 0.92);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(76, 175, 80, 0.25);
+            border: 1px solid rgba(107, 142, 107, 0.3);
             border-radius: 16px;
-            box-shadow: 0 4px 24px rgba(46, 125, 50, 0.08);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
             display: none;
         }
         .form-group {
@@ -261,13 +261,13 @@
             display: block;
             margin-bottom: 0.4rem;
             font-weight: 600;
-            color: var(--green-dark);
+            color: var(--green-light);
         }
         .form-input {
             width: 100%;
             padding: 0.8rem;
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(76, 175, 80, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(107, 142, 107, 0.3);
             border-radius: 8px;
             color: var(--foreground);
             transition: border-color 0.2s;
@@ -275,7 +275,7 @@
         .form-input:focus {
             outline: none;
             border-color: var(--green-primary);
-            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.12);
+            box-shadow: 0 0 0 3px rgba(107, 142, 107, 0.2);
         }
         #qc-drop-zone {
             border: 2px dashed var(--green-primary);
@@ -284,17 +284,17 @@
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.2s;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.03);
             color: var(--muted-foreground);
         }
         #qc-drop-zone.dragover {
-            background: rgba(76, 175, 80, 0.08);
-            border-color: var(--green-dark);
+            background: rgba(107, 142, 107, 0.10);
+            border-color: var(--green-light);
         }
         .sign-out-btn {
-            background: rgba(76, 175, 80, 0.10);
+            background: rgba(107, 142, 107, 0.15);
             border: 1px solid var(--green-primary);
-            color: var(--green-dark);
+            color: var(--green-light);
             padding: 0.3rem 0.8rem;
             border-radius: 999px;
             cursor: pointer;
@@ -305,13 +305,13 @@
         }
         .sign-out-btn:hover {
             background: var(--green-primary);
-            color: white;
+            color: #1e2b1e;
         }
         .add-listing-btn {
             width: 100%;
             padding: 1rem;
             background: var(--green-primary);
-            color: white;
+            color: #1e2b1e;
             border: none;
             border-radius: 999px;
             font-weight: 700;
@@ -320,13 +320,12 @@
             font-size: 1rem;
         }
         .add-listing-btn:hover {
-            background: var(--green-dark);
+            background: var(--green-light);
             transform: scale(1.01);
         }
         .add-listing-btn:active {
             transform: scale(0.98);
         }
-        /* Smooth light green card for the login wrapper */
         #google-login-wrapper {
             position: absolute;
             top: 1.5rem;
@@ -337,33 +336,31 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(30, 43, 30, 0.92);
             backdrop-filter: blur(12px);
             padding: 10px 18px 10px 14px;
             border-radius: 999px;
-            border: 1px solid rgba(76, 175, 80, 0.12);
-            box-shadow: 0 2px 16px rgba(46, 125, 50, 0.06);
+            border: 1px solid rgba(107, 142, 107, 0.2);
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
         }
         #google-login-wrapper .user-card img {
             width: 42px;
             height: 42px;
             border-radius: 50%;
-            border: 2px solid rgba(76, 175, 80, 0.15);
+            border: 2px solid rgba(107, 142, 107, 0.2);
         }
         #google-login-wrapper .user-card .user-name {
             font-weight: 600;
             color: var(--foreground);
             font-size: 14px;
         }
-        /* heading for add panel */
         .panel-heading {
-            color: var(--green-dark);
+            color: var(--green-light);
             text-align: center;
             margin-bottom: 1.5rem;
             font-size: 1.4rem;
             font-weight: 700;
         }
-        /* qc preview */
         #qc-preview-container {
             display: flex;
             flex-wrap: wrap;
@@ -375,13 +372,12 @@
             height: 80px;
             object-fit: cover;
             border-radius: 8px;
-            border: 2px solid rgba(76, 175, 80, 0.12);
+            border: 2px solid rgba(107, 142, 107, 0.2);
             transition: transform 0.15s;
         }
         #qc-preview-container img:hover {
             transform: scale(1.04);
         }
-        /* responsive tweaks */
         @media (max-width: 640px) {
             .promo-bar-inner {
                 border-radius: 28px;
@@ -540,72 +536,156 @@
         <div style="height: 2rem;"></div>
     </main>
 
+    <!-- Firebase SDK (compat) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js">
+    </script>
+
+    <!-- Google Identity Services (for one‑tap / button) -->
     <script src="https://accounts.google.com/gsi/client" async defer>
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
-    </script>
+
     <script>
-        const SUPABASE_URL = "https://fzfkroyskrvxkdtfseyl.supabase.co";
-        const SUPABASE_ANON_KEY =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6Zmtyb3lza3J2eGtkdGZzZXlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwMTczNTMsImV4cCI6MjA5NTU5MzM1M30.jzvCdD3Phi_jS3L0PnCcK6gyeq2D8ZZBVpVfvQ7leKc";
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // ---------- Firebase config ----------
+        const firebaseConfig = {
+            apiKey: "AIzaSyBmA63s5871OyebBRMqnrgd8b-XtfAvVoI",
+            authDomain: "luxdrip-b0489.firebaseapp.com",
+            projectId: "luxdrip-b0489",
+            storageBucket: "luxdrip-b0489.firebasestorage.app",
+            messagingSenderId: "558686841368",
+            appId: "1:558686841368:web:d70848971654ae0526f16d",
+            measurementId: "G-XT2JNKT7J0"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+
+        // Admin email (same as before)
         const ADMIN_EMAIL = "emanuelnadd@gmail.com";
 
         const addListingPanel = document.getElementById('add-listing-panel');
         const loginWrapper = document.getElementById('google-login-wrapper');
 
-        (function removeLovable() {
-            const badge = document.getElementById('lovable-badge');
-            if (badge) badge.remove();
-            document.querySelectorAll('[id*="lovable-badge"], .lovable-badge').forEach(el => el.remove());
-        })();
-
-        async function handleCredentialResponse(response) {
-            const payload = JSON.parse(atob(response.credential.split('.')[1]));
-            const googleUser = { email: payload.email.toLowerCase(), name: payload.name, picture: payload.picture };
+        // ---------- Helper: store user in Firestore ----------
+        async function upsertUser(uid, email, name, picture) {
             try {
-                const { data: user, error } = await supabaseClient
-                    .from('users')
-                    .upsert({ email: googleUser.email, name: googleUser.name, picture: googleUser.picture }, { onConflict: 'email' })
-                    .select()
-                    .single();
-                if (error) throw error;
-                const wtcbuyUser = { id: user.id, email: user.email.toLowerCase(), name: user.name, picture: user.picture };
-                localStorage.setItem('wtcbuy_user', JSON.stringify(wtcbuyUser));
-                showUserUI(wtcbuyUser);
+                await db.collection('users').doc(uid).set({
+                    email: email.toLowerCase(),
+                    name: name,
+                    picture: picture,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
             } catch (err) {
-                console.error('Supabase user upsert failed', err);
-                alert('Login failed - could not save user. Check console.');
+                console.error('Error saving user to Firestore:', err);
             }
         }
 
+        // ---------- UI update after sign-in ----------
         function showUserUI(user) {
+            // user is the Firebase User object
+            const displayName = user.displayName || user.email;
+            const photoURL = user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(displayName);
             loginWrapper.innerHTML = `
             <div class="user-card">
-              <img src="${user.picture}" alt="${user.name}">
-              <span class="user-name">${user.name}</span>
+              <img src="${photoURL}" alt="${displayName}">
+              <span class="user-name">${displayName}</span>
               <button onclick="signOut()" class="sign-out-btn">Sign Out</button>
             </div>
           `;
-            if (user.email === ADMIN_EMAIL) {
+
+            // Show admin panel if email matches
+            if (user.email && user.email.toLowerCase() === ADMIN_EMAIL) {
                 addListingPanel.style.display = 'block';
                 setupDragDrop();
             } else {
                 addListingPanel.style.display = 'none';
             }
+
+            // Store minimal user data in localStorage for quick checks
+            localStorage.setItem('wtcbuy_user', JSON.stringify({
+                uid: user.uid,
+                email: user.email,
+                name: displayName,
+                picture: photoURL
+            }));
         }
 
+        // ---------- Sign out ----------
         window.signOut = function() {
-            localStorage.removeItem('wtcbuy_user');
-            loginWrapper.innerHTML = '<div id="google-login-button"></div>';
-            addListingPanel.style.display = 'none';
-            google.accounts.id.renderButton(
-                document.getElementById("google-login-button"), { theme: "filled_black", size: "large", shape: "pill",
-                    width: 260 }
-            );
-            google.accounts.id.prompt();
+            auth.signOut().then(() => {
+                localStorage.removeItem('wtcbuy_user');
+                loginWrapper.innerHTML = '<div id="google-login-button"></div>';
+                addListingPanel.style.display = 'none';
+                // Re‑render the GSI button (so user can sign in again)
+                renderGSIButton();
+            }).catch(err => {
+                console.error('Sign out error:', err);
+            });
         };
 
+        // ---------- GSI callback ----------
+        async function handleCredentialResponse(response) {
+            const id_token = response.credential;
+            try {
+                // Sign in to Firebase with the Google ID token
+                const credential = firebase.auth.GoogleAuthProvider.credential(id_token);
+                const result = await auth.signInWithCredential(credential);
+                const user = result.user;
+                // Save/update user info in Firestore
+                await upsertUser(user.uid, user.email, user.displayName, user.photoURL);
+                showUserUI(user);
+            } catch (err) {
+                console.error('Firebase sign-in failed:', err);
+                alert('Login failed: ' + err.message);
+            }
+        }
+
+        // ---------- Render GSI button ----------
+        function renderGSIButton() {
+            const container = document.getElementById('google-login-button');
+            if (!container) return;
+            // Clear any previous content
+            container.innerHTML = '';
+            google.accounts.id.renderButton(
+                container, { theme: "filled_black", size: "large", shape: "pill", width: 260 }
+            );
+        }
+
+        // ---------- Auth state listener (restore session on load) ----------
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                showUserUI(user);
+            } else {
+                // Not signed in: show the GSI button
+                loginWrapper.innerHTML = '<div id="google-login-button"></div>';
+                renderGSIButton();
+                addListingPanel.style.display = 'none';
+                localStorage.removeItem('wtcbuy_user');
+            }
+        });
+
+        // ---------- Initialize GSI on load ----------
+        window.addEventListener('load', () => {
+            google.accounts.id.initialize({
+                client_id: "215291464454-i5jmqnoalmhrsu89b13pa7gq2nksgkj3.apps.googleusercontent.com",
+                callback: handleCredentialResponse
+            });
+            // If no user is signed in, show the button; else the auth listener will handle UI
+            if (!auth.currentUser) {
+                renderGSIButton();
+                google.accounts.id.prompt(); // one‑tap prompt
+            }
+        });
+
+        // ---------- Drag & drop for QC images (unchanged, but now uses Firebase Storage) ----------
         function setupDragDrop() {
             const dropZone = document.getElementById('qc-drop-zone');
             const previewContainer = document.getElementById('qc-preview-container');
@@ -644,73 +724,78 @@
             window._qcFiles = () => selectedFiles;
         }
 
+        // ---------- Submit listing (Firestore + Storage) ----------
         window.submitListing = async function() {
-            const user = JSON.parse(localStorage.getItem('wtcbuy_user'));
-            if (!user || user.email !== ADMIN_EMAIL) {
+            const user = auth.currentUser;
+            if (!user) {
+                alert('You must be signed in to add a listing.');
+                return;
+            }
+            if (user.email.toLowerCase() !== ADMIN_EMAIL) {
                 alert('Only the admin can add listings.');
                 return;
             }
+
             const link = document.getElementById('product-link').value.trim();
             const name = document.getElementById('product-name').value.trim();
             const files = window._qcFiles ? window._qcFiles() : [];
 
-            if (!link || !name) { alert('Product link and name are required'); return; }
+            if (!link || !name) {
+                alert('Product link and name are required');
+                return;
+            }
 
             if (files.length === 0) {
                 alert('No images selected. The listing will be added without QC pictures.');
             }
 
+            // Append ref if not present
             let finalLink = link;
-            if (!finalLink.includes('ref=2TQXNA')) finalLink += (finalLink.includes('?') ? '&' : '?') + 'ref=2TQXNA';
-            let qcImageUrls = [];
+            if (!finalLink.includes('ref=2TQXNA')) {
+                finalLink += (finalLink.includes('?') ? '&' : '?') + 'ref=2TQXNA';
+            }
+
+            const qcImageUrls = [];
+            // Upload each image to Firebase Storage
             for (const file of files) {
                 try {
-                    const fileName = `${user.id}/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
-                    const { error: uploadError } = await supabaseClient.storage
-                        .from('qc-images')
-                        .upload(fileName, file, { cacheControl: '3600', upsert: false, contentType: file.type });
-                    if (uploadError) { alert('Image upload failed: ' + uploadError.message);
-                        console.error(uploadError); continue; }
-                    const { data: publicUrlData } = supabaseClient.storage.from('qc-images').getPublicUrl(fileName);
-                    qcImageUrls.push(publicUrlData.publicUrl);
-                } catch (err) { console.error('Unexpected upload error', err);
-                    alert('Unexpected error during image upload: ' + err.message); }
+                    const fileName = `${user.uid}/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
+                    const storageRef = storage.ref('qc-images/' + fileName);
+                    const snapshot = await storageRef.put(file);
+                    const downloadURL = await snapshot.ref.getDownloadURL();
+                    qcImageUrls.push(downloadURL);
+                } catch (err) {
+                    console.error('Upload error:', err);
+                    alert('Image upload failed: ' + err.message);
+                    // Continue with other images if any
+                }
             }
+
+            // Save listing to Firestore
             try {
-                const { error } = await supabaseClient.from('listings').insert({
-                    user_id: user.id,
+                await db.collection('listings').add({
+                    userId: user.uid,
                     name: name,
                     link: finalLink,
-                    qc_image_url: qcImageUrls
+                    qc_image_url: qcImageUrls,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
-                if (error) throw error;
-
                 alert('Listing added successfully!' + (qcImageUrls.length ? '' : ' (no images uploaded)'));
+                // Clear form
                 document.getElementById('product-link').value = '';
                 document.getElementById('product-name').value = '';
                 document.getElementById('qc-preview-container').innerHTML = '';
-
                 const qcFilesFn = window._qcFiles;
                 if (qcFilesFn) { const arr = qcFilesFn();
                     arr.length = 0; }
-            } catch (err) { console.error('Insert failed', err);
-                alert('Failed to add listing: ' + err.message); }
+            } catch (err) {
+                console.error('Firestore insert error:', err);
+                alert('Failed to add listing: ' + err.message);
+            }
         };
 
-        window.addEventListener('load', () => {
-            google.accounts.id.initialize({
-                client_id: "215291464454-i5jmqnoalmhrsu89b13pa7gq2nksgkj3.apps.googleusercontent.com",
-                callback: handleCredentialResponse
-            });
-            google.accounts.id.renderButton(
-                document.getElementById("google-login-button"), { theme: "filled_black", size: "large", shape: "pill",
-                    width: 260 }
-            );
-            google.accounts.id.prompt();
-            const saved = localStorage.getItem('wtcbuy_user');
-            if (saved) { const user = JSON.parse(saved);
-                showUserUI(user); }
-        });
+        // Remove any lingering Supabase references (the old script is replaced)
+        console.log('🔥 Firebase integration ready – WTCBuy');
     </script>
 </body>
 </html>
