@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>USFans Spreadsheet — All Listings</title>
+  <title>WTCBuy Spreadsheet — All Listings</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -18,14 +18,24 @@
     :root {
       --font-sans: 'Inter', sans-serif;
       --font-display: 'Cormorant Garamond', serif;
-      --background: #0f0f10;
-      --foreground: #ffffff;
-      --muted: #b3b3b3;
-      --accent: #ff474c;
-      --accent2: #ff7a75;
+      /* Darker sage / tea green theme (matches main page) */
+      --background: #1e2b1e;
+      --background-light: #2a3a2a;
+      --foreground: #e2f0e2;
+      --muted-foreground: #9ab89a;
+      --green-primary: #6b8e6b;
+      --green-dark: #3a5a3a;
+      --green-light: #8aaa8a;
+      --green-pale: #5a7a5a;
+      --green-glow: rgba(107, 142, 107, 0.25);
+      --border-glow: rgba(107, 142, 107, 0.3);
+      --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      --card-border: 1px solid rgba(107, 142, 107, 0.25);
     }
     body {
       background: var(--background);
+      background-image: radial-gradient(ellipse at 20% 20%, rgba(107, 142, 107, 0.12) 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 80%, rgba(58, 90, 58, 0.10) 0%, transparent 60%);
       color: var(--foreground);
       font-family: var(--font-sans);
       min-height: 100vh;
@@ -35,7 +45,8 @@
       position: fixed;
       inset: 0;
       pointer-events: none;
-      background: radial-gradient(circle at 20% 20%, rgba(255,71,76,0.18), transparent 40%), radial-gradient(circle at 80% 80%, rgba(255,71,76,0.14), transparent 40%);
+      background: radial-gradient(ellipse at 20% 20%, rgba(107, 142, 107, 0.10) 0%, transparent 55%),
+                  radial-gradient(ellipse at 80% 80%, rgba(58, 90, 58, 0.08) 0%, transparent 60%);
       z-index: 0;
     }
     .logo-section {
@@ -43,15 +54,24 @@
       flex-direction: column;
       align-items: center;
       gap: 2rem;
-      padding: 2rem 1rem;
+      padding: 2.5rem 1rem 2rem;
       position: relative;
       z-index: 2;
     }
     .logo-img {
-      width: 96px;
-      height: 96px;
-      border-radius: 24px;
+      width: 120px;
+      height: 120px;
+      border-radius: 1.5rem;
       object-fit: contain;
+      background: transparent;
+      padding: 0;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(107, 142, 107, 0.12);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .logo-img:hover {
+      transform: scale(1.03);
+      box-shadow: 0 4px 20px rgba(107, 142, 107, 0.15);
     }
     .promo-link-button {
       width: 100%;
@@ -67,11 +87,11 @@
       justify-content: center;
       align-items: center;
       gap: 1rem;
-      padding: 1rem 2rem;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      backdrop-filter: blur(20px);
+      padding: 0.9rem 2.2rem;
+      border-radius: 9999px;
+      background: rgba(30, 43, 30, 0.92);
+      backdrop-filter: blur(28px);
+      box-shadow: 0 0 0 1px var(--card-border), 0 4px 24px rgba(0, 0, 0, 0.3), 0 8px 48px rgba(0, 0, 0, 0.2);
     }
     .promo-text-group {
       display: flex;
@@ -79,20 +99,21 @@
       gap: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.12em;
-      font-weight: 700;
+      font-weight: 600;
+      color: var(--foreground);
     }
     .discount-text {
       font-family: var(--font-display);
       font-size: 1.6rem;
-      background: linear-gradient(90deg, #ffb7b3, #ff474c, #ff7a75);
+      background: linear-gradient(135deg, #b5d0b5, #8aaa8a, #6b8e6b);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
     .action-hint {
-      background: rgba(255,71,76,0.15);
-      padding: 0.6rem 1.2rem;
-      border-radius: 999px;
-      color: #ffb7b3;
+      background: rgba(107, 142, 107, 0.15);
+      padding: 0.55rem 1.3rem;
+      border-radius: 40px;
+      color: var(--green-light);
       font-size: 0.8rem;
       font-weight: 700;
       text-transform: uppercase;
@@ -115,86 +136,109 @@
     .table-title {
       font-family: var(--font-display);
       font-size: 2rem;
-      background: linear-gradient(90deg, #ffb7b3, #ff474c);
+      background: linear-gradient(135deg, #b5d0b5, #8aaa8a);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
     .stats-badge {
-      background: rgba(255,71,76,0.15);
-      border: 1px solid rgba(255,71,76,0.3);
+      background: rgba(107, 142, 107, 0.15);
+      border: 1px solid rgba(107, 142, 107, 0.3);
       padding: 0.6rem 1rem;
       border-radius: 999px;
+      color: var(--muted-foreground);
+      font-weight: 500;
     }
     .search-input {
       width: 100%;
       max-width: 320px;
       padding: 0.9rem 1rem;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.05);
-      color: white;
+      border: 1px solid rgba(107, 142, 107, 0.3);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--foreground);
       margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: var(--green-primary);
+      box-shadow: 0 0 0 3px rgba(107, 142, 107, 0.2);
+    }
+    .search-input::placeholder {
+      color: var(--muted-foreground);
     }
     .table-wrapper {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(107, 142, 107, 0.2);
       border-radius: 24px;
       overflow: hidden;
       overflow-x: auto;
-      backdrop-filter: blur(20px);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     }
     table {
       width: 100%;
       border-collapse: collapse;
     }
     thead {
-      background: rgba(255,71,76,0.08);
+      background: rgba(107, 142, 107, 0.08);
+      border-bottom: 1px solid rgba(107, 142, 107, 0.15);
     }
     th {
-      padding: 1rem;
+      padding: 1rem 1.2rem;
       text-align: left;
-      color: #ffb7b3;
+      color: var(--green-light);
       cursor: pointer;
       user-select: none;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    th:hover {
+      color: var(--foreground);
     }
     td {
-      padding: 1rem;
-      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 1rem 1.2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
       vertical-align: middle;
     }
     tr:hover {
-      background: rgba(255,71,76,0.05);
+      background: rgba(107, 142, 107, 0.05);
     }
     .product-link {
-      color: #ff7a75;
+      color: var(--green-light);
       text-decoration: none;
+      transition: color 0.2s;
+      word-break: break-all;
     }
     .product-link:hover {
+      color: var(--foreground);
       text-decoration: underline;
     }
     .delete-btn {
-      background: rgba(255,71,76,0.15);
-      border: 1px solid #ff474c;
-      color: #ff474c;
+      background: rgba(107, 142, 107, 0.15);
+      border: 1px solid var(--green-primary);
+      color: var(--green-light);
       padding: 0.4rem 0.8rem;
       border-radius: 999px;
       cursor: pointer;
-      transition: .2s;
+      transition: 0.2s;
+      font-weight: 600;
     }
     .delete-btn:hover {
-      background: #ff474c;
-      color: white;
+      background: var(--green-primary);
+      color: #1e2b1e;
     }
     .loading, .empty-state {
       padding: 3rem;
       text-align: center;
-      color: var(--muted);
+      color: var(--muted-foreground);
     }
     .spinner {
       width: 40px;
       height: 40px;
-      border: 3px solid rgba(255,71,76,0.2);
-      border-top-color: #ff474c;
+      border: 3px solid rgba(107, 142, 107, 0.2);
+      border-top-color: var(--green-primary);
       border-radius: 50%;
       margin: 0 auto 1rem;
       animation: spin .8s linear infinite;
@@ -207,8 +251,8 @@
       bottom: 2rem;
       left: 50%;
       transform: translateX(-50%);
-      background: #18181b;
-      border-left: 4px solid #ff474c;
+      background: #2a3a2a;
+      border-left: 4px solid var(--green-primary);
       padding: 0.8rem 1.3rem;
       border-radius: 999px;
       opacity: 0;
@@ -217,8 +261,10 @@
       pointer-events: none;
       white-space: nowrap;
       font-size: 0.9rem;
+      color: var(--foreground);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
-    /* Optimized QC preview: one resized thumbnail + badge */
+    /* QC preview */
     .qc-preview {
       display: flex;
       gap: 8px;
@@ -233,11 +279,11 @@
       cursor: pointer;
       transition: transform 0.15s, outline 0.1s;
       background: rgba(0,0,0,0.5);
-      border: 1px solid rgba(255,255,255,0.15);
+      border: 1px solid rgba(107, 142, 107, 0.3);
     }
     .qc-thumb:hover {
       transform: scale(1.05);
-      outline: 2px solid #ff474c;
+      outline: 2px solid var(--green-primary);
     }
     .image-count-badge {
       display: inline-flex;
@@ -245,22 +291,22 @@
       justify-content: center;
       min-width: 52px;
       height: 60px;
-      background: rgba(255,71,76,0.2);
+      background: rgba(107, 142, 107, 0.2);
       backdrop-filter: blur(4px);
       border-radius: 8px;
       font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
       transition: 0.2s;
-      border: 1px solid rgba(255,71,76,0.6);
-      color: #ffb7b3;
+      border: 1px solid rgba(107, 142, 107, 0.6);
+      color: var(--green-light);
       padding: 0 10px;
     }
     .image-count-badge:hover {
-      background: rgba(255,71,76,0.5);
+      background: rgba(107, 142, 107, 0.5);
       transform: scale(1.02);
     }
-    /* Lightbox (full resolution) */
+    /* Lightbox */
     .lightbox {
       display: none;
       position: fixed;
@@ -294,7 +340,7 @@
       top: 20px;
       right: 30px;
       font-size: 2.4rem;
-      color: white;
+      color: var(--foreground);
       cursor: pointer;
       background: none;
       border: none;
@@ -302,14 +348,14 @@
       transition: 0.2s;
     }
     .lightbox-close:hover {
-      color: #ff7a75;
+      color: var(--green-light);
     }
     .gallery-nav {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       background: rgba(0,0,0,0.6);
-      color: white;
+      color: var(--foreground);
       border: none;
       font-size: 2.5rem;
       cursor: pointer;
@@ -320,15 +366,11 @@
       font-weight: 300;
     }
     .gallery-nav:hover {
-      background: #ff474c;
-      color: white;
+      background: var(--green-primary);
+      color: #1e2b1e;
     }
-    .prev-btn {
-      left: 20px;
-    }
-    .next-btn {
-      right: 20px;
-    }
+    .prev-btn { left: 20px; }
+    .next-btn { right: 20px; }
     .gallery-counter {
       position: absolute;
       bottom: 20px;
@@ -338,7 +380,7 @@
       padding: 6px 14px;
       border-radius: 40px;
       font-size: 0.85rem;
-      color: #ffb7b3;
+      color: var(--green-light);
       backdrop-filter: blur(5px);
     }
     .hide-col {
@@ -348,13 +390,16 @@
       .qc-thumb { width: 48px; height: 48px; }
       .image-count-badge { height: 48px; min-width: 44px; font-size: 0.7rem; }
       td { padding: 0.75rem; }
+      .promo-bar-inner { padding: 0.8rem 1.2rem; gap: 0.8rem; flex-wrap: wrap; }
+      .discount-text { font-size: 1.2rem; }
+      .table-title { font-size: 1.5rem; }
     }
   </style>
 </head>
 <body>
 <div class="bg-radial-glow"></div>
 <div class="logo-section">
-  <img src="images/usfans-wzr06cld.webp" class="logo-img" alt="USFans">
+  <img src="images/Coupon.png" class="logo-img" alt="WTCBuy">
   <a href="/" class="promo-link-button">
     <div class="promo-bar-inner">
       <div class="promo-text-group">
@@ -441,9 +486,7 @@
   // Resize any image URL to a small thumbnail (using images.weserv.nl – free, fast, no API key)
   function getResizedThumbnail(originalUrl, width = 100, height = 100) {
     if (!originalUrl) return '';
-    // Skip data URLs or very small local references (though unlikely)
     if (originalUrl.startsWith('data:') || originalUrl.startsWith('blob:')) return originalUrl;
-    // Encode the original URL and ask weserv to deliver a 100x100 resized version
     const encoded = encodeURIComponent(originalUrl);
     return `https://images.weserv.nl/?url=${encoded}&w=${width}&h=${height}&fit=cover&a=attention`;
   }
@@ -451,7 +494,7 @@
   // Render the QC column: one low‑res thumbnail + badge with remaining count
   function renderImagesCell(listing) {
     const images = extractImageUrls(listing);
-    if (images.length === 0) return '<span style="color:#888;">—</span>';
+    if (images.length === 0) return '<span style="color:var(--muted-foreground);">—</span>';
     
     const total = images.length;
     const firstImage = images[0];
@@ -459,7 +502,6 @@
     const escapedThumb = escapeHtml(thumbUrl);
     const escapedOriginal = escapeHtml(firstImage);
     
-    // Thumbnail uses the resized version, but the onclick will open the gallery with original images
     const thumbHtml = `<img class="qc-thumb" src="${escapedThumb}" alt="preview" loading="lazy" decoding="async" onclick="event.stopPropagation(); openGalleryForListing('${listing.id}', 0)">`;
     const badgeHtml = total > 1 
       ? `<div class="image-count-badge" onclick="event.stopPropagation(); openGalleryForListing('${listing.id}', 0)">+${total-1}</div>` 
@@ -475,7 +517,7 @@
     const fullImages = extractImageUrls(listing);
     if (fullImages.length === 0) return;
     
-    activeGalleryUrls = [...fullImages];   // store original high-res URLs
+    activeGalleryUrls = [...fullImages];
     activeGalleryIndex = Math.min(startIndex, activeGalleryUrls.length - 1);
     if (activeGalleryIndex < 0) activeGalleryIndex = 0;
     
@@ -490,7 +532,7 @@
     const counterEl = document.getElementById('gallery-counter');
     if (!imgEl) return;
     if (activeGalleryUrls.length > 0 && activeGalleryIndex >= 0 && activeGalleryIndex < activeGalleryUrls.length) {
-      imgEl.src = activeGalleryUrls[activeGalleryIndex];   // original, full quality
+      imgEl.src = activeGalleryUrls[activeGalleryIndex];
       if (counterEl) counterEl.textContent = `${activeGalleryIndex+1} / ${activeGalleryUrls.length}`;
     }
   }
@@ -537,13 +579,14 @@
   function showToast(msg, error = false) {
     const toast = document.getElementById('toast');
     toast.textContent = msg;
-    toast.style.borderLeftColor = error ? '#ff474c' : '#4dff88';
+    toast.style.borderLeftColor = error ? '#ff474c' : '#6b8e6b';
     toast.style.opacity = '1';
     setTimeout(() => { toast.style.opacity = '0'; }, 3000);
   }
   
   function loadUser() {
-    const saved = localStorage.getItem('usfans_user');
+    // Try to read from localStorage (the main page uses 'wtcbuy_user')
+    const saved = localStorage.getItem('wtcbuy_user') || localStorage.getItem('usfans_user');
     if (!saved) return false;
     try {
       currentUser = JSON.parse(saved);
