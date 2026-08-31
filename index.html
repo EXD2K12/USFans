@@ -100,28 +100,14 @@
             top: 0;
         }
         @keyframes snowfall {
-            0% {
-                opacity: 0;
-                transform: translateY(-10vh) translate(0);
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 0.6;
-            }
-            to {
-                transform: translateY(110vh) translate(var(--drift, 20px));
-                opacity: 0;
-            }
+            0% { opacity: 0; transform: translateY(-10vh) translate(0); }
+            10% { opacity: 1; }
+            90% { opacity: 0.6; }
+            to { transform: translateY(110vh) translate(var(--drift, 20px)); opacity: 0; }
         }
         @keyframes shimmer {
-            0% {
-                background-position: -200%;
-            }
-            to {
-                background-position: 200%;
-            }
+            0% { background-position: -200%; }
+            to { background-position: 200%; }
         }
         .shimmer-text {
             -webkit-text-fill-color: transparent;
@@ -634,9 +620,13 @@
         });
 
         window.addEventListener('load', () => {
-            // ✅ CORRECT OAuth client ID – belongs to Firebase project luxdrip-b0489
+            // ⚠️  YOU MUST REPLACE THIS WITH THE CORRECT CLIENT ID FROM YOUR FIREBASE CONSOLE ⚠️
+            // GO TO: Firebase Console → luxdrip-b0489 → Project Settings → Your Apps → (Web App) → OAuth Client ID
+            // IT WILL START WITH "558686841368-..."
+            const YOUR_FIREBASE_CLIENT_ID = "558686841368-paebkgirikl3d2v57rsvmcic1q3bmd7v.apps.googleusercontent.com";
+
             google.accounts.id.initialize({
-                client_id: "558686841368-paebkgirikl3d2v57rsvmcic1q3bmd7v.apps.googleusercontent.com",
+                client_id: 558686841368-paebkgirikl3d2v57rsvmcic1q3bmd7v.apps.googleusercontent.com, // <-- PASTE THE CORRECT ID HERE
                 callback: handleCredentialResponse
             });
             if (!auth.currentUser) {
