@@ -221,15 +221,21 @@
             gap: 2rem;
             padding: 3rem 1rem 2rem;
         }
+        /* ----- LARGER LOGO ----- */
         .logo-img {
-            width: 96px;
-            height: 96px;
-            border-radius: 1.5rem;
+            width: 180px;
+            height: 180px;
+            border-radius: 2rem;
             object-fit: contain;
             background: rgba(255, 255, 255, 0.08);
-            padding: 4px;
-            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(107, 142, 107, 0.2);
+            padding: 8px;
+            box-shadow: 0 4px 32px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(107, 142, 107, 0.25);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .logo-img:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 48px rgba(107, 142, 107, 0.15);
         }
         .sr-only {
             position: absolute;
@@ -378,6 +384,7 @@
         #qc-preview-container img:hover {
             transform: scale(1.04);
         }
+        /* ----- RESPONSIVE: smaller logo on mobile ----- */
         @media (max-width: 640px) {
             .promo-bar-inner {
                 border-radius: 28px;
@@ -415,8 +422,10 @@
                 gap: 1.5rem;
             }
             .logo-img {
-                width: 72px;
-                height: 72px;
+                width: 140px;
+                height: 140px;
+                border-radius: 1.5rem;
+                padding: 6px;
             }
             #add-listing-panel {
                 padding: 1rem;
@@ -443,6 +452,12 @@
             .action-hint {
                 font-size: 0.6rem;
                 padding: 0.3rem 0.8rem;
+            }
+            .logo-img {
+                width: 120px;
+                height: 120px;
+                border-radius: 1.25rem;
+                padding: 5px;
             }
         }
     </style>
@@ -491,7 +506,7 @@
             <h2 class="panel-heading">➕ Add Product Listing</h2>
             <div class="form-group">
                 <label>Product Link</label>
-                <input type="text" id="product-link" class="form-input" placeholder="https://www.wtcbuy.com/product/...">
+                <input type="text" id="product-link" class="form-input" placeholder="https://wtcbuy.com/...">
             </div>
             <div class="form-group">
                 <label>Product Name</label>
@@ -506,9 +521,9 @@
         </div>
 
         <div class="logo-section">
-            <!-- FIXED: correct filename casing (capital C) -->
             <img src="images/Coupon.png" alt="WTCBuy" class="logo-img">
-            <a href="https://www.wtcbuy.com/register?ref=2TQXNA" id="exclusive-offer-button" class="promo-link-button" target="_blank" rel="noopener noreferrer">
+            <!-- UPDATED REGISTRATION LINK -->
+            <a href="https://wtcbuy.com/Index/SignUp/inviteCode/67" id="exclusive-offer-button" class="promo-link-button" target="_blank" rel="noopener noreferrer">
                 <div class="promo-bar-inner">
                     <div class="glow-overlay"></div>
                     <div class="promo-text-group">
@@ -686,7 +701,7 @@
             }
         });
 
-        // ---------- Drag & drop for QC images (unchanged, but now uses Firebase Storage) ----------
+        // ---------- Drag & drop for QC images ----------
         function setupDragDrop() {
             const dropZone = document.getElementById('qc-drop-zone');
             const previewContainer = document.getElementById('qc-preview-container');
@@ -750,11 +765,10 @@
                 alert('No images selected. The listing will be added without QC pictures.');
             }
 
-            // Append ref if not present
-            let finalLink = link;
-            if (!finalLink.includes('ref=2TQXNA')) {
-                finalLink += (finalLink.includes('?') ? '&' : '?') + 'ref=2TQXNA';
-            }
+            // --- START OF MODIFICATION ---
+            // Use the exact link provided by the user. No automatic referral code is appended.
+            const finalLink = link;
+            // --- END OF MODIFICATION ---
 
             const qcImageUrls = [];
             // Upload each image to Firebase Storage
@@ -795,7 +809,6 @@
             }
         };
 
-        // Remove any lingering Supabase references (the old script is replaced)
         console.log('🔥 Firebase integration ready – WTCBuy');
     </script>
 </body>
