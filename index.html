@@ -4,10 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>40% Off Shipping — Limited Time | WTCBuy</title>
-    <!-- FAVICON (browser tab logo) -->
     <link rel="icon" type="image/webp" href="images/Coupon.png">
 
-    <!-- ========== SOCIAL MEDIA PREVIEW ========== -->
     <meta property="og:title" content="40% Off Shipping — Limited Time | WTCBuy">
     <meta property="og:description" content="Grab 40% off shipping at WTCBuy. Check out our Spreadsheet, only Bought & Tested!">
     <meta property="og:image" content="https://wtcbuy.com/P/images/setmain/icons/ucenter/Coupon.png">
@@ -27,7 +25,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4048219571639841" crossorigin="anonymous">
     </script>
 
@@ -40,7 +37,6 @@
         :root {
             --font-sans: 'Inter', sans-serif;
             --font-display: 'Cormorant Garamond', serif;
-            /* Darker sage / tea green theme */
             --background: #1e2b1e;
             --background-light: #2a3a2a;
             --foreground: #e2f0e2;
@@ -221,7 +217,6 @@
             gap: 2rem;
             padding: 2.5rem 1rem 2rem;
         }
-        /* ----- MASSIVE LOGO - actual image is now 260px with minimal outline ----- */
         .logo-img {
             width: 260px;
             height: 260px;
@@ -384,7 +379,6 @@
         #qc-preview-container img:hover {
             transform: scale(1.04);
         }
-        /* ----- RESPONSIVE: logo stays huge on mobile too ----- */
         @media (max-width: 640px) {
             .promo-bar-inner {
                 border-radius: 28px;
@@ -467,7 +461,7 @@
         <div class="bg-radial-glow"></div>
         <div class="noise-overlay"></div>
         <div class="snowflakes-container" aria-hidden="true">
-            <!-- snowflakes... -->
+            <!-- snowflakes -->
         </div>
         <h1 class="sr-only">40% Off Shipping — Limited Time | WTCBuy</h1>
 
@@ -508,7 +502,6 @@
                     <div class="action-hint"><span>Register now →</span></div>
                 </div>
             </a>
-
             <a href="/SpreadSheet" id="spreadsheet-button" class="promo-link-button" style="margin-top:1rem;">
                 <div class="promo-bar-inner">
                     <div class="glow-overlay"></div>
@@ -533,7 +526,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js">
     </script>
 
-    <!-- Google Identity Services -->
     <script src="https://accounts.google.com/gsi/client" async defer>
     </script>
 
@@ -642,9 +634,9 @@
         });
 
         window.addEventListener('load', () => {
-            // ✅ UPDATED with the new OAuth client ID you provided
+            // ✅ CORRECT OAuth client ID – belongs to Firebase project luxdrip-b0489
             google.accounts.id.initialize({
-                client_id: "593513413601-ohrapjrkpeour4odhpr3h646pr7os181.apps.googleusercontent.com",
+                client_id: "558686841368-paebkgirikl3d2v57rsvmcic1q3bmd7v.apps.googleusercontent.com",
                 callback: handleCredentialResponse
             });
             if (!auth.currentUser) {
@@ -717,7 +709,7 @@
                 alert('No images selected. The listing will be added without QC pictures.');
             }
 
-            const finalLink = link; // no automatic referral code
+            const finalLink = link;
 
             const qcImageUrls = [];
             for (const file of files) {
