@@ -232,17 +232,11 @@
             border: none;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-.logo-img:hover {
-    transform: scale(1.04);
-    box-shadow: 0 6px 28px rgba(107, 142, 107, 0.12);
-}
-
-.logo-img:hover {
-    transform: scale(1.04);
-    box-shadow: 0 6px 28px rgba(107, 142, 107, 0.12);
-}
+        }
+        .logo-img:hover {
+            transform: scale(1.04);
+            box-shadow: 0 6px 28px rgba(107, 142, 107, 0.12);
+        }
         .sr-only {
             position: absolute;
             width: 1px;
@@ -698,7 +692,8 @@
         // ---------- Initialize GSI on load ----------
         window.addEventListener('load', () => {
             google.accounts.id.initialize({
-                client_id: "215291464454-i5jmqnoalmhrsu89b13pa7gq2nksgkj3.apps.googleusercontent.com",
+                // ✅ CORRECT OAuth client ID for luxdrip-b0489
+                client_id: "558686841368-paebkgirikl3d2v57rsvmcic1q3bmd7v.apps.googleusercontent.com",
                 callback: handleCredentialResponse
             });
             // If no user is signed in, show the button; else the auth listener will handle UI
