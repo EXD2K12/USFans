@@ -221,21 +221,24 @@
             gap: 2rem;
             padding: 2.5rem 1rem 2rem;
         }
-        /* ----- MASSIVE LOGO - actual image is now 260px with minimal outline ----- */
+        /* ----- LOGO: huge image, tiny outline ----- */
         .logo-img {
             width: 260px;
             height: 260px;
-            border-radius: 2rem;
+            border-radius: 1.5rem;
             object-fit: contain;
             background: transparent;
-            padding: 2px;
-            box-shadow: 0 6px 48px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(107, 142, 107, 0.2);
+            padding: 0;
+            /* no extra padding */
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+            /* soft, minimal shadow */
+            border: 1px solid rgba(107, 142, 107, 0.12);
+            /* very thin border */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .logo-img:hover {
-            transform: scale(1.04);
-            box-shadow: 0 8px 64px rgba(107, 142, 107, 0.2);
+            transform: scale(1.03);
+            box-shadow: 0 4px 20px rgba(107, 142, 107, 0.15);
         }
         .sr-only {
             position: absolute;
@@ -384,7 +387,7 @@
         #qc-preview-container img:hover {
             transform: scale(1.04);
         }
-        /* ----- RESPONSIVE: logo stays huge on mobile too ----- */
+        /* ----- RESPONSIVE: keep outline tight, logo big ----- */
         @media (max-width: 640px) {
             .promo-bar-inner {
                 border-radius: 28px;
@@ -424,8 +427,10 @@
             .logo-img {
                 width: 200px;
                 height: 200px;
-                border-radius: 1.5rem;
-                padding: 2px;
+                border-radius: 1.25rem;
+                padding: 0;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+                border: 1px solid rgba(107, 142, 107, 0.12);
             }
             #add-listing-panel {
                 padding: 1rem;
@@ -456,8 +461,10 @@
             .logo-img {
                 width: 170px;
                 height: 170px;
-                border-radius: 1.25rem;
-                padding: 2px;
+                border-radius: 1rem;
+                padding: 0;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+                border: 1px solid rgba(107, 142, 107, 0.12);
             }
         }
     </style>
@@ -521,7 +528,7 @@
         </div>
 
         <div class="logo-section">
-            <!-- LOGO IS NOW 260px — the actual image is huge, minimal outline -->
+            <!-- LOGO: 260px, outline is now minimal (no padding, thin border, soft shadow) -->
             <img src="images/Coupon.png" alt="WTCBuy" class="logo-img">
             <!-- UPDATED REGISTRATION LINK -->
             <a href="https://wtcbuy.com/Index/SignUp/inviteCode/67" id="exclusive-offer-button" class="promo-link-button" target="_blank" rel="noopener noreferrer">
