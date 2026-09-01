@@ -229,6 +229,59 @@
       background: var(--green-primary);
       color: #1e2b1e;
     }
+    .edit-btn {
+      background: rgba(107, 142, 107, 0.15);
+      border: 1px solid var(--green-primary);
+      color: var(--green-light);
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: 0.2s;
+      font-weight: 600;
+      margin-right: 6px;
+    }
+    .edit-btn:hover {
+      background: var(--green-primary);
+      color: #1e2b1e;
+    }
+    .edit-link-input {
+      width: 100%;
+      padding: 0.5rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(107, 142, 107, 0.3);
+      border-radius: 8px;
+      color: var(--foreground);
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+    .edit-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .edit-save-btn, .edit-cancel-btn {
+      background: var(--green-primary);
+      color: #1e2b1e;
+      border: none;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.8rem;
+      transition: 0.2s;
+    }
+    .edit-save-btn:hover, .edit-cancel-btn:hover {
+      background: var(--green-light);
+    }
+    .edit-cancel-btn {
+      background: rgba(107, 142, 107, 0.15);
+      color: var(--green-light);
+      border: 1px solid var(--green-primary);
+    }
+    .edit-cancel-btn:hover {
+      background: var(--green-primary);
+      color: #1e2b1e;
+    }
     .loading, .empty-state {
       padding: 3rem;
       text-align: center;
@@ -466,6 +519,7 @@
   let allListings = [];
   let currentSort = { column: 'created_at', direction: 'desc' };
   let currentSearch = '';
+  let editingId = null; // Which listing ID is currently being edited
   
   // Gallery state (full original images)
   let activeGalleryUrls = [];
@@ -642,6 +696,43 @@
     }
   }
   
+  // ---------- NEW: Edit link functions ----------
+  function startEditLink(id, currentLink) {
+    if (!isAdmin) return;
+    editingId = id;
+    renderTable();
+  }
+  
+  async function saveEditLink(id) {
+    if (!isAdmin) return;
+    const input = document.getElementById(`edit-input-${id}`);
+    if (!input) return;
+    const newLink = input.value.trim();
+    if (!newLink) {
+      showToast('Link cannot be empty', true);
+      return;
+    }
+    
+    try {
+      const { error } = await supabaseClient
+        .from('listings')
+        .update({ link: newLink })
+        .eq('id', id);
+      if (error) throw error;
+      showToast('Link updated successfully');
+      editingId = null;
+      await fetchListings(); // Refresh the table
+    } catch (err) {
+      showToast(err.message, true);
+    }
+  }
+  
+  function cancelEditLink(id, originalLink) {
+    editingId = null;
+    renderTable();
+  }
+  
+  // ---------- MODIFIED renderTable ----------
   function renderTable() {
     let filtered = [...allListings];
     if (currentSearch) {
@@ -671,17 +762,45 @@
       const linkHtml = item.link ? `<a href="${escapeHtml(item.link)}" target="_blank" class="product-link">${truncateUrl(item.link)}</a>` : '—';
       const imagesHtml = renderImagesCell(item);
       const dateHtml = formatDate(item.created_at);
-      const deleteCell = isAdmin 
-        ? `<td><button class="delete-btn" onclick="deleteListing('${item.id}', '${escapeHtml(item.name).replace(/'/g, "\\'")}')">Delete</button></td>`
-        : '';
+      
+      // Actions cell: show Edit and Delete if admin
+      let actionsCell = '';
+      if (isAdmin) {
+        if (editingId === item.id) {
+          // Editing mode: show input, Save, Cancel
+          actionsCell = `
+            <td>
+              <div class="edit-actions">
+                <button class="edit-save-btn" onclick="saveEditLink('${item.id}')">Save</button>
+                <button class="edit-cancel-btn" onclick="cancelEditLink('${item.id}', '${escapeHtml(item.link)}')">Cancel</button>
+              </div>
+            </td>
+          `;
+        } else {
+          actionsCell = `
+            <td>
+              <button class="edit-btn" onclick="startEditLink('${item.id}', '${escapeHtml(item.link)}')">Edit</button>
+              <button class="delete-btn" onclick="deleteListing('${item.id}', '${escapeHtml(item.name).replace(/'/g, "\\'")}')">Delete</button>
+            </td>
+          `;
+        }
+      }
+      
+      // Link cell: if editing this row, show input; otherwise show link
+      let linkCellContent;
+      if (isAdmin && editingId === item.id) {
+        linkCellContent = `<input type="text" class="edit-link-input" id="edit-input-${item.id}" value="${escapeHtml(item.link)}">`;
+      } else {
+        linkCellContent = item.link ? `<a href="${escapeHtml(item.link)}" target="_blank" class="product-link">${truncateUrl(item.link)}</a>` : '—';
+      }
       
       return `
         <tr>
           <td><strong>${productName}</strong></td>
-          <td>${linkHtml}</td>
+          <td>${linkCellContent}</td>
           <td>${imagesHtml}</td>
           <td>${dateHtml}</td>
-          ${deleteCell}
+          ${actionsCell}
         </tr>
       `;
     }).join('');
@@ -720,6 +839,9 @@
   
   window.sortTable = sortTable;
   window.deleteListing = deleteListing;
+  window.startEditLink = startEditLink;
+  window.saveEditLink = saveEditLink;
+  window.cancelEditLink = cancelEditLink;
   window.closeLightbox = closeLightbox;
   
   // Bootstrap: auth check and load data
