@@ -7,10 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4048219571639841" crossorigin="anonymous"></script>
   <style>
-    /* ==================== ALL EXISTING CSS (unchanged) ==================== */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
       --font-sans: 'Inter', sans-serif;
@@ -49,17 +47,17 @@
     }
     .logo-img {
       width: 120px; height: 120px; border-radius: 1.5rem; object-fit: contain;
-      background: transparent; padding: 0; box-shadow: 0 2px 12px rgba(0,0,0,0.25);
-      border: 1px solid rgba(107,142,107,0.12); transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: transparent; padding: 0; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(107, 142, 107, 0.12); transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .logo-img:hover { transform: scale(1.03); box-shadow: 0 4px 20px rgba(107,142,107,0.15); }
+    .logo-img:hover { transform: scale(1.03); box-shadow: 0 4px 20px rgba(107, 142, 107, 0.15); }
     .promo-link-button { width: 100%; max-width: 900px; text-decoration: none; transition: .25s; }
     .promo-link-button:hover { transform: scale(1.02); }
     .promo-bar-inner {
       display: flex; justify-content: center; align-items: center; gap: 1rem;
-      padding: 0.9rem 2.2rem; border-radius: 9999px; background: rgba(30,43,30,0.92);
+      padding: 0.9rem 2.2rem; border-radius: 9999px; background: rgba(30, 43, 30, 0.92);
       backdrop-filter: blur(28px);
-      box-shadow: 0 0 0 1px var(--card-border), 0 4px 24px rgba(0,0,0,0.3), 0 8px 48px rgba(0,0,0,0.2);
+      box-shadow: 0 0 0 1px var(--card-border), 0 4px 24px rgba(0, 0, 0, 0.3), 0 8px 48px rgba(0, 0, 0, 0.2);
     }
     .promo-text-group {
       display: flex; align-items: center; gap: 0.7rem; text-transform: uppercase;
@@ -71,7 +69,7 @@
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
     .action-hint {
-      background: rgba(107,142,107,0.15); padding: 0.55rem 1.3rem; border-radius: 40px;
+      background: rgba(107, 142, 107, 0.15); padding: 0.55rem 1.3rem; border-radius: 40px;
       color: var(--green-light); font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
     }
     .spreadsheet-container {
@@ -87,27 +85,27 @@
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
     .stats-badge {
-      background: rgba(107,142,107,0.15); border: 1px solid rgba(107,142,107,0.3);
+      background: rgba(107, 142, 107, 0.15); border: 1px solid rgba(107, 142, 107, 0.3);
       padding: 0.6rem 1rem; border-radius: 999px; color: var(--muted-foreground); font-weight: 500;
     }
     .search-input {
       width: 100%; max-width: 320px; padding: 0.9rem 1rem; border-radius: 999px;
-      border: 1px solid rgba(107,142,107,0.3); background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(107, 142, 107, 0.3); background: rgba(255, 255, 255, 0.06);
       color: var(--foreground); margin-bottom: 1.5rem; font-size: 0.95rem; transition: border-color 0.2s;
     }
     .search-input:focus {
       outline: none; border-color: var(--green-primary);
-      box-shadow: 0 0 0 3px rgba(107,142,107,0.2);
+      box-shadow: 0 0 0 3px rgba(107, 142, 107, 0.2);
     }
     .search-input::placeholder { color: var(--muted-foreground); }
     .table-wrapper {
-      background: rgba(255,255,255,0.04); border: 1px solid rgba(107,142,107,0.2);
+      background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(107, 142, 107, 0.2);
       border-radius: 24px; overflow: hidden; overflow-x: auto; backdrop-filter: blur(12px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     }
     table { width: 100%; border-collapse: collapse; }
     thead {
-      background: rgba(107,142,107,0.08); border-bottom: 1px solid rgba(107,142,107,0.15);
+      background: rgba(107, 142, 107, 0.08); border-bottom: 1px solid rgba(107, 142, 107, 0.15);
     }
     th {
       padding: 1rem 1.2rem; text-align: left; color: var(--green-light); cursor: pointer;
@@ -115,22 +113,22 @@
     }
     th:hover { color: var(--foreground); }
     td {
-      padding: 1rem 1.2rem; border-top: 1px solid rgba(255,255,255,0.05); vertical-align: middle;
+      padding: 1rem 1.2rem; border-top: 1px solid rgba(255, 255, 255, 0.05); vertical-align: middle;
     }
-    tr:hover { background: rgba(107,142,107,0.05); }
+    tr:hover { background: rgba(107, 142, 107, 0.05); }
     .product-link {
       color: var(--green-light); text-decoration: none; transition: color 0.2s; word-break: break-all;
     }
     .product-link:hover { color: var(--foreground); text-decoration: underline; }
     .delete-btn, .edit-btn {
-      background: rgba(107,142,107,0.15); border: 1px solid var(--green-primary);
+      background: rgba(107, 142, 107, 0.15); border: 1px solid var(--green-primary);
       color: var(--green-light); padding: 0.4rem 0.8rem; border-radius: 999px; cursor: pointer;
       transition: 0.2s; font-weight: 600; margin-right: 6px;
     }
     .delete-btn:hover, .edit-btn:hover { background: var(--green-primary); color: #1e2b1e; }
     .edit-link-input {
-      width: 100%; padding: 0.5rem; background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(107,142,107,0.3); border-radius: 8px; color: var(--foreground);
+      width: 100%; padding: 0.5rem; background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(107, 142, 107, 0.3); border-radius: 8px; color: var(--foreground);
       margin-bottom: 0.5rem; font-size: 0.9rem;
     }
     .edit-actions { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
@@ -140,13 +138,13 @@
     }
     .edit-save-btn:hover, .edit-cancel-btn:hover { background: var(--green-light); }
     .edit-cancel-btn {
-      background: rgba(107,142,107,0.15); color: var(--green-light);
+      background: rgba(107, 142, 107, 0.15); color: var(--green-light);
       border: 1px solid var(--green-primary);
     }
     .edit-cancel-btn:hover { background: var(--green-primary); color: #1e2b1e; }
     .loading, .empty-state { padding: 3rem; text-align: center; color: var(--muted-foreground); }
     .spinner {
-      width: 40px; height: 40px; border: 3px solid rgba(107,142,107,0.2);
+      width: 40px; height: 40px; border: 3px solid rgba(107, 142, 107, 0.2);
       border-top-color: var(--green-primary); border-radius: 50%; margin: 0 auto 1rem;
       animation: spin .8s linear infinite;
     }
@@ -156,23 +154,23 @@
       background: #2a3a2a; border-left: 4px solid var(--green-primary);
       padding: 0.8rem 1.3rem; border-radius: 999px; opacity: 0; transition: .3s;
       z-index: 9999; pointer-events: none; white-space: nowrap; font-size: 0.9rem;
-      color: var(--foreground); box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      color: var(--foreground); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .qc-preview { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
     .qc-thumb {
       width: 60px; height: 60px; object-fit: cover; border-radius: 8px; cursor: pointer;
       transition: transform 0.15s, outline 0.1s; background: rgba(0,0,0,0.5);
-      border: 1px solid rgba(107,142,107,0.3);
+      border: 1px solid rgba(107, 142, 107, 0.3);
     }
     .qc-thumb:hover { transform: scale(1.05); outline: 2px solid var(--green-primary); }
     .image-count-badge {
       display: inline-flex; align-items: center; justify-content: center; min-width: 52px;
-      height: 60px; background: rgba(107,142,107,0.2); backdrop-filter: blur(4px);
+      height: 60px; background: rgba(107, 142, 107, 0.2); backdrop-filter: blur(4px);
       border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer;
-      transition: 0.2s; border: 1px solid rgba(107,142,107,0.6); color: var(--green-light);
+      transition: 0.2s; border: 1px solid rgba(107, 142, 107, 0.6); color: var(--green-light);
       padding: 0 10px;
     }
-    .image-count-badge:hover { background: rgba(107,142,107,0.5); transform: scale(1.02); }
+    .image-count-badge:hover { background: rgba(107, 142, 107, 0.5); transform: scale(1.02); }
     .lightbox {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.94); z-index: 10000; justify-content: center; align-items: center;
@@ -286,13 +284,13 @@
   let allListings = [];
   let currentSort = { column: 'created_at', direction: 'desc' };
   let currentSearch = '';
-  let editingId = null; // Which listing ID is currently being edited
+  let editingId = null; // ID of listing currently being edited
   
   // Gallery state
   let activeGalleryUrls = [];
   let activeGalleryIndex = 0;
   
-  // ==================== HELPER FUNCTIONS ====================
+  // Helper: extract all image URLs from a listing
   function extractImageUrls(listing) {
     const raw = listing.qc_image_url;
     if (!raw) return [];
@@ -304,6 +302,7 @@
     return [];
   }
   
+  // Resize any image URL to a small thumbnail
   function getResizedThumbnail(originalUrl, width = 100, height = 100) {
     if (!originalUrl) return '';
     if (originalUrl.startsWith('data:') || originalUrl.startsWith('blob:')) return originalUrl;
@@ -311,6 +310,7 @@
     return `https://images.weserv.nl/?url=${encoded}&w=${width}&h=${height}&fit=cover&a=attention`;
   }
   
+  // Render the QC column
   function renderImagesCell(listing) {
     const images = extractImageUrls(listing);
     if (images.length === 0) return '<span style="color:var(--muted-foreground);">—</span>';
@@ -319,15 +319,16 @@
     const firstImage = images[0];
     const thumbUrl = getResizedThumbnail(firstImage, 100, 100);
     const escapedThumb = escapeHtml(thumbUrl);
-    const thumbHtml = `<img class="qc-thumb" src="${escapedThumb}" alt="preview" loading="lazy" decoding="async" data-listing-id="${listing.id}" data-index="0">`;
+    
+    const thumbHtml = `<img class="qc-thumb" src="${escapedThumb}" alt="preview" loading="lazy" decoding="async" onclick="event.stopPropagation(); openGalleryForListing('${listing.id}', 0)">`;
     const badgeHtml = total > 1 
-      ? `<div class="image-count-badge" data-listing-id="${listing.id}" data-index="0">+${total-1}</div>` 
+      ? `<div class="image-count-badge" onclick="event.stopPropagation(); openGalleryForListing('${listing.id}', 0)">+${total-1}</div>` 
       : '';
     
     return `<div class="qc-preview">${thumbHtml}${badgeHtml}</div>`;
   }
   
-  // ==================== GALLERY FUNCTIONS ====================
+  // Opens gallery
   window.openGalleryForListing = function(listingId, startIndex = 0) {
     const listing = allListings.find(l => l.id === listingId);
     if (!listing) return;
@@ -339,7 +340,8 @@
     if (activeGalleryIndex < 0) activeGalleryIndex = 0;
     
     updateGalleryImage();
-    document.getElementById('lightbox').style.display = 'flex';
+    const lightbox = document.getElementById('lightbox');
+    lightbox.style.display = 'flex';
     document.body.style.overflow = 'hidden';
   };
   
@@ -376,7 +378,21 @@
     if (e.target === document.getElementById('lightbox')) closeLightbox();
   }
   
-  // ==================== TOAST & USER ====================
+  // Gallery navigation listeners
+  document.addEventListener('DOMContentLoaded', () => {
+    const prevBtn = document.getElementById('gallery-prev');
+    const nextBtn = document.getElementById('gallery-next');
+    if (prevBtn) prevBtn.addEventListener('click', (e) => { e.stopPropagation(); prevImage(); });
+    if (nextBtn) nextBtn.addEventListener('click', (e) => { e.stopPropagation(); nextImage(); });
+    document.addEventListener('keydown', (e) => {
+      if (document.getElementById('lightbox').style.display === 'flex') {
+        if (e.key === 'ArrowLeft') { prevImage(); e.preventDefault(); }
+        else if (e.key === 'ArrowRight') { nextImage(); e.preventDefault(); }
+        else if (e.key === 'Escape') { closeLightbox(); e.preventDefault(); }
+      }
+    });
+  });
+  
   function showToast(msg, error = false) {
     const toast = document.getElementById('toast');
     toast.textContent = msg;
@@ -400,7 +416,6 @@
     } catch(e) { return false; }
   }
   
-  // ==================== DATA FETCHING ====================
   async function fetchListings() {
     document.getElementById('loading-state').style.display = 'block';
     document.getElementById('table-content').style.display = 'none';
@@ -453,10 +468,7 @@
   async function saveEditLink(id) {
     if (!isAdmin) return;
     const input = document.getElementById(`edit-input-${id}`);
-    if (!input) {
-      console.error('Input not found');
-      return;
-    }
+    if (!input) return;
     const newLink = input.value.trim();
     if (!newLink) {
       showToast('Link cannot be empty', true);
@@ -473,7 +485,7 @@
       editingId = null;
       await fetchListings();
     } catch (err) {
-      console.error('Update failed:', err);
+      console.error(err);
       showToast(err.message, true);
     }
   }
@@ -483,7 +495,7 @@
     renderTable();
   }
   
-  // ==================== TABLE RENDERING ====================
+  // ==================== RENDER TABLE ====================
   function renderTable() {
     let filtered = [...allListings];
     if (currentSearch) {
@@ -513,33 +525,32 @@
       const imagesHtml = renderImagesCell(item);
       const dateHtml = formatDate(item.created_at);
       
-      // Link cell
+      // Link cell: either normal link or edit input
       let linkCellContent;
       if (isAdmin && editingId === item.id) {
         linkCellContent = `<input type="text" class="edit-link-input" id="edit-input-${item.id}" value="${escapeHtml(item.link)}">`;
       } else {
-        linkCellContent = item.link ? 
-          `<a href="${escapeHtml(item.link)}" target="_blank" class="product-link">${truncateUrl(item.link)}</a>` : '—';
+        linkCellContent = item.link 
+          ? `<a href="${escapeHtml(item.link)}" target="_blank" class="product-link">${truncateUrl(item.link)}</a>` 
+          : '—';
       }
       
-      // Actions cell
+      // Actions cell: Edit and Delete for admin, or just Delete (or nothing)
       let actionsCell = '';
       if (isAdmin) {
         if (editingId === item.id) {
+          // Show Save and Cancel
           actionsCell = `
-            <td>
-              <div class="edit-actions">
-                <button class="edit-save-btn" data-action="save" data-id="${item.id}">Save</button>
-                <button class="edit-cancel-btn" data-action="cancel">Cancel</button>
-              </div>
-            </td>
+            <div class="edit-actions">
+              <button class="edit-save-btn" onclick="saveEditLink('${item.id}')">Save</button>
+              <button class="edit-cancel-btn" onclick="cancelEditLink()">Cancel</button>
+            </div>
           `;
         } else {
+          // Show Edit and Delete
           actionsCell = `
-            <td>
-              <button class="edit-btn" data-action="edit" data-id="${item.id}">Edit</button>
-              <button class="delete-btn" data-action="delete" data-id="${item.id}" data-name="${escapeHtml(item.name)}">Delete</button>
-            </td>
+            <button class="edit-btn" onclick="startEditLink('${item.id}')">Edit</button>
+            <button class="delete-btn" onclick="deleteListing('${item.id}', '${escapeHtml(item.name).replace(/'/g, "\\'")}')">Delete</button>
           `;
         }
       }
@@ -550,41 +561,12 @@
           <td>${linkCellContent}</td>
           <td>${imagesHtml}</td>
           <td>${dateHtml}</td>
-          ${actionsCell}
+          <td>${actionsCell}</td>
         </tr>
       `;
     }).join('');
-    
-    // Attach event listeners (delegation)
-    tbody.querySelectorAll('[data-action]').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const action = btn.getAttribute('data-action');
-        const id = btn.getAttribute('data-id');
-        if (action === 'edit') {
-          startEditLink(id);
-        } else if (action === 'save') {
-          saveEditLink(id);
-        } else if (action === 'cancel') {
-          cancelEditLink();
-        } else if (action === 'delete') {
-          const name = btn.getAttribute('data-name');
-          deleteListing(id, name);
-        }
-      });
-    });
-    
-    // Attach gallery click handlers to thumbnails and badges
-    tbody.querySelectorAll('.qc-thumb, .image-count-badge').forEach(el => {
-      el.addEventListener('click', () => {
-        const listingId = el.getAttribute('data-listing-id');
-        const index = parseInt(el.getAttribute('data-index') || '0', 10);
-        openGalleryForListing(listingId, index);
-      });
-    });
   }
   
-  // ==================== SORTING & UTILITIES ====================
   function sortTable(column) {
     if (currentSort.column === column) {
       currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
@@ -612,32 +594,20 @@
     try { return new Date(date).toLocaleDateString(); } catch(e) { return 'Invalid date'; }
   }
   
-  // ==================== EVENT LISTENERS ====================
-  document.addEventListener('DOMContentLoaded', () => {
-    // Gallery navigation
-    document.getElementById('gallery-prev')?.addEventListener('click', (e) => { e.stopPropagation(); prevImage(); });
-    document.getElementById('gallery-next')?.addEventListener('click', (e) => { e.stopPropagation(); nextImage(); });
-    document.addEventListener('keydown', (e) => {
-      if (document.getElementById('lightbox').style.display === 'flex') {
-        if (e.key === 'ArrowLeft') { prevImage(); e.preventDefault(); }
-        else if (e.key === 'ArrowRight') { nextImage(); e.preventDefault(); }
-        else if (e.key === 'Escape') { closeLightbox(); e.preventDefault(); }
-      }
-    });
-    
-    // Search input
-    document.getElementById('search-input')?.addEventListener('input', e => {
-      currentSearch = e.target.value;
-      renderTable();
-    });
+  // Event listeners
+  document.getElementById('search-input')?.addEventListener('input', e => {
+    currentSearch = e.target.value;
+    renderTable();
   });
   
-  // Expose needed functions globally
   window.sortTable = sortTable;
+  window.deleteListing = deleteListing;
+  window.startEditLink = startEditLink;
+  window.saveEditLink = saveEditLink;
+  window.cancelEditLink = cancelEditLink;
   window.closeLightbox = closeLightbox;
-  window.openGalleryForListing = openGalleryForListing;
   
-  // ==================== BOOTSTRAP ====================
+  // Bootstrap: auth check and load data
   if (!loadUser()) {
     showToast('Please login first on the main page.', true);
     setTimeout(() => { location.href = '/'; }, 2000);
